@@ -1,8 +1,14 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import express from "express";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
 import { agentReply } from "./brain/agent.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(cors());
@@ -17,11 +23,25 @@ const PORT = 3000;
 
 // -------------------
 // In-memory states
-// -------------------
+const campaignPath = path.join(__dirname, "campaign.csv");
+
+if (!fs.existsSync(campaignPath)) {
+  console.error("❌ campaign.csv NOT FOUND — refusing to start");
+  process.exit(1);
+}
+
+const campaignLines = fs
+  .readFileSync(campaignPath, "utf-8")
+  .split("\n")
+  .filter(Boolean);
+
 const campaignState = {
-  total: 120,
+  total: campaignLines.length,
   index: 0
 };
+
+console.log(`📊 Loaded campaign.csv with ${campaignState.total} leads`);
+// -------------------
 
 const simState = {
   conversation: []
