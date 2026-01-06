@@ -51,7 +51,7 @@ export default function App() {
 
         <div className="panel">
           <h2>System Status</h2>
-          <p><span data-system-status className="zy-glowText">Backend: Disconnected</span></p>
+          <p><span data-system-status className="zy-glowText">Backend: {isOnline ? "Connected" : "Disconnected"}</span></p>
           <p><span className="zy-glowText">Mode: TEST</span></p>
         </div>
 

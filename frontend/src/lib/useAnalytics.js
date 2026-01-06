@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
-import { subscribeAnalytics } from "./analytics";
+import { socketState } from "./socketStore";
 
 export function useAnalytics() {
-  const [stats, setStats] = useState({
-    total: 0,
-    processed: 0,
-    remaining: 0,
-  });
+  const [analytics, setAnalytics] = useState(socketState.analytics);
 
   useEffect(() => {
-    const unsub = subscribeAnalytics(setStats);
-    return () => unsub();
+    // simple sync loop (no UI rewrites, no extra libs)
+    const t = setInterval(() => {
+      setAnalytics({ ...socketState.analytics });
+    }, 150);
+
+    return () => clearInterval(t);
   }, []);
 
-  return stats;
+  return analytics;
 }
