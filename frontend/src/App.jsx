@@ -1,9 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAnalytics } from "./lib/useAnalytics";
+import { socket } from "./lib/socket";
 
 export default function App() {
 
   const analytics = useAnalytics();
+
+  const [isOnline, setIsOnline] = useState(false);
+
+  useEffect(() => {
+    const onConnect = () => setIsOnline(true);
+    const onDisconnect = () => setIsOnline(false);
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    if (socket.connected) setIsOnline(true);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+    };
+  }, []);
   const total = analytics?.total ?? 0;
   const processed = analytics?.processed ?? 0;
   const remaining = analytics?.remaining ?? 0;
@@ -11,7 +29,7 @@ export default function App() {
     <div className="app">
       <header className="header">
         <h1>ZYPHER COMMAND CENTRE</h1>
-        <span className="status offline">OFFLINE</span>
+        <span className={`status `}>{isOnline ? "ONLINE" : "OFFLINE"}</span>
       </header>
 
       <div className="grid">

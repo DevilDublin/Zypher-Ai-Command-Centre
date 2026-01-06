@@ -349,3 +349,9 @@ h1, h2, h3, .title, .panelTitle {
 .panel-notifications .zy-glowText {
   filter: drop-shadow(0 0 6px rgba(160,220,255,0.65));
 }
+
+.status.online {
+  background: rgba(80, 220, 160, 0.2);
+  border-color: rgba(80, 220, 160, 0.5);
+  color: #baffdc;
+}
