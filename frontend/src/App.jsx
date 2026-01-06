@@ -1,0 +1,57 @@
+import { useState } from 'react'
+
+export default function App() {
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>ZYPHER COMMAND CENTRE</h1>
+        <span className="status offline">OFFLINE</span>
+      </header>
+
+      <div className="grid">
+        <div className="panel">
+          <h2>System Control</h2>
+          <div className="controls">
+            <button className="btn primary">START CALL</button>
+            <button className="btn danger">STOP</button>
+            <button className="btn toggle">MODE: TEST</button>
+          </div>
+        </div>
+
+        <div className="panel">
+          <h2>Campaign Analytics</h2>
+          <p>Total Calls: 0</p>
+          <p>Processed: 0</p>
+          <p>Remaining: 0</p>
+        </div>
+
+        <div className="panel">
+          <h2>System Status</h2>
+          <p>Backend: Disconnected</p>
+          <p>Mode: TEST</p>
+        </div>
+
+        <div className="panel">
+          <h2>Live Transcript</h2>
+          <div className="inner-glass">Waiting for call…</div>
+        </div>
+
+        <div className="panel">
+          <h2>Chat Console</h2>
+          <div className="chat-box">
+            <div className="chat-messages"></div>
+            <div className="chat-input">
+              <input placeholder="Type message…" />
+              <button className="btn primary">Send</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <h2>Notifications</h2>
+          <p>System ready.</p>
+        </div>
+      </div>
+    </div>
+  )
+}
