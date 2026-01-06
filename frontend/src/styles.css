@@ -283,3 +283,69 @@ h1, h2, h3, .title, .panelTitle {
   color: var(--zy-muted);
 }
 
+
+.zy-panel-text {
+  text-shadow: 0 0 6px rgba(160,120,255,0.6), 0 0 14px rgba(120,200,255,0.4);
+  -webkit-font-smoothing: antialiased;
+}
+
+.zy-panel-text .metric,
+.zy-panel-text .value,
+.zy-panel-text strong {
+  text-shadow: 0 0 8px rgba(160,120,255,0.75), 0 0 18px rgba(120,200,255,0.5);
+}
+
+.zy-panel-text {
+  color: #f5f3ff;
+  text-shadow:
+    0 0 6px rgba(180,120,255,0.9),
+    0 0 16px rgba(140,200,255,0.75),
+    0 0 32px rgba(120,160,255,0.45);
+}
+
+.zy-panel-text .metric,
+.zy-panel-text .value,
+.zy-panel-text strong {
+  text-shadow:
+    0 0 8px rgba(200,140,255,1),
+    0 0 22px rgba(160,220,255,0.9),
+    0 0 40px rgba(120,160,255,0.6);
+}
+
+.zy-glowText {
+  display: inline-block;
+  filter:
+    drop-shadow(0 0 4px rgba(200,140,255,0.85))
+    drop-shadow(0 0 12px rgba(160,220,255,0.7));
+}
+
+.panel-analytics p,
+.panel-status p,
+.panel-notifications p,
+.panel-notifications .inner-glass {
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.panel-analytics .zy-glowText,
+.panel-status .zy-glowText,
+.panel-notifications .zy-glowText {
+  font-size: 1.08rem;
+}
+
+.panel p span {
+  font-size: 1.12rem;
+  line-height: 1.7;
+}
+
+.panel p span.zy-glowText {
+  font-size: 1.15rem;
+}
+
+.zy-glowText {
+  text-shadow: none;
+}
+
+.panel-notifications .zy-glowText {
+  filter: drop-shadow(0 0 6px rgba(160,220,255,0.65));
+}

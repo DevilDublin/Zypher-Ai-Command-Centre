@@ -26,15 +26,15 @@ export default function App() {
 
         <div className="panel">
           <h2>Campaign Analytics</h2>
-          <p>Total Calls: {total}</p>
-          <p>Processed: {processed}</p>
-          <p>Remaining: {remaining}</p>
+          <p><span className="zy-glowText">Total Calls: {total}</span></p>
+          <p><span className="zy-glowText">Processed: {processed}</span></p>
+          <p><span className="zy-glowText">Remaining: {remaining}</span></p>
         </div>
 
         <div className="panel">
           <h2>System Status</h2>
-          <p><span data-system-status>Backend: Disconnected</span></p>
-          <p>Mode: TEST</p>
+          <p><span data-system-status className="zy-glowText">Backend: Disconnected</span></p>
+          <p><span className="zy-glowText">Mode: TEST</span></p>
         </div>
 
         <div className="panel">
@@ -53,9 +53,9 @@ export default function App() {
           </div>
         </div>
 
-        <div className="panel">
+        <div className="panel panel-notifications">
           <h2>Notifications</h2>
-          <p><div data-notifications>System ready.</div></p>
+          <p><span data-notifications className="zy-glowText"><span className="zy-glowText">System ready.</span></span></p>
         </div>
       </div>
     </div>
