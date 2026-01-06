@@ -1,12 +1,6 @@
 import { useState } from 'react'
-import { useAnalytics } from "./lib/useAnalytics";
 
 export default function App() {
-
-  const analytics = useAnalytics();
-  const total = analytics?.total ?? 0;
-  const processed = analytics?.processed ?? 0;
-  const remaining = analytics?.remaining ?? 0;
   return (
     <div className="app">
       <header className="header">
@@ -26,14 +20,14 @@ export default function App() {
 
         <div className="panel">
           <h2>Campaign Analytics</h2>
-          <p>Total Calls: {total}</p>
-          <p>Processed: {processed}</p>
-          <p>Remaining: {remaining}</p>
+          <p>Total Calls: 0</p>
+          <p>Processed: 0</p>
+          <p>Remaining: 0</p>
         </div>
 
         <div className="panel">
           <h2>System Status</h2>
-          <p><span data-system-status>Backend: Disconnected</span></p>
+          <p>Backend: Disconnected</p>
           <p>Mode: TEST</p>
         </div>
 
@@ -55,7 +49,7 @@ export default function App() {
 
         <div className="panel">
           <h2>Notifications</h2>
-          <p><div data-notifications>System ready.</div></p>
+          <p>System ready.</p>
         </div>
       </div>
     </div>
