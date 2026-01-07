@@ -7,6 +7,15 @@ export default function App() {
   const analytics = useAnalytics();
 
   const [isOnline, setIsOnline] = useState(false);
+
+  const handleStartCall = () => {
+    socket.emit("call_start", { mode });
+  };
+
+  const handleStopCall = () => {
+    socket.emit("call_stop");
+  };
+
   const [mode, setMode] = useState("TEST");
 
   useEffect(() => {
@@ -38,8 +47,8 @@ export default function App() {
         <div className="panel">
           <h2>System Control</h2>
           <div className="controls">
-            <button className="btn primary">START CALL</button>
-            <button className="btn danger">STOP</button>
+            <button className="btn primary" onClick={handleStartCall}>START CALL</button>
+            <button className="btn danger" onClick={handleStopCall}>STOP</button>
             <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={() => { const next = mode === "TEST" ? "CAMPAIGN" : "TEST"; setMode(next); socket.emit("mode:update", next); }}>MODE: {mode}</button>
           </div>
         </div>

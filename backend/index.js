@@ -5,7 +5,11 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
+import dotenv from "dotenv";
+import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,7 +26,18 @@ const io = new Server(server, {
 const PORT = 3000;
 
 // -------------------
-// In-memory states
+// Twilio
+// -------------------
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
+let activeCallSid = null;
+
+// -------------------
+// Campaign loading
+// -------------------
 const campaignPath = path.join(__dirname, "campaign.csv");
 
 if (!fs.existsSync(campaignPath)) {
@@ -40,8 +55,7 @@ const campaignState = {
   index: 0
 };
 
-console.log(`📊 Loaded campaign.csv with ${campaignState.total} leads`);
-// -------------------
+console.log(`�� Loaded campaign.csv with ${campaignState.total} leads`);
 
 const simState = {
   conversation: []
@@ -59,6 +73,7 @@ io.on("connection", socket => {
     remaining: campaignState.total - campaignState.index
   });
 
+  // Campaign index update
   socket.on("campaign_call_start", () => {
     campaignState.index++;
     socket.emit("campaign_stats", {
@@ -68,6 +83,7 @@ io.on("connection", socket => {
     });
   });
 
+  // Simulator
   socket.on("sim_start", () => {
     simState.conversation = [];
     const greeting = "Good afternoon, this is Zypher calling. How can I help you today?";
@@ -81,6 +97,51 @@ io.on("connection", socket => {
     const reply = await agentReply(simState.conversation);
     simState.conversation.push({ role: "assistant", content: reply });
     emitLines(socket, reply);
+  });
+
+  // ===================
+  // REAL CALL CONTROL
+  // ===================
+  socket.on("call_start", async ({ mode }) => {
+    try {
+      if (activeCallSid) {
+        socket.emit("notify", "Call already active");
+        return;
+      }
+
+      if (mode === "TEST") {
+        const call = await twilioClient.calls.create({
+          to: process.env.YOUR_PHONE_NUMBER,
+          from: process.env.TWILIO_PHONE_NUMBER,
+          twiml: `<Response><Say>Hello. This is Zypher AI calling.</Say></Response>`
+        });
+
+        activeCallSid = call.sid;
+        socket.emit("notify", "Test call started");
+      }
+
+      if (mode === "CAMPAIGN") {
+        socket.emit("notify", "Campaign numbers loaded");
+        socket.emit("campaign_call_start");
+      }
+    } catch (err) {
+      socket.emit("notify", `Call error: ${err.message}`);
+    }
+  });
+
+  socket.on("call_stop", async () => {
+    try {
+      if (!activeCallSid) {
+        socket.emit("notify", "No active call");
+        return;
+      }
+
+      await twilioClient.calls(activeCallSid).update({ status: "completed" });
+      activeCallSid = null;
+      socket.emit("notify", "Call ended");
+    } catch (err) {
+      socket.emit("notify", `Stop error: ${err.message}`);
+    }
   });
 });
 
