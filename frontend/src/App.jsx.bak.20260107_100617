@@ -8,8 +8,6 @@ export default function App() {
 
   const [isOnline, setIsOnline] = useState(false);
 
-  const [notifications, setNotifications] = useState([]);
-
   const handleStartCall = () => {
     socket.emit("call_start", { mode });
   };
@@ -26,19 +24,12 @@ export default function App() {
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    
-    const onNotify = (msg) => {
-      setNotifications(prev => [...prev, msg]);
-    };
-    socket.on("notify", onNotify);
-
 
     if (socket.connected) setIsOnline(true);
 
     return () => {
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
-      socket.off("notify", onNotify);
     };
   }, []);
 
@@ -93,13 +84,7 @@ export default function App() {
 
         <div className="panel panel-notifications">
           <h2>Notifications</h2>
-          {notifications.length === 0 ? (
-            <p><span className="zy-glowText">System ready.</span></p>
-          ) : (
-            notifications.map((msg, i) => (
-              <p key={i}><span className="zy-glowText">{msg}</span></p>
-            ))
-          )}
+          <p><span data-notifications className="zy-glowText"><span className="zy-glowText">System ready.</span></span></p>
         </div>
       </div>
     </div>

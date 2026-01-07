@@ -1,3 +1,4 @@
+let ACTIVE_MODE = "TEST";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -65,6 +66,11 @@ const simState = {
 // Socket handling
 // -------------------
 io.on("connection", socket => {
+  socket.on("mode:update", (mode) => {
+    ACTIVE_MODE = mode;
+    io.emit("notify", `Mode switched to ${mode}`);
+  });
+
   console.log("Client connected");
 
   socket.emit("campaign_stats", {
@@ -105,7 +111,7 @@ io.on("connection", socket => {
   socket.on("call_start", async ({ mode }) => {
     try {
       if (activeCallSid) {
-        socket.emit("notify", "Call already active");
+        io.emit("notify", "Call already active");
         return;
       }
 
@@ -117,30 +123,30 @@ io.on("connection", socket => {
         });
 
         activeCallSid = call.sid;
-        socket.emit("notify", "Test call started");
+        io.emit("notify", "Test call started");
       }
 
       if (mode === "CAMPAIGN") {
-        socket.emit("notify", "Campaign numbers loaded");
+        io.emit("notify", "Campaign numbers loaded");
         socket.emit("campaign_call_start");
       }
     } catch (err) {
-      socket.emit("notify", `Call error: ${err.message}`);
+      io.emit("notify", `Call error: ${err.message}`);
     }
   });
 
   socket.on("call_stop", async () => {
     try {
       if (!activeCallSid) {
-        socket.emit("notify", "No active call");
+        io.emit("notify", "No active call");
         return;
       }
 
       await twilioClient.calls(activeCallSid).update({ status: "completed" });
       activeCallSid = null;
-      socket.emit("notify", "Call ended");
+      io.emit("notify", "Call ended");
     } catch (err) {
-      socket.emit("notify", `Stop error: ${err.message}`);
+      io.emit("notify", `Stop error: ${err.message}`);
     }
   });
 });
