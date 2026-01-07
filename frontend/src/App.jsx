@@ -22,6 +22,7 @@ export default function App() {
       socket.off("disconnect", onDisconnect);
     };
   }, []);
+
   const total = analytics?.total ?? 0;
   const processed = analytics?.processed ?? 0;
   const remaining = analytics?.remaining ?? 0;
