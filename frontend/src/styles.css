@@ -151,7 +151,17 @@ body{
   box-shadow: 0 0 24px rgba(0,0,0,0.65);
 }
 
-.btn.toggle{
+/* MODE button state colours */
+  background: linear-gradient(135deg, #b84cff, #8f2cff);
+  box-shadow: 0 0 18px rgba(184,76,255,0.65);
+}
+
+  background: linear-gradient(135deg, #00ff9c, #00c87a);
+  box-shadow: 0 0 18px rgba(0,255,156,0.6);
+}
+  background: linear-gradient(135deg, #00ff9c, #00c87a);
+  box-shadow: 0 0 18px rgba(0,255,156,0.6);
+}
   background: rgba(40,215,255,0.10);
   box-shadow: 0 0 24px rgba(40,215,255,0.22);
 }
@@ -354,4 +364,20 @@ h1, h2, h3, .title, .panelTitle {
   background: rgba(80, 220, 160, 0.2);
   border-color: rgba(80, 220, 160, 0.5);
   color: #baffdc;
+}
+
+/* ===== MODE TOGGLE (FINAL, FLAT) ===== */
+.btn.toggle {
+  background: rgba(40,215,255,0.10);
+  box-shadow: 0 0 24px rgba(40,215,255,0.22);
+}
+
+.btn.toggle.mode-test {
+  background: linear-gradient(135deg, #b84cff, #8f2cff);
+  box-shadow: 0 0 18px rgba(184,76,255,0.65);
+}
+
+.btn.toggle.mode-campaign {
+  background: linear-gradient(135deg, #00ff9c, #00c87a);
+  box-shadow: 0 0 18px rgba(0,255,156,0.6);
 }
