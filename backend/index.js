@@ -1,3 +1,37 @@
+
+// ===== FFMPEG SILENCER =====
+const origStdout = process.stdout.write.bind(process.stdout);
+const origStderr = process.stderr.write.bind(process.stderr);
+
+function isFFmpegNoise(str) {
+  return (
+    str.includes("ffmpeg version") ||
+    str.includes("Input #") ||
+    str.includes("Stream #") ||
+    str.includes("Output #") ||
+    str.includes("Press [q]") ||
+    str.includes("pcm_s16le") ||
+    str.includes("Lavf") ||
+    str.includes("Lavc") ||
+    str.includes("muxing overhead") ||
+    str.includes("size=")
+  );
+}
+
+process.stdout.write = (str, ...args) => {
+  if (!isFFmpegNoise(String(str))) {
+    return origStdout(str, ...args);
+  }
+};
+
+process.stderr.write = (str, ...args) => {
+  if (!isFFmpegNoise(String(str))) {
+    return origStderr(str, ...args);
+  }
+};
+// ===== END FFMPEG SILENCER =====
+
+import "dotenv/config";
 let ACTIVE_MODE = "TEST";
 import fs from "fs";
 import path from "path";
@@ -9,6 +43,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
+import { initVoiceRuntime } from "./voiceRuntime.js";
 
 dotenv.config();
 
@@ -19,7 +54,26 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// -------------------
+// Twilio Voice Webhook (TwiML)
+// -------------------
+app.post("/voice", (req, res) => {
+  console.log("📞 [VOICE] Incoming call webhook");
+
+  const twiml = `
+<Response>
+  <Connect>
+    <Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" />
+  </Connect>
+</Response>
+`; 
+
+  res.type("text/xml");
+  res.send(twiml.trim());
+});
+
 const server = http.createServer(app);
+initVoiceRuntime(server, process.env);
 const io = new Server(server, {
   cors: { origin: "*" }
 });
@@ -119,7 +173,7 @@ io.on("connection", socket => {
         const call = await twilioClient.calls.create({
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Say>Hello. This is Zypher AI calling.</Say></Response>`
+          twiml: `<Response><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
         });
 
         activeCallSid = call.sid;
