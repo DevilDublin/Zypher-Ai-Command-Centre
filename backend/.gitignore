@@ -16,8 +16,6 @@ phase*
 opusDecode.js
 openaiReply.js
 openaiTranscribe.js
-brain.js
-stt.js
 
 # Node
 node_modules/
