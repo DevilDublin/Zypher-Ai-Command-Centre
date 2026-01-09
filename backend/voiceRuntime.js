@@ -5,7 +5,7 @@ import os from "os";
 import path from "path";
 import mulaw from "mulaw-js";
 
-import { chat } from "./brain.js";
+import { chatStream } from "./brain.js";
 import { transcribeWav } from "./stt.js";
 
 const SILENCE_MS = 900;
@@ -38,7 +38,10 @@ export function initVoiceRuntime(server) {
       audioChunks: [],
       lastAudioAt: 0,
       ttsAbort: false,
-      introPlayed: false
+      introPlayed: false,
+        alive: true,
+        ttsQueue: [],
+        ttsPlaying: false
     };
 
     console.log("🟢 [E2] Media WS connected");
@@ -133,21 +136,29 @@ export function initVoiceRuntime(server) {
         session.audioChunks = [];
 
         console.log("🛑 [TURN] User finished speaking");
+        session.timing = { turnEnd: Date.now() };
 
         const wavPath = path.join(os.tmpdir(), `e2-${Date.now()}.wav`);
         writeWav(wavPath, pcmBuffer);
 
         try {
           const text = await transcribeWav(wavPath);
+          session.timing.sttDone = Date.now();
           console.log("📝 [E2] Transcript:", text);
+          console.log("⏱ STT latency:", session.timing.sttDone - session.timing.turnEnd, "ms");
 
-          const reply = await chat([
+          const llmStart = Date.now();
+
+          await chatStream([
             { role: "system", content: "You are a friendly, natural conversationalist." },
             { role: "user", content: text }
-          ]);
+          ], async (sentence) => {
+            console.log("🧠 [E3] GPT sentence:", sentence);
+            console.log("⏱ First token:", Date.now() - llmStart, "ms");
+            await speak(sentence);
+          });
 
-          console.log("🧠 [E3] Brain reply:", reply);
-          speak(reply);
+          session.state = STATE.IDLE;
         } catch (err) {
           console.error("❌ [PIPELINE ERROR]", err.message);
           session.state = STATE.IDLE;
@@ -156,57 +167,76 @@ export function initVoiceRuntime(server) {
     }, 100);
 
     ws.on("close", () => {
+        session.alive = false;
+        session.ttsQueue = [];
+        console.log("🧨 Session killed — GPT + TTS stopped");
       clearInterval(silenceCheck);
       console.log("🔴 [E2] Media WS closed");
     });
 
     // ===== HELPERS =====
 
-    async function speak(text) {
-      session.state = STATE.ASSISTANT_SPEAKING;
-      session.ttsAbort = false;
+    
+async function speak(text) {
+  if (!session.alive) return;
 
-      const { textToSpeech } = await import("./tts.js");
-      const ttsPath = path.join(os.tmpdir(), `tts-${Date.now()}.wav`);
-      await textToSpeech(text, ttsPath);
+  session.ttsQueue.push(text);
 
-      
-      const { execSync } = await import("child_process");
+  if (!session.ttsPlaying) {
+    session.ttsPlaying = true;
+    playTTSQueue();
+  }
+}
 
-      const tmpPcm = ttsPath.replace(".wav", ".raw");
-      execSync(`ffmpeg -y -i "${ttsPath}" -ar 8000 -ac 1 -f s16le "${tmpPcm}"`);
+async function playTTSQueue() {
+  while (session.ttsQueue.length > 0 && session.alive) {
+    const text = session.ttsQueue.shift();
 
-      const pcm = fs.readFileSync(tmpPcm);
-      const pcm16 = new Int16Array(pcm.buffer, pcm.byteOffset, pcm.length / 2);
-      const ulaw = mulaw.encode(pcm16);
+    session.timing = session.timing || {};
+    session.timing.ttsStart = Date.now();
+    console.log("⏱ Total silence → voice:", session.timing.ttsStart - session.timing.turnEnd, "ms");
 
+    session.state = STATE.ASSISTANT_SPEAKING;
+    session.ttsAbort = false;
 
-      let sent = 0;
-      for (let i = 0; i < ulaw.length; i += FRAME_SIZE) {
-        if (session.ttsAbort) {
-          console.log("🛑 [TTS] Aborted due to barge-in");
-          return;
+    const { textToSpeech } = await import("./tts.js");
+    const ttsPath = path.join(os.tmpdir(), `tts-${Date.now()}.wav`);
+    await textToSpeech(text, ttsPath);
+
+    if (!session.alive) return;
+
+    const { execSync } = await import("child_process");
+    const tmpPcm = ttsPath.replace(".wav", ".raw");
+    execSync(`ffmpeg -y -i "${ttsPath}" -ar 8000 -ac 1 -f s16le "${tmpPcm}"`);
+
+    const pcm = fs.readFileSync(tmpPcm);
+    const pcm16 = new Int16Array(pcm.buffer, pcm.byteOffset, pcm.length / 2);
+    const ulaw = mulaw.encode(pcm16);
+
+    for (let i = 0; i < ulaw.length; i += FRAME_SIZE) {
+      if (!session.alive || session.ttsAbort) return;
+
+      const frame = ulaw.slice(i, i + FRAME_SIZE);
+      if (frame.length !== FRAME_SIZE) continue;
+
+      ws.send(JSON.stringify({
+        event: "media",
+        streamSid: session.streamSid,
+        media: {
+          track: "outbound",
+          payload: Buffer.from(frame).toString("base64")
         }
+      }));
 
-        const frame = ulaw.slice(i, i + FRAME_SIZE);
-        if (frame.length !== FRAME_SIZE) continue;
-
-        ws.send(JSON.stringify({
-          event: "media",
-          streamSid: session.streamSid,
-          media: {
-            track: "outbound",
-            payload: Buffer.from(frame).toString("base64")
-          }
-        }));
-
-        sent++;
-        await new Promise(r => setTimeout(r, 20));
-      }
-
-      console.log("🔊 [E4] Assistant spoke frames:", sent);
-      session.state = STATE.IDLE;
+      await new Promise(r => setTimeout(r, 20));
     }
+
+    session.state = STATE.IDLE;
+  }
+
+  session.ttsPlaying = false;
+}
+
 
     function writeWav(file, pcmBuffer) {
       const wavHeader = Buffer.alloc(44);
