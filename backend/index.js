@@ -62,6 +62,9 @@ app.post("/voice", (req, res) => {
 
   const twiml = `
 <Response>
+  <Say voice="Polly.Joanna">
+    Hi, this is Zypher. How can I help you today?
+  </Say>
   <Connect>
     <Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" />
   </Connect>
@@ -173,7 +176,7 @@ io.on("connection", socket => {
         const call = await twilioClient.calls.create({
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
+          twiml: `<Response><Say voice="alice">Hi, this is Zypher. How can I help you today?</Say><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
         });
 
         activeCallSid = call.sid;
