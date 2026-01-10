@@ -37,16 +37,28 @@ export function createAudioBridge(sendUlaw) {
         pcm24[i] = pcmBytes.readInt16LE(offset);
       }
 
-      // 24kHz -> 8kHz (factor 3) with simple low-pass
-      const outLen = Math.floor(pcm24.length / 3);
-      if (outLen <= 0) return;
+        // 24kHz -> 8kHz with anti-aliasing (3-tap box filter)
+        const outLen = Math.floor(pcm24.length / 3);
+        if (outLen <= 0) return;
 
-      const down = new Int16Array(outLen);
-      for (let i = 0; i < outLen; i++) {
+        const down = new Int16Array(outLen);
+
+        // 3-tap box filter (anti-alias)
+        for (let i = 0; i < outLen; i++) {
           const j = i * 3;
-          down[i] = pcm24[j] || 0;
-      }
+          const a = pcm24[j] || 0;
+          const b = pcm24[j + 1] || 0;
+          const c = pcm24[j + 2] || 0;
+          down[i] = ((a + b + c) / 3) | 0;
+        }
 
+        // De-emphasis (tames sibilance without underwater effect)
+        let prev = 0;
+        for (let i = 0; i < down.length; i++) {
+          const cur = down[i];
+          down[i] = (0.85 * cur + 0.15 * prev) | 0;
+          prev = cur;
+        }
       // Only fade when transitioning from silence -> speech
       if (wasSilent) {
         const fade = Math.min(80, down.length);

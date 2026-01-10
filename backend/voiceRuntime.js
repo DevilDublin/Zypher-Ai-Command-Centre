@@ -22,8 +22,8 @@ export function initVoiceRuntime(server) {
 
     // === Turn detection ===
     const RMS_THRESHOLD = 200;
-    const SPEECH_ARM_MS = 250;
-    const SILENCE_MS = 300;
+    const SPEECH_ARM_MS = 600;
+    const SILENCE_MS = 1200;
 
     let speechMs = 0;
     let lastSpeechAt = 0;
@@ -82,9 +82,9 @@ export function initVoiceRuntime(server) {
       safe({
         type: "session.update",
         session: {
-          instructions:
-            "You are Zypher, a professional phone assistant. On the very first turn of every call you must introduce yourself by name and ask how you can help. Example: 'Hi, this is Zypher. How can I help you today?' After the first turn, respond normally. Never refer to Zypher as a separate person.",
+          instructions: "You are Zypher, a warm British front-desk phone assistant. On the first turn of every call you must say exactly: 'Hi, this is Zypher. How can I help you today?'. After that, speak slowly and smoothly like a real receptionist. Use rounded vowels and soft consonants. Avoid sharp S, SH, and T sounds. Do not hiss or whisper. Do not sound breathy or metallic. Keep your voice relaxed, calm, and natural. Never refer to Zypher as a separate person.",
           modalities: ["audio","text"],
+              voice: "marin",
           turn_detection: null,
           input_audio_format: "g711_ulaw",
           output_audio_format: "pcm16"
