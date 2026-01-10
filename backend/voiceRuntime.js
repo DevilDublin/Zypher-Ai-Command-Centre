@@ -2,6 +2,7 @@
 import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import { createAudioBridge } from "./audioBridge.js";
+import mulaw from "mulaw-js";
 
 export function initVoiceRuntime(server) {
   const wss = new WebSocketServer({ noServer: true });
@@ -18,14 +19,7 @@ export function initVoiceRuntime(server) {
     let streamSid = null;
     let alive = TrueBool();
     let aiOpen = false;
-
-    // inbound audio debug
-    let inFrames = 0;
-    const inTicker = setInterval(() => {
-      if (!alive.v) return;
-      if (inFrames > 0) console.log("🎙 inbound frames/sec:", inFrames);
-      inFrames = 0;
-    }, 1000);
+      let lastInbound = 0;
 
     // timing
     const timing = { commit: 0, firstAudio: 0 };
@@ -74,6 +68,7 @@ export function initVoiceRuntime(server) {
         session: {
           instructions: "You are Zypher AI. Speak naturally, quickly, and conversationally. Do not mention system details.",
           modalities: ["audio","text"],
+          turn_detection: null,
           // We are sending Twilio μ-law 8k frames in input_audio_buffer.append:
           input_audio_format: "g711_ulaw",
           // We want PCM16 audio back which our audioBridge expects:
@@ -123,6 +118,7 @@ export function initVoiceRuntime(server) {
       timing.firstAudio = 0;
 
       console.log("🛑 silence → commit + response.create");
+        if (lastInbound) console.log("⏱ last frame → commit:", Date.now() - lastInbound, "ms");
       safeAISend({ type: "input_audio_buffer.commit" });
 
       // THIS is what you were missing: create the assistant response after commit
@@ -145,13 +141,24 @@ export function initVoiceRuntime(server) {
       }
 
       if (data.event === "media") {
-        inFrames += 1;
+          lastInbound = Date.now();
 
-        // reset silence timer on every inbound frame
-        if (silenceTimer) clearTimeout(silenceTimer);
-        silenceTimer = setTimeout(commitAndRespond, SILENCE_MS);
 
         const ulaw = Buffer.from(data.media.payload, "base64");
+
+        const pcm = mulaw.decode(ulaw);
+        let sum = 0;
+        for (let i = 0; i < pcm.length; i++) sum += pcm[i] * pcm[i];
+        const rms = Math.sqrt(sum / pcm.length);
+
+        // speech-based turn detection (Ember-style)
+        if (rms > 200) {
+          if (silenceTimer) clearTimeout(silenceTimer);
+          silenceTimer = setTimeout(commitAndRespond, SILENCE_MS);
+        }
+
+
+
 
         if (aiOpen) {
           safeAISend({
@@ -165,7 +172,6 @@ export function initVoiceRuntime(server) {
       if (data.event === "stop") {
         console.log("<0001f9e0> Twilio stream stopped");
         alive.v = false;
-        clearInterval(inTicker);
         try { if (silenceTimer) clearTimeout(silenceTimer); } catch {}
         try { ai.close(); } catch {}
         return;
@@ -175,7 +181,6 @@ export function initVoiceRuntime(server) {
     twilio.on("close", () => {
       console.log("<0001f9e0> Twilio WS closed");
       alive.v = false;
-      clearInterval(inTicker);
       try { if (silenceTimer) clearTimeout(silenceTimer); } catch {}
       try { ai.close(); } catch {}
     });
