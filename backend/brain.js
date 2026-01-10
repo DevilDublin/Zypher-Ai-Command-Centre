@@ -14,24 +14,46 @@ export async function chatStream(messages, onSentence) {
   });
 
   let buffer = "";
+  let speaking = false;
+  let lastEmit = 0;
+
+  const START_THRESHOLD = 28;
+  const EMIT_THRESHOLD = 60;
+  const EMIT_INTERVAL = 60;
 
   for await (const part of res) {
-    const delta = (part.choices && part.choices[0] && part.choices[0].delta && part.choices[0].delta.content) ? part.choices[0].delta.content : "";
+    const delta =
+      part.choices &&
+      part.choices[0] &&
+      part.choices[0].delta &&
+      part.choices[0].delta.content
+        ? part.choices[0].delta.content
+        : "";
+
     if (!delta) continue;
 
     buffer += delta;
+    const now = Date.now();
 
-    const chunks = buffer.match(/[^.!?]+[.!?]*/g);
-    if (!chunks) continue;
-
-    for (let j = 0; j < chunks.length - 1; j++) {
-      const clean = chunks[j].trim();
-      if (clean) await onSentence(clean);
+    if (!speaking && buffer.length >= START_THRESHOLD) {
+      speaking = true;
     }
 
-    buffer = chunks[chunks.length - 1];
+    if (
+      speaking &&
+      buffer.length >= EMIT_THRESHOLD &&
+      now - lastEmit > EMIT_INTERVAL
+    ) {
+      const chunk = buffer;
+      buffer = "";
+      lastEmit = now;
+      if (chunk.trim()) {
+        await onSentence(chunk);
+      }
+    }
   }
 
-  if (buffer.trim()) await onSentence(buffer.trim());
-  return;
+  if (buffer.trim()) {
+    await onSentence(buffer.trim());
+  }
 }

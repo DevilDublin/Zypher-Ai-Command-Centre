@@ -1,76 +1,56 @@
 
-import fs from "fs";
-import fetch from "node-fetch";
+import WebSocket from "ws";
 
-export async function textToSpeech(text, outPath) {
-  const res = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVENLABS_VOICE_ID}/stream`,
+let ws = null;
+let ready = false;
+let audioCallback = null;
+
+export function initOpenAITTS(onPcm) {
+  audioCallback = onPcm;
+
+  ws = new WebSocket(
+    "wss://api.openai.com/v1/realtime?model=gpt-realtime-mini",
     {
-      method: "POST",
       headers: {
-        "xi-api-key": process.env.ELEVENLABS_API_KEY,
-        "Content-Type": "application/json",
-        "accept": "audio/wav"
-      },
-      body: JSON.stringify({
-        text,
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-          stability: 0.45,
-          similarity_boost: 0.8
-        }
-      })
+        Authorization: "Bearer " + process.env.OPENAI_API_KEY,
+        "OpenAI-Beta": "realtime=v1"
+      }
     }
   );
 
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error("ElevenLabs TTS failed: " + err);
-  }
+  ws.on("open", () => {
+    ready = true;
+    console.log("🔊 OpenAI Realtime TTS connected");
+  });
 
-  const buf = Buffer.from(await res.arrayBuffer());
-  fs.writeFileSync(outPath, buf);
+  ws.on("message", msg => {
+    try {
+      const data = JSON.parse(msg.toString());
+      if (data.type === "response.audio.delta") {
+        const pcm = Buffer.from(data.delta, "base64");
+        if (audioCallback) audioCallback(pcm);
+      }
+    } catch {}
+  });
+
+  ws.on("close", () => {
+    ready = false;
+    console.log("🔊 OpenAI Realtime TTS closed");
+  });
+
+  ws.on("error", e => {
+    console.error("OpenAI TTS socket error:", e.message);
+  });
 }
 
+export function speak(text) {
+  if (!ws || !ready) return;
 
-import { spawn } from "child_process";
-
-export async function textToSpeechFFmpegStream(text) {
-  const res = await fetch(
-    `https://api.elevenlabs.io/v1/text-to-speech/${process.env.ELEVENLABS_VOICE_ID}/stream`,
-    {
-      method: "POST",
-      headers: {
-        "xi-api-key": process.env.ELEVENLABS_API_KEY,
-        "Content-Type": "application/json",
-        "accept": "audio/wav"
-      },
-      body: JSON.stringify({
-        text,
-        model_id: "eleven_multilingual_v2",
-        voice_settings: {
-          stability: 0.45,
-          similarity_boost: 0.8
-        }
-      })
+  ws.send(JSON.stringify({
+    type: "response.create",
+    response: {
+      modalities: ["audio"],
+      instructions: text
     }
-  );
-
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error("ElevenLabs TTS failed: " + err);
-  }
-
-  const ffmpeg = spawn("ffmpeg", [
-    "-loglevel", "quiet",
-    "-i", "pipe:0",
-    "-ar", "24000",
-    "-ac", "1",
-    "-f", "s16le",
-    "pipe:1"
-  ]);
-
-  res.body.pipe(ffmpeg.stdin);
-
-  return ffmpeg.stdout;
+  }));
 }
