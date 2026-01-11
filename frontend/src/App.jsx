@@ -81,13 +81,18 @@ export default function App() {
         </div>
 
         <div className="panel">
-          <h2>Chat Console</h2>
-          <div className="chat-box">
-            <div className="chat-messages"></div>
-            <div className="chat-input">
-              <input placeholder="Type message…" />
-              <button className="btn primary">Send</button>
-            </div>
+          <h2>Niche Selector</h2>
+          <div className="inner-glass" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+            {["default","real_estate","dental","solar","car_insurance","gym","plumbing","legal","ecommerce"].map(n => (
+              <button
+                key={n}
+                className="btn primary"
+                onClick={() => { console.log("Niche clicked:", n); socket.emit("niche:set", n); }}
+                style={{ textTransform: "capitalize" }}
+              >
+                {n.replace("_"," ")}
+              </button>
+            ))}
           </div>
         </div>
 

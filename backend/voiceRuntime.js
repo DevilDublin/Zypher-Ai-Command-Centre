@@ -3,6 +3,14 @@ import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import mulaw from "mulaw-js";
 import { createAudioBridge } from "./audioBridge.js";
+import { NICHES } from "./niches.js";
+
+let ACTIVE_NICHE = "default";
+
+export function setActiveNiche(n) {
+  ACTIVE_NICHE = n || "default";
+  console.log("🧩 Active niche:", ACTIVE_NICHE);
+}
 
 export function initVoiceRuntime(server) {
   const wss = new WebSocketServer({ noServer: true });
@@ -68,7 +76,7 @@ export function initVoiceRuntime(server) {
 
       console.log("🛑 silence → commit + response.create");
       safe({ type: "input_audio_buffer.commit" });
-      safe({ type: "response.create", response: { modalities: ["audio","text"] } });
+      safe({ type: "response.create", response: { modalities: ["audio","text"],  } });
       responseActive = true;
       clearTurn();
     }
@@ -82,7 +90,11 @@ export function initVoiceRuntime(server) {
       safe({
         type: "session.update",
         session: {
-          instructions: "You are Zypher, a calm, friendly, professional London front-desk receptionist. First turn only: 'Hi, this is Zypher. How can I help you today?'. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops.",
+          instructions: (NICHES[ACTIVE_NICHE]?.overlay ? NICHES[ACTIVE_NICHE].overlay + " " : "") +
+"On the first turn of this call you must say exactly: \"" +
+(NICHES[ACTIVE_NICHE]?.intro || "Hi, this is Zypher. How can I help you today?") +
+"\". " +
+"You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops.",
           modalities: ["audio","text"],
               voice: "marin",
           turn_detection: null,
@@ -94,7 +106,13 @@ export function initVoiceRuntime(server) {
       console.log("✅ OpenAI session configured");
 
       // Trigger first turn (no audio buffer needed)
-      safe({ type: "response.create", response: { modalities: ["audio","text"] } });
+      safe({
+        type: "response.create",
+        response: {
+          modalities: ["audio","text"],
+          
+        }
+      });
     });
 
     ai.on("message", msg => {
