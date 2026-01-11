@@ -182,11 +182,6 @@ export function initVoiceRuntime(server) {
               }).then(async r => {
                 console.log("📧 Backend replied:", await r.text());
 
-                safe({
-                  type: "response.tool_result",
-                  tool_call_id: item.call_id,
-                  result: { ok: true }
-                });
 
                 // Ask model to speak confirmation
                 safe({
@@ -227,54 +222,11 @@ export function initVoiceRuntime(server) {
       if (data.type === "response.done") responseActive = false;
 
       if (data.type === "input_audio_buffer.transcription.delta") {
-        process.stdout.write("🧠 USER> " + data.delta);
       }
-      if (data.type === "response.output_text.delta") {
-        process.stdout.write("🧠 AI> " + data.delta);
-
-        if (data.delta.includes("[[SUBMIT]]")) {
-          console.log("🧲 SUBMIT DETECTED — enabling tool call");
-          safe({
-            type: "response.create",
-            response: {
-              tool_choice: "submit_lead"
-            }
-          });
-        }
-      }
-
-      
-        if (data.type === "response.output_tool_call") {
-        console.log("🧰 TOOL EVENT RAW:", JSON.stringify(data, null, 2));
-
-          const call = data.tool_call;
-          if (call.name === "submit_lead") {
-            console.log("📨 LEAD SUBMITTED:", call.arguments);
-
-            fetch("http://localhost:3000/lead", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(call.arguments)
-            }).then(() => {
-              safe({
-                type: "response.tool_result",
-                tool_call_id: call.id,
-                result: { ok: true }
-              });
-
-              safe({
-                type: "response.create",
-                response: { modalities: ["audio","text"],
-             }
-              });
-            });
-          }
-        }
 
 
 
       if (data.type === "error") {
-        console.log("❌ OpenAI error:", data.error?.message || JSON.stringify(data));
       }
     });
 
