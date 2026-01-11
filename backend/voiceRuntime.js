@@ -6,6 +6,13 @@ import { createAudioBridge } from "./audioBridge.js";
 import { NICHES } from "./niches.js";
 
 let ACTIVE_NICHE = "default";
+let CALL_DIRECTION = "inbound";
+
+export function setCallDirection(d) {
+  CALL_DIRECTION = d === "outbound" ? "outbound" : "inbound";
+  console.log("📞 Call direction:", CALL_DIRECTION);
+}
+
 
 export function setActiveNiche(n) {
   ACTIVE_NICHE = n || "default";
@@ -22,6 +29,7 @@ export function initVoiceRuntime(server) {
   });
 
   wss.on("connection", twilio => {
+            
     console.log("<0001f9e0> Twilio WS connected");
 
     let streamSid = null;
@@ -90,9 +98,9 @@ export function initVoiceRuntime(server) {
       safe({
         type: "session.update",
         session: {
-          instructions: (NICHES[ACTIVE_NICHE]?.overlay ? NICHES[ACTIVE_NICHE].overlay + " " : "") +
+          instructions: (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE].overlay + " " : "") +
 "On the first turn of this call you must say exactly: \"" +
-(NICHES[ACTIVE_NICHE]?.intro || "Hi, this is Zypher. How can I help you today?") +
+(NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?") +
 "\". " +
 "You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops.",
           modalities: ["audio","text"],

@@ -82,17 +82,26 @@ export default function App() {
 
         <div className="panel">
           <h2>Niche Selector</h2>
-          <div className="inner-glass" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-            {["default","real_estate","dental","solar","car_insurance","gym","plumbing","legal","ecommerce"].map(n => (
-              <button
-                key={n}
-                className="btn primary"
-                onClick={() => { console.log("Niche clicked:", n); socket.emit("niche:set", n); }}
-                style={{ textTransform: "capitalize" }}
-              >
-                {n.replace("_"," ")}
-              </button>
-            ))}
+          <div className="inner-glass" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+
+            <div style={{ overflowY: "auto", maxHeight: "260px", display: "flex", flexDirection: "column", gap: "6px" }}>
+              {["default","real_estate","dental","solar","car_insurance","gym","plumbing","legal","ecommerce"].map(n => (
+                <button
+                  key={n}
+                  className="btn primary"
+                  style={{ textTransform: "capitalize" }}
+                  onClick={() => socket.emit("niche:select", n)}
+                >
+                  {n.replace("_"," ")}
+                </button>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", justifyContent: "center" }}>
+              <button className="btn toggle" onClick={() => socket.emit("niche:direction", "inbound")}>INBOUND</button>
+              <button className="btn toggle mode-campaign" onClick={() => socket.emit("niche:direction", "outbound")}>OUTBOUND</button>
+            </div>
+
           </div>
         </div>
 

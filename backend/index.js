@@ -43,7 +43,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
-import { initVoiceRuntime, setActiveNiche } from "./voiceRuntime.js";
+import { initVoiceRuntime, setActiveNiche, setCallDirection } from "./voiceRuntime.js";
 
 dotenv.config();
 
@@ -121,12 +121,18 @@ const simState = {
 // -------------------
 
 io.on("connection", socket => {
-    socket.on("niche:set", (niche) => {
-      setActiveNiche(niche);
-      io.emit("notify", `Niche set to ${niche}`);
-    });
+  socket.on("niche:select", (niche) => {
+    setActiveNiche(niche);
+    io.emit("notify", `🧩 Niche: ${niche}`);
+  });
 
-  socket.on("mode:update", (mode) => {
+  socket.on("niche:direction", (dir) => {
+    setCallDirection(dir);
+    io.emit("notify", `📞 Direction: ${dir}`);
+  });
+
+
+    socket.on("mode:update", (mode) => {
     ACTIVE_MODE = mode;
     io.emit("notify", `Mode switched to ${mode}`);
   });
