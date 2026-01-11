@@ -67,9 +67,16 @@ export function initVoiceRuntime(server) {
     );
 
     function safe(obj) {
-      if (!aiOpen) return;
-      try { ai.send(JSON.stringify(obj)); } catch {}
-    }
+        if (!aiOpen) return;
+        try {
+          const t = obj?.type || "";
+          if (t && t !== "input_audio_buffer.append") {
+          }
+          ai.send(JSON.stringify(obj));
+        } catch (e) {
+          console.log("❌ safe() send failed:", e?.message || String(e));
+        }
+      }
 
     function clearTurn() {
       speechMs = 0;
@@ -88,12 +95,8 @@ export function initVoiceRuntime(server) {
         type: "response.create",
         response: {
           modalities: ["audio","text"],
-          instructions:
-            (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE][CALL_DIRECTION].overlay + " " : "") +
-            "On the first turn of this call you must say exactly: \"" +
-            (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?") +
-            "\". " +
-            "You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops."
+            tool_choice: "auto",
+            
         }
       });
       responseActive = true;
@@ -109,11 +112,29 @@ export function initVoiceRuntime(server) {
       safe({
         type: "session.update",
         session: {
+          tools: [{
+            type: "function",
+            name: "submit_lead",
+            description: "Send completed lead or booking to backend",
+            parameters: {
+              type: "object",
+              properties: {
+                niche: { type: "string" },
+                direction: { type: "string" },
+                name: { type: "string" },
+                phone: { type: "string" },
+                email: { type: "string" },
+                data: { type: "object" }
+              },
+              required: ["niche","direction","name","phone","email","data"]
+            }
+          }],
+
           instructions: (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE].overlay + " " : "") +
 "On the first turn of this call you must say exactly: \"" +
 (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?") +
 "\". " +
-"You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops.",
+"You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops. When you have collected all required details for the current niche and call type, call the function submit_lead with the collected data. Do not say anything after that.",
           modalities: ["audio","text"],
               voice: "marin",
           turn_detection: null,
@@ -129,6 +150,7 @@ export function initVoiceRuntime(server) {
         type: "response.create",
         response: {
           modalities: ["audio","text"],
+            tool_choice: "auto",
           
         }
       });
@@ -136,7 +158,66 @@ export function initVoiceRuntime(server) {
 
     ai.on("message", msg => {
       let data;
-      try { data = JSON.parse(msg.toString()); } catch { return; }
+        try { data = JSON.parse(msg.toString()); } catch { return; }
+
+        // ---- REALTIME FUNCTION CALL HANDLER ----
+        if (data.type === "response.done") {
+          const outputs = data.response?.output || [];
+          for (const item of outputs) {
+            if (item.type === "function_call" && item.name === "submit_lead") {
+              console.log("📨 LEAD FUNCTION CALL:", item.arguments);
+
+              let payload;
+              try {
+                payload = JSON.parse(item.arguments);
+              } catch (e) {
+                console.log("❌ Failed to parse tool arguments:", item.arguments);
+                continue;
+              }
+
+              fetch("http://localhost:3000/lead", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+              }).then(async r => {
+                console.log("📧 Backend replied:", await r.text());
+
+                safe({
+                  type: "response.tool_result",
+                  tool_call_id: item.call_id,
+                  result: { ok: true }
+                });
+
+                // Ask model to speak confirmation
+                safe({
+                  type: "response.create",
+                  response: {
+                    modalities: ["audio","text"]
+                  }
+                });
+              });
+            }
+          }
+        }
+        // ---- END FUNCTION CALL HANDLER ----
+
+
+        if (data.type !== "response.audio.delta") {
+          const t = data.type || "";
+          if (
+            t.includes("tool") ||
+            t in {
+              "error": 1,
+              "response.done": 1,
+              "response.created": 1,
+              "session.created": 1,
+              "session.updated": 1,
+              "rate_limits.updated": 1
+            }
+          ) {
+          } else {
+          }
+        }
 
       if (data.type === "response.audio.delta") {
         audioBridge.push(Buffer.from(data.delta, "base64"));
@@ -150,7 +231,47 @@ export function initVoiceRuntime(server) {
       }
       if (data.type === "response.output_text.delta") {
         process.stdout.write("🧠 AI> " + data.delta);
+
+        if (data.delta.includes("[[SUBMIT]]")) {
+          console.log("🧲 SUBMIT DETECTED — enabling tool call");
+          safe({
+            type: "response.create",
+            response: {
+              tool_choice: "submit_lead"
+            }
+          });
+        }
       }
+
+      
+        if (data.type === "response.output_tool_call") {
+        console.log("🧰 TOOL EVENT RAW:", JSON.stringify(data, null, 2));
+
+          const call = data.tool_call;
+          if (call.name === "submit_lead") {
+            console.log("📨 LEAD SUBMITTED:", call.arguments);
+
+            fetch("http://localhost:3000/lead", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(call.arguments)
+            }).then(() => {
+              safe({
+                type: "response.tool_result",
+                tool_call_id: call.id,
+                result: { ok: true }
+              });
+
+              safe({
+                type: "response.create",
+                response: { modalities: ["audio","text"],
+             }
+              });
+            });
+          }
+        }
+
+
 
       if (data.type === "error") {
         console.log("❌ OpenAI error:", data.error?.message || JSON.stringify(data));

@@ -55,6 +55,15 @@ app.use(cors());
 app.use(express.json());
 
 // -------------------
+
+app.post("/lead", async (req, res) => {
+  console.log("🧪 /lead HEADERS:", req.headers);
+
+  const lead = req.body;
+  console.log("📧 NEW LEAD:", JSON.stringify(lead, null, 2));
+  res.json({ ok: true });
+});
+
 // Twilio Voice Webhook (TwiML)
 // -------------------
 app.post("/voice", (req, res) => {
