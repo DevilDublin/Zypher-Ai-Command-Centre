@@ -193,11 +193,41 @@ const campaignLines = fs
   .filter(Boolean);
 
 const campaignState = {
-  total: campaignLines.length,
-  index: 0
-};
+    total: campaignLines.length - 1,
+    index: 1
+  };
 
 console.log(`�� Loaded campaign.csv with ${campaignState.total} leads`);
+
+function getCampaignLead(index) {
+  const header = campaignLines[0].split(",");
+  const row = campaignLines[index]?.split(",") || [];
+
+  const data = {};
+  header.forEach((h, i) => {
+    data[h.trim()] = (row[i] || "").replace(/^'|'$/g, "");
+  });
+
+  const first = data["First Name"] || "";
+  const last = data["Last Name"] || "";
+  const name = (first + " " + last).trim();
+
+  const phone =
+    data["Mobile Phone"] ||
+    data["Work Direct Phone"] ||
+    data["Corporate Phone"] ||
+    data["Other Phone"] ||
+    "";
+
+  return {
+    name,
+    phone,
+    email: data["Email"] || "",
+    company: data["Company Name"] || "",
+    raw: data
+  };
+}
+
 
 const simState = {
   conversation: []
@@ -280,9 +310,34 @@ io.on("connection", socket => {
       }
 
       if (mode === "CAMPAIGN") {
-        io.emit("notify", "Campaign numbers loaded");
-        socket.emit("campaign_call_start");
-      }
+          const lead = getCampaignLead(campaignState.index);
+
+          if (!lead || !lead.phone) {
+            io.emit("notify", "❌ Campaign lead has no phone number");
+            return;
+          }
+
+          let phone = String(lead.phone).trim();
+          if (phone.startsWith("07")) {
+            phone = "+44" + phone.slice(1);
+          }
+          if (!phone.startsWith("+")) {
+            phone = "+" + phone;
+          }
+
+          console.log("📞 Campaign dialing:", lead.name, phone);
+
+          const call = await twilioClient.calls.create({
+            to: phone,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            twiml: `<Response><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
+          });
+
+          activeCallSid = call.sid;
+
+          io.emit("notify", `Calling ${lead.name}`);
+          socket.emit("campaign_call_start");
+        }
     } catch (err) {
       io.emit("notify", `Call error: ${err.message}`);
     }
