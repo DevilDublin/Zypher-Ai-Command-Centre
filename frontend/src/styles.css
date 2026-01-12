@@ -500,3 +500,154 @@ html, body { overscroll-behavior: none; background: var(--bg0); }
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+/* ===============================
+   NEURAL CORE — TOPOLOGY VIEW
+   =============================== */
+
+.neural-core{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.neural-status{
+  display:flex;
+  justify-content:space-between;
+  font-family:'Orbitron';
+  font-size:11px;
+  letter-spacing:0.12em;
+}
+
+.neural-status .online{
+  color:#28d7ff;
+  text-shadow:0 0 12px rgba(40,215,255,0.9);
+}
+.neural-status .offline{
+  color:#ff4dff;
+  opacity:0.6;
+}
+
+.neural-topology{
+  position: relative;
+
+  position:relative;
+  flex:1;
+  margin:8px 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.node{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#b44cff;
+  box-shadow:0 0 14px rgba(180,120,255,0.9);
+}
+
+.node.core{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#28d7ff;
+  box-shadow:0 0 18px rgba(40,215,255,0.9);
+  transform:translate(-50%,-50%);
+}
+
+/* orbit positions */
+.n1{top:10%; left:50%; transform:translateX(-50%);}
+.n2{top:30%; left:80%;}
+.n3{top:70%; left:80%;}
+.n4{top:90%; left:50%; transform:translateX(-50%);}
+.n5{top:70%; left:20%;}
+.n6{top:30%; left:20%;}
+
+.link{
+  position:absolute;
+  width:2px;
+  background:linear-gradient(#b44cff,#28d7ff);
+  opacity:0.6;
+  transform-origin:top;
+  animation:pulse 2s infinite alternate;
+}
+
+.l1{ top:50%; left:50%; height:40%; transform:rotate(270deg);}
+.l2{ top:50%; left:50%; height:35%; transform:rotate(330deg);}
+.l3{ top:50%; left:50%; height:35%; transform:rotate(30deg);}
+.l4{ top:50%; left:50%; height:40%; transform:rotate(90deg);}
+.l5{ top:50%; left:50%; height:35%; transform:rotate(150deg);}
+.l6{ top:50%; left:50%; height:35%; transform:rotate(210deg);}
+
+@keyframes pulse{
+  from{opacity:0.4;}
+  to{opacity:1;}
+}
+
+.neural-console{
+  font-family:monospace;
+  font-size:11px;
+  opacity:0.75;
+  line-height:1.5;
+}
+
+
+
+/* ===== ZYPHER NEURAL TOPOLOGY (GEOMETRIC) ===== */
+
+.neural-topology{
+  position:relative;
+  width:160px;
+  height:160px;
+  margin: 10px auto 0 auto;
+}
+
+.node{
+  position:absolute;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#b44cff;
+  box-shadow:0 0 10px rgba(180,120,255,0.9);
+}
+
+.node.core{
+  width:14px;
+  height:14px;
+  background:#28d7ff;
+  box-shadow:0 0 18px rgba(40,215,255,1);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+}
+
+/* Hex ring — perfect 60° spacing, radius 55px */
+.node.n1{ top:50%; left:50%; transform:translate(-50%,-50%) translate(0,-55px); }
+.node.n2{ top:50%; left:50%; transform:translate(-50%,-50%) translate(47px,-28px); }
+.node.n3{ top:50%; left:50%; transform:translate(-50%,-50%) translate(47px,28px); }
+.node.n4{ top:50%; left:50%; transform:translate(-50%,-50%) translate(0,55px); }
+.node.n5{ top:50%; left:50%; transform:translate(-50%,-50%) translate(-47px,28px); }
+.node.n6{ top:50%; left:50%; transform:translate(-50%,-50%) translate(-47px,-28px); }
+
+/* Neural links */
+.link{
+  position:absolute;
+  width:2px;
+  background:linear-gradient(#28d7ff,#b44cff);
+  opacity:0.6;
+  transform-origin:top;
+}
+
+/* 6 spokes */
+.link.l1{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(0deg); }
+.link.l2{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(60deg); }
+.link.l3{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(120deg); }
+.link.l4{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(180deg); }
+.link.l5{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(240deg); }
+.link.l6{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(300deg); }
+

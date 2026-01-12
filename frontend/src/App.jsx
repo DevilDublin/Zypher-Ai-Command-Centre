@@ -107,9 +107,39 @@ const total = analytics?.total ?? 0;
           <p><span className="zy-glowText">Mode: TEST</span></p>
         </div>
 
-        <div className="panel">
-          <h2>Live Transcript</h2>
-          {transcript.length === 0 ? "Waiting for call…" : transcript.map((m,i)=>(<div key={i}><b>{m.role}:</b> {m.text}</div>))}
+        <div className="panel neural-core">
+          <h2>Neural Core</h2>
+
+          <div className="neural-status">
+            <span>ZYPHER CORE</span>
+            <span className={isOnline ? "online" : "offline"}>
+              {isOnline ? "ONLINE" : "OFFLINE"}
+            </span>
+          </div>
+
+          <div className="neural-topology">
+            <div className="node core"></div>
+
+            <div className="node n1"></div>
+            <div className="node n2"></div>
+            <div className="node n3"></div>
+            <div className="node n4"></div>
+            <div className="node n5"></div>
+            <div className="node n6"></div>
+
+            <div className="link l1"></div>
+            <div className="link l2"></div>
+            <div className="link l3"></div>
+            <div className="link l4"></div>
+            <div className="link l5"></div>
+            <div className="link l6"></div>
+          </div>
+
+          <div className="neural-console">
+            <div>VOICE ENGINE: {isOnline ? "ACTIVE" : "IDLE"}</div>
+            <div>NEURAL FLOW: STABLE</div>
+            <div>SIGNAL: CLEAN</div>
+          </div>
         </div>
 
         <div className="panel">
