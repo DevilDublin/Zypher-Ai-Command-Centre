@@ -45,7 +45,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
-import { initVoiceRuntime, setActiveNiche, setCallDirection } from "./voiceRuntime.js";
+import { initVoiceRuntime, setActiveNiche, setCallDirection, setActiveLead } from "./voiceRuntime.js";
 import { setIO } from "./socketBus.js";
 import { createBooking } from "./googleCalendar.js";
 
@@ -310,7 +310,13 @@ io.on("connection", socket => {
       }
 
       if (mode === "CAMPAIGN") {
-          const lead = getCampaignLead(campaignState.index);
+
+            // �� Force campaign brain + identity
+            setActiveNiche("campaign_calling");
+            setCallDirection("outbound");
+            const lead = getCampaignLead(campaignState.index);
+            setActiveLead(lead);
+
 
           if (!lead || !lead.phone) {
             io.emit("notify", "❌ Campaign lead has no phone number");

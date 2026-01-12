@@ -14,6 +14,13 @@ function emitFlow(msg) {
 
 
 let ACTIVE_NICHE = "default";
+
+let ACTIVE_LEAD = null;
+
+export function setActiveLead(lead) {
+  ACTIVE_LEAD = lead;
+  console.log("👤 Active lead:", lead?.name || "none");
+}
 let CALL_DIRECTION = "inbound";
 
 export function setCallDirection(d) {
@@ -37,6 +44,8 @@ export function initVoiceRuntime(server, io) {
   });
 
   wss.on("connection", twilio => {
+      let CALL_LEAD = null;
+
             
     console.log("<0001f9e0> Twilio WS connected");
       emitFlow("Twilio WS connected");
@@ -129,6 +138,15 @@ export function initVoiceRuntime(server, io) {
     // ================= OpenAI =================
 
     ai.on("open", () => {
+
+const persona = (CALL_LEAD
+  ? "You are Zypher, a confident, natural UK sales caller focused on qualifying interest and booking a meeting. "
+  : "You are Zypher, a calm, friendly, professional London front-desk receptionist. ");
+
+const submitRule = (CALL_LEAD
+  ? "When the prospect agrees to a meeting time, call the function submit_lead. "
+  : "When you have collected all required details for the current niche and call type, call the function submit_lead with the collected data. ");
+
       aiOpen = true;
       console.log("🧠 OpenAI Realtime connected");
         emitFlow("OpenAI Realtime connected");
@@ -153,12 +171,29 @@ safe({
             }
           }],
 
-          instructions: (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE].overlay + " " : "") +
-"On the first turn of this call you must say exactly: \"" +
-(NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?") +
-"\". " +
-"You are Zypher, a calm, friendly, professional London front-desk receptionist. Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops. When you have collected all required details for the current niche and call type, call the function submit_lead with the collected data. Do not say anything after that.",
-          modalities: ["audio","text"],
+
+instructions:
+    (CALL_LEAD
+      ? `The lead is: Name=${CALL_LEAD.name}, Company=${CALL_LEAD.company}, Industry=${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g,' '))}, Phone=${CALL_LEAD.phone}, Email=${CALL_LEAD.email}. When speaking, you must refer to their industry using the word '${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g," "))}'. Use these values when calling submit_lead. Never ask the caller for them. `
+      : ""
+    ) +
+
+
+  (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE][CALL_DIRECTION].overlay + " " : "") +
+  (CALL_DIRECTION === "outbound" && CALL_LEAD
+    ? "This is a campaign call. The lead's name, company, phone, and email are already known. Do not ask for them unless they are missing. Ignore any instructions to collect name, company, phone, or email for this call. Only ask for interest and availability. " +
+    `The lead is: Name=${CALL_LEAD.name}, Company=${CALL_LEAD.company}, Industry=${CALL_LEAD.raw?.Industry || "their industry"}, Phone=${CALL_LEAD.phone}, Email=${CALL_LEAD.email}. When speaking, you must refer to their industry using the word '${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g," "))}'. Use these values when calling submit_lead. Never ask the caller for them. `
+    : "") +
+  "On the first turn of this call you must say exactly: \"" +
+  (CALL_DIRECTION === "outbound" && CALL_LEAD
+    ? `Hi, this is Zypher from Zypher Agents. Am I speaking with ${CALL_LEAD.name} from ${CALL_LEAD.company}?`
+    : (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?")) +
+  "\". " +
+  persona +
+  "Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops. " +
+  submitRule +
+  "Do not say anything after that.",
+modalities: ["audio","text"],
               voice: "marin",
           turn_detection: null,
           input_audio_format: "g711_ulaw",
@@ -285,6 +320,8 @@ if (data.type === "response.created") responseActive = true;
       try { data = JSON.parse(msg.toString()); } catch { return; }
 
       if (data.event === "start") {
+          CALL_LEAD = ACTIVE_LEAD;
+          console.log("📎 Call-bound lead:", CALL_LEAD?.name || "none");
         streamSid = data.start.streamSid;
         console.log("<0001f9e0> Twilio stream started:", streamSid);
           emitFlow("Twilio stream started");
