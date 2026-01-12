@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAnalytics } from "./lib/useAnalytics";
 import { socket } from "./lib/socket";
 
@@ -6,19 +6,40 @@ export default function App() {
 
   const analytics = useAnalytics();
 
+  
   const [isOnline, setIsOnline] = useState(false);
-
-  const [notifications, setNotifications] = useState([]);
+  const [mode, setMode] = useState("TEST");
 
   const handleStartCall = () => {
     socket.emit("call_start", { mode });
+    addNotification("Call started (" + mode + ")");
   };
 
   const handleStopCall = () => {
     socket.emit("call_stop");
+    addNotification("Call stopped");
   };
 
-  const [mode, setMode] = useState("TEST");
+const [notifications, setNotifications] = useState([]);
+
+  const addNotification = (text) => {
+    const id = Date.now() + Math.random();
+
+    // Insert at top, keep max 3
+    setNotifications(n => [{ id, text, dying: false }, ...n].slice(0, 3));
+
+    // After 3s start fade
+    setTimeout(() => {
+      setNotifications(n =>
+        n.map(m => m.id === id ? { ...m, dying: true } : m)
+      );
+    }, 3000);
+
+    // After fade remove
+    setTimeout(() => {
+      setNotifications(n => n.filter(m => m.id !== id));
+    }, 3400);
+  };
 
   useEffect(() => {
     const onConnect = () => setIsOnline(true);
@@ -26,12 +47,9 @@ export default function App() {
 
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
-    
-    const onNotify = (msg) => {
-      setNotifications(prev => [...prev, msg]);
-    };
-    socket.on("notify", onNotify);
 
+    const onNotify = (msg) => addNotification(msg);
+    socket.on("notify", onNotify);
 
     if (socket.connected) setIsOnline(true);
 
@@ -42,7 +60,7 @@ export default function App() {
     };
   }, []);
 
-  const total = analytics?.total ?? 0;
+const total = analytics?.total ?? 0;
   const processed = analytics?.processed ?? 0;
   const remaining = analytics?.remaining ?? 0;
   return (
@@ -60,6 +78,8 @@ export default function App() {
             <button className="btn danger" onClick={handleStopCall}>STOP</button>
             <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={() => { const next = mode === "TEST" ? "CAMPAIGN" : "TEST"; setMode(next); socket.emit("mode:update", next); }}>MODE: {mode}</button>
           </div>
+
+
         </div>
 
         <div className="panel">
@@ -82,27 +102,59 @@ export default function App() {
 
         <div className="panel">
           <h2>Niche Selector</h2>
-          <div className="inner-glass" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
 
-            <div style={{ overflowY: "auto", maxHeight: "260px", display: "flex", flexDirection: "column", gap: "6px" }}>
-              {["default","real_estate","dental","solar","car_insurance","gym","plumbing","legal","ecommerce"].map(n => (
-                <button
-                  key={n}
-                  className="btn primary"
-                  style={{ textTransform: "capitalize" }}
-                  onClick={() => socket.emit("niche:select", n)}
-                >
-                  {n.replace("_"," ")}
-                </button>
-              ))}
-            </div>
+          
+<div className="inner-glass" style={{ position: "relative", overflow: "hidden" }}>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", justifyContent: "center" }}>
-              <button className="btn toggle" onClick={() => socket.emit("niche:direction", "inbound")}>INBOUND</button>
-              <button className="btn toggle mode-campaign" onClick={() => socket.emit("niche:direction", "outbound")}>OUTBOUND</button>
-            </div>
 
+    {/* RADAR LANES */}
+    <div className="radar-lanes">
+      {[
+        ["default","real_estate","dental"],
+        ["solar","car_insurance","gym"],
+        ["plumbing","legal","ecommerce"]
+      ].map((lane, i) => (
+        <div key={i.text} className="radar-lane">
+          <div className="radar-track">
+            {lane.map(n => (
+              <button
+                key={n.text}
+                className="btn primary radar-niche"
+                onClick={() => socket.emit("niche:select", n)}
+              >
+                {n.replace("_"," ")}
+              </button>
+            ))}
+            {lane.map(n => (
+              <button
+                key={n + "-dup"}
+                className="btn primary radar-niche"
+                onClick={() => socket.emit("niche:select", n)}
+              >
+                {n.replace("_"," ")}
+              </button>
+            ))}
           </div>
+        </div>
+      ))}
+    </div>
+  {/* DIRECTION DOCK */}
+  <div style={{
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: "flex",
+    gap: "12px",
+    padding: "14px",
+    background: "linear-gradient(to top, rgba(20,0,40,0.9), rgba(20,0,40,0))"
+  }}>
+    <button className="btn toggle" style={{ flex: 1 }} onClick={() => socket.emit("niche:direction", "inbound")}>INBOUND</button>
+    <button className="btn toggle mode-campaign" style={{ flex: 1 }} onClick={() => socket.emit("niche:direction", "outbound")}>OUTBOUND</button>
+  </div>
+
+</div>
+
         </div>
 
         <div className="panel panel-notifications">
@@ -110,11 +162,21 @@ export default function App() {
           {notifications.length === 0 ? (
             <p><span className="zy-glowText">System ready.</span></p>
           ) : (
-            notifications.map((msg, i) => (
-              <p key={i}><span className="zy-glowText">{msg}</span></p>
+            notifications.map((msg) => (
+  <p key={msg.id} className={`notification-item ${msg.dying ? "dying" : ""}`}><span className="zy-glowText">{msg.text}</span></p>
             ))
           )}
         </div>
+
+          <div className="panel panel-small">
+            <h2>Call Flow</h2>
+            <div className="inner-glass"></div>
+          </div>
+
+          <div className="panel panel-small">
+            <h2>Lead Stats</h2>
+            <div className="inner-glass"></div>
+          </div>
       </div>
     </div>
   )
