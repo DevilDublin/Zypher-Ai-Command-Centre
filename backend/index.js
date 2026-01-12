@@ -38,6 +38,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import express from "express";
 import http from "http";
+import nodemailer from "nodemailer";
+import { createEvent } from "ics";
 import cors from "cors";
 import { Server } from "socket.io";
 import dotenv from "dotenv";
@@ -45,8 +47,18 @@ import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
 import { initVoiceRuntime, setActiveNiche, setCallDirection } from "./voiceRuntime.js";
 import { setIO } from "./socketBus.js";
+import { createBooking } from "./googleCalendar.js";
 
 dotenv.config();
+
+const mailer = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -62,6 +74,70 @@ app.post("/lead", async (req, res) => {
 
   const lead = req.body;
   console.log("📧 NEW LEAD:", JSON.stringify(lead, null, 2));
+
+  try {
+    const text = `
+New Zypher Lead
+
+Niche: ${lead.niche}
+Direction: ${lead.direction}
+
+Name: ${lead.name}
+Phone: ${lead.phone}
+Email: ${lead.email}
+
+Details:
+${JSON.stringify(lead.data, null, 2)}
+
+Calendar: Provisional slot booked (time to be confirmed)
+`;
+    const start = new Date(Date.now() + 60*60*1000);
+    const end = new Date(start.getTime() + 30*60000);
+
+      // 1) Internal Zypher ops email
+      await mailer.sendMail({
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER,
+        subject: `🧠 Zypher Lead – ${lead.niche}`,
+        text
+      });
+
+      // 2) Client confirmation email
+      await mailer.sendMail({
+        from: `Zypher Agents <${process.env.EMAIL_USER}>`,
+        to: lead.email,
+        subject: "Your Zypher consultation is booked",
+        text: `Hi ${lead.name},
+
+Thanks for speaking with Zypher.
+
+We've provisionally booked your consultation for:
+${start.toLocaleString("en-GB")}
+
+Niche: ${lead.niche}
+
+If you need to reschedule, just reply to this email.
+
+— Zypher Agents`
+      });
+
+
+    await createBooking({
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      niche: lead.niche,
+      start: start.toISOString(),
+      end: end.toISOString()
+    });
+
+    console.log("📅 Google Calendar booking created");
+
+    console.log("📤 Lead email sent");
+  } catch (err) {
+    console.error("❌ Email send failed:", err.message);
+  }
+
   res.json({ ok: true });
 });
 

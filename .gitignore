@@ -5,3 +5,5 @@ dist
 .ngrok
 frontend/_bak/
 snapshots/
+backend/google_credentials.json
+backend/google_token.json
