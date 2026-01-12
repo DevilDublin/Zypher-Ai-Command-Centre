@@ -173,10 +173,10 @@ safe({
 
 
 instructions:
-    (CALL_LEAD
-      ? `The lead is: Name=${CALL_LEAD.name}, Company=${CALL_LEAD.company}, Industry=${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g,' '))}, Phone=${CALL_LEAD.phone}, Email=${CALL_LEAD.email}. When speaking, you must refer to their industry using the word '${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g," "))}'. Use these values when calling submit_lead. Never ask the caller for them. `
-      : ""
-    ) +
+    (CALL_LEAD && !(CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling")
+        ? `The lead is: Name=${CALL_LEAD.name}, Company=${CALL_LEAD.company}, Industry=${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g,' '))}, Phone=${CALL_LEAD.phone}, Email=${CALL_LEAD.email}. When speaking, you must refer to their industry using the word '${(CALL_LEAD.raw?.Industry || ACTIVE_NICHE.replace(/_/g," "))}'. Use these values when calling submit_lead. Never ask the caller for them. `
+        : ""
+      ) +
 
 
   (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.overlay ? NICHES[ACTIVE_NICHE][CALL_DIRECTION].overlay + " " : "") +
@@ -186,7 +186,10 @@ instructions:
     : "") +
   "On the first turn of this call you must say exactly: \"" +
   (CALL_DIRECTION === "outbound" && CALL_LEAD
-    ? `Hi, this is Zypher from Zypher Agents. Am I speaking with ${CALL_LEAD.name} from ${CALL_LEAD.company}?`
+    ? `Hi, this is Zypher from Zypher Agents. Am I speaking with ${CALL_LEAD?.name || "there"} from ${CALL_LEAD?.company || "your company"}?
+Perfect — I’ll keep it quick. The reason I’m calling is because we work with a lot of ${(CALL_LEAD?.raw?.Industry || "business")} businesses, and a pattern keeps coming up.
+They’re getting enquiries, calls, forms, messages, but a surprising number of those people never actually get spoken to, someone reaches out, doesn’t get an answer straight away, and by the time someone follows up they’ve already gone with someone else. It’s quiet, but it’s expensive.
+Does that happen on your side at all?`
     : (NICHES[ACTIVE_NICHE]?.[CALL_DIRECTION]?.intro || "Hi, this is Zypher. How can I help you today?")) +
   "\". " +
   persona +
@@ -246,11 +249,19 @@ modalities: ["audio","text"],
 
                 // Ask model to speak confirmation
                 safe({
-                  type: "response.create",
-                  response: {
-                    modalities: ["audio","text"]
-                  }
-                });
+                    type: "response.create",
+                    response: {
+                      modalities: ["audio","text"],
+                      instructions:
+                        "The meeting has just been booked. You must now follow this closing flow exactly. " +
+                        "First say: 'All set — I’ve sent the confirmation through to you and it should arrive in just a moment.' " +
+                        "Then ask: 'Before I let you go, is there anything else you’d like to ask me?' " +
+                        "If the caller asks a question, answer it briefly and professionally, then say: " +
+                        "'That’s exactly what we’ll go through on our call. I’m looking forward to speaking with you then. Have a great day.' " +
+                        "If the caller says no, say: 'No problem at all — have a great day and I’m looking forward to speaking with you.' " +
+                        "After you say the final goodbye line, you must not speak again under any circumstances."
+                    }
+                  });
               });
             }
           }
