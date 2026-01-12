@@ -22,6 +22,10 @@ export default function App() {
 
 const [notifications, setNotifications] = useState([]);
 
+  const [transcript, setTranscript] = useState([]);
+  const [flow, setFlow] = useState([]);
+
+
   const addNotification = (text) => {
     const id = Date.now() + Math.random();
 
@@ -41,24 +45,32 @@ const [notifications, setNotifications] = useState([]);
     }, 3400);
   };
 
-  useEffect(() => {
-    const onConnect = () => setIsOnline(true);
-    const onDisconnect = () => setIsOnline(false);
+    useEffect(() => {
+      const onConnect = () => setIsOnline(true);
+      const onDisconnect = () => setIsOnline(false);
+      const onNotify = (msg) => addNotification(msg);
+      const onUser = t => setTranscript(x => [...x, { role: "user", text: t }]);
+      const onAssistant = t => setTranscript(x => [...x, { role: "assistant", text: t }]);
+      const onFlow = e => setFlow(x => [...x.slice(-20), e]);
 
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
+      socket.on("connect", onConnect);
+      socket.on("disconnect", onDisconnect);
+      socket.on("notify", onNotify);
+      socket.on("transcript:user", onUser);
+      socket.on("transcript:assistant", onAssistant);
+      socket.on("flow:event", onFlow);
 
-    const onNotify = (msg) => addNotification(msg);
-    socket.on("notify", onNotify);
+      if (socket.connected) setIsOnline(true);
 
-    if (socket.connected) setIsOnline(true);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off("notify", onNotify);
-    };
-  }, []);
+      return () => {
+        socket.off("connect", onConnect);
+        socket.off("disconnect", onDisconnect);
+        socket.off("notify", onNotify);
+        socket.off("transcript:user", onUser);
+        socket.off("transcript:assistant", onAssistant);
+        socket.off("flow:event", onFlow);
+      };
+    }, []);
 
 const total = analytics?.total ?? 0;
   const processed = analytics?.processed ?? 0;
@@ -97,7 +109,7 @@ const total = analytics?.total ?? 0;
 
         <div className="panel">
           <h2>Live Transcript</h2>
-          <div className="inner-glass">Waiting for call…</div>
+          {transcript.length === 0 ? "Waiting for call…" : transcript.map((m,i)=>(<div key={i}><b>{m.role}:</b> {m.text}</div>))}
         </div>
 
         <div className="panel">
@@ -113,7 +125,9 @@ const total = analytics?.total ?? 0;
         ["default","real_estate","dental"],
         ["solar","car_insurance","gym"],
         ["plumbing","legal","ecommerce"]
-      ].map((lane, i) => (
+      ,
+          ["cold_calling"]
+        ].map((lane, i) => (
         <div key={i.text} className="radar-lane">
           <div className="radar-track">
             {lane.map(n => (
@@ -170,7 +184,11 @@ const total = analytics?.total ?? 0;
 
           <div className="panel panel-small">
             <h2>Call Flow</h2>
-            <div className="inner-glass"></div>
+            <div className="inner-glass">
+                {flow.length === 0
+                  ? "Waiting…"
+                  : flow.map((e, i) => <div key={i}>• {e}</div>)}
+              </div>
           </div>
 
           <div className="panel panel-small">

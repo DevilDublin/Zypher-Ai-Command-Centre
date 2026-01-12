@@ -81,7 +81,7 @@ padding: 30px;
   column-gap: 22px;
   row-gap: 32px;
   /* IMPORTANT: no fixed row heights -> prevents chat overflow */
-  grid-auto-rows: minmax(260px, auto);
+  grid-auto-rows: 260px;
 }
 
 .panel{
@@ -455,7 +455,7 @@ h1, h2, h3, .title, .panelTitle {
   letter-spacing: 0.04em;
 }
 
-.panel-small { grid-row: span 1; }
+.panel-small { display: flex; flex-direction: column; min-height: 0; }
 .panel-small .inner-glass { }
 
 .panel-small:nth-of-type(1) { grid-column: 1; grid-row: 3; }
@@ -491,4 +491,12 @@ html, body { overscroll-behavior: none; background: var(--bg0); }
 .notification-item.dying {
   opacity: 0;
   transform: translateY(10px);
+}
+
+
+.panel-small .inner-glass {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

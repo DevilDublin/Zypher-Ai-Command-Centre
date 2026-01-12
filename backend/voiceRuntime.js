@@ -4,6 +4,14 @@ import WebSocket from "ws";
 import mulaw from "mulaw-js";
 import { createAudioBridge } from "./audioBridge.js";
 import { NICHES } from "./niches.js";
+import { getIO } from "./socketBus.js";
+
+function emitFlow(msg) {
+  try {
+    getIO()?.emit("flow:event", msg);
+  } catch {}
+}
+
 
 let ACTIVE_NICHE = "default";
 let CALL_DIRECTION = "inbound";
@@ -19,7 +27,7 @@ export function setActiveNiche(n) {
   console.log("🧩 Active niche:", ACTIVE_NICHE);
 }
 
-export function initVoiceRuntime(server) {
+export function initVoiceRuntime(server, io) {
   const wss = new WebSocketServer({ noServer: true });
 
   server.on("upgrade", (req, socket, head) => {
@@ -31,7 +39,9 @@ export function initVoiceRuntime(server) {
   wss.on("connection", twilio => {
             
     console.log("<0001f9e0> Twilio WS connected");
-
+      emitFlow("Twilio WS connected");
+      
+      
     let streamSid = null;
     let aiOpen = false;
     let responseActive = false;
@@ -66,6 +76,18 @@ export function initVoiceRuntime(server) {
       }
     );
 
+      
+
+      function emitUserDelta(t) {
+        if (!t) return;
+        try { io && getIO()?.emit("transcript:user", t); } catch {}
+      }
+
+      function emitAssistantDelta(t) {
+        if (!t) return;
+        try { io && getIO()?.emit("transcript:assistant", t); } catch {}
+      }
+
     function safe(obj) {
         if (!aiOpen) return;
         try {
@@ -90,6 +112,7 @@ export function initVoiceRuntime(server) {
       if (speechMs < SPEECH_ARM_MS) return;
 
       console.log("🛑 silence → commit + response.create");
+        emitFlow("User finished speaking");
       safe({ type: "input_audio_buffer.commit" });
       safe({
         type: "response.create",
@@ -108,8 +131,8 @@ export function initVoiceRuntime(server) {
     ai.on("open", () => {
       aiOpen = true;
       console.log("🧠 OpenAI Realtime connected");
-
-      safe({
+        emitFlow("OpenAI Realtime connected");
+safe({
         type: "session.update",
         session: {
           tools: [{
@@ -144,8 +167,8 @@ export function initVoiceRuntime(server) {
       });
 
       console.log("✅ OpenAI session configured");
-
-      // Trigger first turn (no audio buffer needed)
+        emitFlow("OpenAI session configured");
+// Trigger first turn (no audio buffer needed)
       safe({
         type: "response.create",
         response: {
@@ -162,6 +185,7 @@ export function initVoiceRuntime(server) {
 
         // ---- REALTIME FUNCTION CALL HANDLER ----
         if (data.type === "response.done") {
+            emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
             if (item.type === "function_call" && item.name === "submit_lead") {
@@ -169,18 +193,20 @@ export function initVoiceRuntime(server) {
 
               let payload;
               try {
-                payload = JSON.parse(item.arguments);
-              } catch (e) {
-                console.log("❌ Failed to parse tool arguments:", item.arguments);
-                continue;
-              }
+                  payload = JSON.parse(item.arguments);
+                } catch (e) {
+                  console.log("❌ Failed to parse tool arguments:", item.arguments);
+                  continue;
+                }
 
-              fetch("http://localhost:3000/lead", {
+                fetch("http://localhost:3000/lead", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
               }).then(async r => {
                 console.log("📧 Backend replied:", await r.text());
+
+                  emitFlow("Enquiry submitted");
 
 
                 // Ask model to speak confirmation
@@ -215,13 +241,29 @@ export function initVoiceRuntime(server) {
         }
 
       if (data.type === "response.audio.delta") {
-        audioBridge.push(Buffer.from(data.delta, "base64"));
-      }
+          audioBridge.push(Buffer.from(data.delta, "base64"));
+        }        if (data.type === "response.output_text.delta" && data.delta) emitAssistantDelta(data.delta);
 
-      if (data.type === "response.created") responseActive = true;
+if (data.type === "response.created") responseActive = true;
       if (data.type === "response.done") responseActive = false;
+        if (data.type === "response.done") {
+          const out = data.response?.output || [];
+          for (const item of out) {
+            // Shape A: { type:"output_text", text:"..." }
+            if (item?.type === "output_text" && item?.text) emitAssistantDelta(item.text);
+
+            // Shape B: { type:"message", content:[{type:"output_text", text:"..."}] }
+            const content = item?.content || [];
+            for (const c of content) {
+              if (c?.type === "output_text" && c?.text) emitAssistantDelta(c.text);
+              if (c?.type === "text" && c?.text) emitAssistantDelta(c.text);
+            }
+          }
+        }
+
 
       if (data.type === "input_audio_buffer.transcription.delta") {
+          if (data.delta) emitUserDelta(data.delta);
       }
 
 
@@ -245,6 +287,8 @@ export function initVoiceRuntime(server) {
       if (data.event === "start") {
         streamSid = data.start.streamSid;
         console.log("<0001f9e0> Twilio stream started:", streamSid);
+          emitFlow("Twilio stream started");
+          emitFlow("Call connected");
         clearTurn();
         return;
       }
@@ -272,6 +316,8 @@ export function initVoiceRuntime(server) {
 
       if (data.event === "stop") {
         console.log("<0001f9e0> Twilio stream stopped");
+          emitFlow("Twilio stream stopped");
+          emitFlow("Call ended");
         try { ai.close(); } catch {}
       }
     });

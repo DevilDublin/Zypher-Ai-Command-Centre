@@ -4,3 +4,4 @@ dist
 .env.*
 .ngrok
 frontend/_bak/
+snapshots/

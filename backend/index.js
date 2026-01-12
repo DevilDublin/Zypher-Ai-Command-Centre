@@ -44,6 +44,7 @@ import dotenv from "dotenv";
 import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
 import { initVoiceRuntime, setActiveNiche, setCallDirection } from "./voiceRuntime.js";
+import { setIO } from "./socketBus.js";
 
 dotenv.config();
 
@@ -82,11 +83,12 @@ app.post("/voice", (req, res) => {
 });
 
 const server = http.createServer(app);
-initVoiceRuntime(server, process.env);
 const io = new Server(server, {
   cors: { origin: "*" }
 });
 
+setIO(io);
+initVoiceRuntime(server, io);
 const PORT = 3000;
 
 // -------------------
