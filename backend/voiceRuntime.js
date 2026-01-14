@@ -6,9 +6,18 @@ import { createAudioBridge } from "./audioBridge.js";
 import { NICHES } from "./niches.js";
 import { getIO } from "./socketBus.js";
 
+let FLOW_IO = null;
+const FLOW_BUFFER = [];
+
 function emitFlow(msg) {
   try {
-    getIO()?.emit("flow:event", msg);
+    const payload = (typeof msg === "string")
+        ? { event: msg, lead: ACTIVE_LEAD }
+        : { ...msg, lead: msg.lead ?? ACTIVE_LEAD };
+
+      FLOW_BUFFER.push(payload);
+if (FLOW_BUFFER.length > 200) FLOW_BUFFER.shift();
+FLOW_IO?.emit("flow:event", payload);
   } catch {}
 }
 
@@ -35,6 +44,8 @@ export function setActiveNiche(n) {
 }
 
 export function initVoiceRuntime(server, io) {
+  FLOW_IO = io;
+  
   const wss = new WebSocketServer({ noServer: true });
 
   server.on("upgrade", (req, socket, head) => {
@@ -225,7 +236,34 @@ modalities: ["audio","text"],
 
         // ---- REALTIME FUNCTION CALL HANDLER ----
         if (data.type === "response.done") {
-            emitFlow("GPT response received");
+            
+            // --- AI confidence scoring ---
+            let fullText = "";
+            const outs = data.response?.output || [];
+            for (const item of outs) {
+              if (item?.type === "output_text" && item.text) fullText += " " + item.text;
+              const content = item?.content || [];
+              for (const c of content) {
+                if (c?.text) fullText += " " + c.text;
+              }
+            }
+
+            const scoreWords = [
+              "yes","yeah","okay","perfect","great","sounds good",
+              "that works","book","schedule","send","email","calendar",
+              "tuesday","wednesday","thursday","friday","pm","am"
+            ];
+
+            let score = 0;
+            const lower = fullText.toLowerCase();
+            for (const w of scoreWords) {
+              if (lower.includes(w)) score++;
+            }
+
+            const confidence = Math.min(1, score / 6);
+            emitFlow({ event: "AI_PREDICTION", confidence });
+
+emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
             if (item.type === "function_call" && item.name === "submit_lead") {

@@ -48,6 +48,7 @@ import { agentReply } from "./brain/agent.js";
 import { initVoiceRuntime, setActiveNiche, setCallDirection, setActiveLead } from "./voiceRuntime.js";
 import { setIO } from "./socketBus.js";
 import { createBooking } from "./googleCalendar.js";
+import { spawn } from "child_process";
 
 dotenv.config();
 
@@ -164,7 +165,29 @@ const io = new Server(server, {
 });
 
 setIO(io);
+
 initVoiceRuntime(server, io);
+
+// ===== PIPELINE TELEMETRY =====
+function emitPipeline() {
+  try {
+    const py = spawn("python3", ["pipeline.py"]);
+    let out = "";
+
+    py.stdout.on("data", d => out += d.toString());
+    py.on("close", () => {
+      try {
+        const data = JSON.parse(out.trim());
+        io.emit("pipeline:update", data);
+      } catch {}
+    });
+  } catch {}
+}
+
+setInterval(emitPipeline, 3000);
+emitPipeline();
+// ===== END PIPELINE TELEMETRY =====
+
 const PORT = 3000;
 
 // -------------------

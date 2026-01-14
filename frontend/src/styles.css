@@ -348,11 +348,13 @@ h1, h2, h3, .title, .panelTitle {
   font-size: 1.08rem;
 }
 
+/* disabled by Zypher UI */
 .panel p span {
   font-size: 1.12rem;
   line-height: 1.7;
 }
 
+/* disabled by Zypher UI */
 .panel p span.zy-glowText {
   font-size: 1.15rem;
 }
@@ -414,14 +416,7 @@ h1, h2, h3, .title, .panelTitle {
 
 
 
-.radar-track {
-  pointer-events: auto;
-  display: flex;
-  gap: 18px;
-  width: max-content;
-  will-change: transform;
-  animation: radarScroll 28s linear infinite;
-}
+.radar-track{ display:flex; width:max-content; }
 
 .radar-track > * {
   flex-shrink: 0;
@@ -456,7 +451,7 @@ h1, h2, h3, .title, .panelTitle {
 }
 
 .panel-small { display: flex; flex-direction: column; min-height: 0; }
-.panel-small .inner-glass { }
+
 
 .panel-small:nth-of-type(1) { grid-column: 1; grid-row: 3; }
 .panel-small:nth-of-type(2) { grid-column: 3; grid-row: 3; }
@@ -651,3 +646,533 @@ html, body { overscroll-behavior: none; background: var(--bg0); }
 .link.l5{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(240deg); }
 .link.l6{ top:50%; left:50%; height:55px; transform:translateX(-50%) rotate(300deg); }
 
+
+
+.radar-lane {
+  overflow: hidden;
+}
+
+.radar-track {
+  display: flex;
+  width: max-content;
+}
+
+.radar-track > * {
+  margin-right: 14px;
+}
+
+.radar-lane:not(.radar-static) .radar-track {
+  animation: radarMarquee 30s linear infinite;
+}
+
+.radar-static .radar-track {
+  justify-content: center;
+}
+
+@keyframes radarMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+
+/* ----- STATIC DEFAULT ROW ----- */
+.radar-static{
+  display:flex;
+  justify-content:center;
+}
+
+.radar-static .radar-track{
+  display:flex;
+  justify-content:center;
+  width:100%;
+  transform:none !important;
+  animation:none !important;
+}
+
+.radar-static .radar-niche{
+  margin: 0 auto;
+}
+
+
+/* ----- CYBER SCROLL EFFECT ----- */
+.radar-track{
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.radar-lane:not(.radar-static) .radar-track{
+  filter: blur(0.3px);
+}
+
+/* subtle motion blur illusion */
+.radar-lane:not(.radar-static) .radar-track > *{
+  filter: drop-shadow(0 0 6px rgba(255,0,255,0.45));
+}
+
+/* smoother conveyor */
+@keyframes radarScroll {
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(-50%,0,0); }
+}
+
+
+/* ===== LEAD PIPELINE ===== */
+
+.lead-pipeline{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  justify-content:space-between;
+}
+
+.pipeline-row{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-size:12px;
+  color: rgba(255,255,255,0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pipeline-row span{
+  font-family: 'Orbitron', system-ui;
+}
+
+.pipeline-row .bar{
+  width:100%;
+  height:10px;
+  background: rgba(0,0,0,0.45);
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid rgba(180,80,255,0.35);
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.6);
+}
+
+.pipeline-row .bar > div{
+  height:100%;
+  background: linear-gradient(90deg, #a100ff, #ff4dff);
+  box-shadow: 0 0 12px rgba(180,80,255,0.85), 0 0 24px rgba(255,77,255,0.45);
+  border-radius:999px;
+  animation: pipelineGlow 2.8s ease-in-out infinite;
+}
+
+@keyframes pipelineGlow {
+  0% { filter: brightness(0.9); }
+  50% { filter: brightness(1.25); }
+  100% { filter: brightness(0.9); }
+}
+
+
+
+
+/* ===== STATUS FONT OVERRIDE ===== */
+/* Use Lead Pipeline (Orbitron) font for system text */
+.panel-system-status .zy-glowText,
+.panel-notifications .zy-glowText {
+  font-family: 'Orbitron', system-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+\n
+/* ===== STATUS FONT OVERRIDE v3 ===== */
+
+/* System Status panel (Backend, Mode) */
+.panel h2 + p .zy-glowText,
+.panel h2 + p + p .zy-glowText {
+  font-family: 'Orbitron', system-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Explicit: Backend: Connected line (has data attribute) */
+.panel [data-system-status].zy-glowText {
+  font-family: 'Orbitron', system-ui !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Notifications — same font but smaller */
+.panel-notifications .zy-glowText {
+  font-family: 'Orbitron', system-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+/* ===== CAMPAIGN AUTOPILOT ===== */
+
+.campaign-autopilot .inner-glass{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  height:100%;
+}
+
+.autopilot-metric{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+
+.autopilot-metric span{
+  color:rgba(255,255,255,0.6);
+}
+
+.autopilot-metric strong{
+  font-size:18px;
+  color:#d28cff;
+  text-shadow:0 0 10px rgba(180,80,255,0.8);
+}
+
+.autopilot-state{
+  margin-top:10px;
+  padding:8px 10px;
+  border-radius:10px;
+  background:rgba(160,60,255,0.15);
+  border:1px solid rgba(180,80,255,0.35);
+  text-align:center;
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:#e4b3ff;
+  box-shadow:0 0 18px rgba(160,60,255,0.45);
+}
+
+.autopilot-advice{
+  margin-top:12px;
+  font-size:11px;
+  line-height:1.5;
+  color:rgba(255,255,255,0.75);
+  text-shadow:0 0 8px rgba(180,80,255,0.25);
+}
+
+
+
+/* === PANEL TEXT SCALE FIX (System Status + Notifications) === */
+.panel-system-status .zy-glowText,
+.panel-notifications .zy-glowText,
+.panel-notifications p {
+  font-size: 0.85em;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+}
+
+
+/* === PANEL CONTENT SCALE (System Status + Notifications) === */
+.panel-system-status .zy-glowText,
+.panel-notifications .zy-glowText {
+  font-size: 0.82em;        /* slightly smaller than panel title */
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+}
+
+/* === SYSTEM STATUS & NOTIFICATIONS TEXT SCALE FIX === */
+.panel-system-status p,
+.panel-system-status span,
+.panel-notifications p,
+.panel-notifications span {
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* Keep panel titles bigger */
+.panel-system-status h2,
+.panel-notifications h2 {
+  font-size: 15px;
+  letter-spacing: 0.12em;
+}
+
+\n
+/* ===== HARD OVERRIDE: System Status + Notifications text size ===== */
+.panel-system-status p span,
+.panel-system-status .zy-glowText,
+.panel-notifications p span,
+.panel-notifications .zy-glowText {
+  font-size: 0.78rem !important;
+  line-height: 1.4;
+  letter-spacing: 0.09em;
+}
+
+/* Keep headers bigger */
+.panel-system-status h2,
+.panel-notifications h2 {
+  font-size: 1.05rem !important;
+}
+\n
+/* Restore glow for Notifications text */
+.panel-notifications .zy-glowText {
+  filter:
+    drop-shadow(0 0 6px rgba(180,120,255,0.9))
+    drop-shadow(0 0 14px rgba(140,80,255,0.6));
+}
+\n
+/* Force System Status body text smaller than title */
+.panel-system-status p,
+.panel-system-status span {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em;
+}
+
+
+/* ===== COMMAND CENTRE HUD FIX ===== */
+
+/* System Status text */
+.panel-system-status p,
+.panel-system-status span {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(220,200,255,0.95);
+  text-shadow:
+    0 0 8px rgba(150,80,255,0.45),
+    0 0 20px rgba(120,60,255,0.25);
+}
+
+/* Notifications text */
+.panel-notifications p,
+.panel-notifications span {
+  font-size: 0.78rem !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(220,200,255,0.95);
+  text-shadow:
+    0 0 8px rgba(150,80,255,0.45),
+    0 0 20px rgba(120,60,255,0.25);
+}
+
+/* Titles stay larger */
+.panel-system-status h2,
+.panel-notifications h2 {
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+}
+
+
+/* ===== HARD SYNC: SYSTEM STATUS TEXT SIZE = NOTIFICATIONS TEXT SIZE ===== */
+
+/* This is the exact text for:
+   BACKEND: CONNECTED
+   MODE: TEST
+*/
+.panel-system-status [data-system-status].zy-glowText,
+.panel-system-status p .zy-glowText {
+  font-size: 12px !important;        /* match Notifications */
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase;
+}
+
+/* Restore glow so it matches SYSTEM READY */
+.panel-system-status [data-system-status].zy-glowText {
+  filter:
+    drop-shadow(0 0 4px rgba(200,140,255,0.9))
+    drop-shadow(0 0 12px rgba(160,220,255,0.65)) !important;
+}
+
+
+/* ===== FINAL OVERRIDE: SYSTEM STATUS LINES (BACKEND/MODE) =====
+   This targets the exact span attribute, no dependency on wrapper class.
+*/
+span[data-system-status].zy-glowText{
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+  filter:
+    drop-shadow(0 0 4px rgba(200,140,255,0.85))
+    drop-shadow(0 0 12px rgba(160,220,255,0.65)) !important;
+}
+
+
+/* ===== FINAL: System Status lines match Notifications size + glow ===== */
+.panel-system-status p,
+.panel-system-status p span,
+.panel-system-status .zy-glowText {
+  font-size: 0.78rem !important;   /* matches your notifications look */
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.panel-system-status .zy-glowText{
+  font-size: 0.78rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* ===== ZYPHER_NEON_STATUS ===== */
+.panel-system-status .zy-glowText,
+.panel-notifications .zy-glowText{
+  color: #cfa8ff;
+  text-shadow:
+    0 0 6px rgba(170,120,255,0.9),
+    0 0 14px rgba(170,120,255,0.65),
+    0 0 28px rgba(120,200,255,0.45),
+    0 0 48px rgba(80,180,255,0.25);
+  filter:
+    drop-shadow(0 0 6px rgba(170,120,255,0.85))
+    drop-shadow(0 0 18px rgba(120,200,255,0.6));
+}
+
+
+/* ===== ZYPHER_FLOW_CONSOLE ===== */
+
+.callflow-line{
+  font-family: 'Orbitron', system-ui;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.panel-small .inner-glass{
+  overflow-y:auto;
+}
+
+
+/* Lead Pipeline text neon */
+.pipeline-row span{
+  color:#f0e6ff;
+  text-shadow:
+    0 0 6px rgba(170,120,255,0.9),
+    0 0 14px rgba(120,200,255,0.5);
+}
+
+/* ===== CALL FLOW NEON ===== */
+.panel-small h2 + .inner-glass .zy-glowText{
+  font-family: 'Orbitron', system-ui;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #cfa8ff;
+  text-shadow:
+    0 0 6px rgba(170,120,255,0.9),
+    0 0 14px rgba(120,200,255,0.6),
+    0 0 28px rgba(120,200,255,0.35);
+}
+
+
+/* ===== Call Flow Empty State ===== */
+.callflow-empty{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100%;
+  width:100%;
+}
+
+
+
+/* ===== CALL FLOW LAYOUT FIX (LEFT-ALIGNED) ===== */
+.panel.panel-small .inner-glass{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  padding: 14px 14px;
+  gap: 6px;
+}
+
+.callflow-line{
+  width: 100%;
+  display: block;
+  text-align: left;
+  margin: 0;
+}
+
+.panel.panel-small .inner-glass .zy-glowText{
+  display: inline-block;
+  text-align: left;
+}
+
+
+/* ===== CALLFLOW_CONSOLE_ALIGN ===== */
+.callflow-console{
+  overflow-y: auto;
+
+  display:block !important;
+  text-align:left !important;
+  padding: 12px 14px !important;
+}
+
+.callflow-console .zy-glowText{
+  display:block;
+  text-align:left;
+}
+
+.callflow-console .callflow-line{
+  margin: 0 0 6px 0;
+}
+
+
+/* ===== CALL FLOW NEON (match System Ready exactly) ===== */
+.callflow-console .zy-glowText{
+  color: #cfa8ff;
+  text-shadow:
+    0 0 6px rgba(170,120,255,0.9),
+    0 0 14px rgba(170,120,255,0.65),
+    0 0 28px rgba(120,200,255,0.45),
+    0 0 48px rgba(80,180,255,0.25);
+  filter:
+    drop-shadow(0 0 6px rgba(170,120,255,0.85))
+    drop-shadow(0 0 18px rgba(120,200,255,0.6));
+}
+
+
+/* ===== CALL FLOW ENTRY ANIMATION ===== */
+.callflow-line{
+  animation: callflowIn 420ms ease-out both;
+}
+
+@keyframes callflowIn{
+  from{
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(1px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+
+/* ===== CALL FLOW WAITING STATE ===== */
+.callflow-console .waiting{
+  animation: waitingPulse 2.4s ease-in-out infinite;
+  opacity: 0.85;
+}
+
+@keyframes waitingPulse{
+  0%   { opacity: 0.45; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.45; }
+}
+
+
+.lead-pipeline .pipeline-row{
+  width:100%;
+  max-width:100%;
+}
+
+.lead-pipeline .pipeline-row span,
+.lead-pipeline .pipeline-bar{
+  width:100%;
+}
+
+
+.pipeline-metric{
+  float: right;
+  font-size: 11px;
+  color: #cfa8ff;
+  text-shadow:
+    0 0 6px rgba(170,120,255,0.9),
+    0 0 14px rgba(120,200,255,0.6);
+}

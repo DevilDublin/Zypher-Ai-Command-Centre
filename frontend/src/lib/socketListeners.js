@@ -36,6 +36,17 @@ export function initSocketListeners() {
   });
 
   // ✅ YOUR CURRENT BACKEND emits campaign_stats: { total, index, remaining }
+  
+  socket.on("pipeline:update", (data = {}) => {
+    socketState.pipeline = {
+      new: Number(data.new) || 0,
+      contacted: Number(data.contacted) || 0,
+      qualified: Number(data.qualified) || 0,
+      booked: Number(data.booked) || 0,
+    };
+  });
+
+
   socket.on("campaign_stats", (data = {}) => {
     socketState.analytics = {
       total: Number(data.total) || 0,

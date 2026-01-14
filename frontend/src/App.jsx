@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useAnalytics } from "./lib/useAnalytics";
 import { socket } from "./lib/socket";
+import { socketState } from "./lib/socketStore";
 
 export default function App() {
 
@@ -24,6 +25,8 @@ const [notifications, setNotifications] = useState([]);
 
   const [transcript, setTranscript] = useState([]);
   const [flow, setFlow] = useState([]);
+  const [leadPipeline, setLeadPipeline] = useState({});
+  const campaignStartRef = useRef(null);
 
 
   const addNotification = (text) => {
@@ -51,7 +54,38 @@ const [notifications, setNotifications] = useState([]);
       const onNotify = (msg) => addNotification(msg);
       const onUser = t => setTranscript(x => [...x, { role: "user", text: t }]);
       const onAssistant = t => setTranscript(x => [...x, { role: "assistant", text: t }]);
-      const onFlow = e => setFlow(x => [...x.slice(-20), e]);
+      
+const onFlow = e => {
+        console.debug("[flow:event]", e);
+  setFlow(x => {
+  const id = Date.now() + Math.random();
+  const item = { ...e, __id: id };
+
+  // add new
+  const next = [...x.slice(-12), item];
+
+  // auto-expire
+  setTimeout(() => {
+    setFlow(y => y.filter(v => v.__id !== id));
+  }, 6500);
+
+  return next;
+});
+
+  if (!e?.lead?.phone) return;
+
+  setLeadPipeline(p => {
+    const phone = e.lead.phone;
+    const cur = p[phone] || { new: true, contacted: false, qualified: false, booked: false };
+
+    if (e.event === "transcript:user") cur.contacted = true;
+    if (e.event === "AI_PREDICTION" && e.confidence > 0.6) cur.qualified = true;
+    if (e.event === "submit_lead") cur.booked = true;
+
+    return { ...p, [phone]: cur };
+  });
+};
+
 
       socket.on("connect", onConnect);
       socket.on("disconnect", onDisconnect);
@@ -75,6 +109,17 @@ const [notifications, setNotifications] = useState([]);
 const total = analytics?.total ?? 0;
   const processed = analytics?.processed ?? 0;
   const remaining = analytics?.remaining ?? 0;
+  const now = Date.now();
+  const elapsedMs = campaignStartRef.current ? (now - campaignStartRef.current) : 0;
+  const elapsedMinutes = elapsedMs > 0 ? (elapsedMs / 60000) : 0;
+  const burnRate = elapsedMinutes > 0 ? (processed / elapsedMinutes) : 0;
+  const etaMinutes = burnRate > 0 ? (remaining / burnRate) : 0;
+  const leads = Object.values(leadPipeline);
+    const countNew = socketState.pipeline.new;
+    const countContacted = socketState.pipeline.contacted;
+    const countQualified = socketState.pipeline.qualified;
+    const countBooked = socketState.pipeline.booked;
+
   return (
     <div className="app">
       <header className="header">
@@ -88,21 +133,46 @@ const total = analytics?.total ?? 0;
           <div className="controls">
             <button className="btn primary" onClick={handleStartCall}>START CALL</button>
             <button className="btn danger" onClick={handleStopCall}>STOP</button>
-            <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={() => { const next = mode === "TEST" ? "CAMPAIGN" : "TEST"; setMode(next); socket.emit("mode:update", next); }}>MODE: {mode}</button>
+            <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={() => {
+                const next = mode === "TEST" ? "CAMPAIGN" : "TEST";
+                setMode(next);
+                socket.emit("mode:update", next);
+                if (next === "CAMPAIGN") {
+                  campaignStartRef.current = Date.now();
+                } else {
+                  campaignStartRef.current = null;
+                }
+              }}>MODE: {mode}</button>
           </div>
 
 
         </div>
 
-        <div className="panel">
-          <h2>Campaign Analytics</h2>
-          <p><span className="zy-glowText">Total Calls: {total}</span></p>
-          <p><span className="zy-glowText">Processed: {processed}</span></p>
-          <p><span className="zy-glowText">Remaining: {remaining}</span></p>
-        </div>
+          <div className="panel campaign-autopilot">
+            <h2>Campaign Autopilot</h2>
+            <div className="inner-glass autopilot">
+              <div className="autopilot-metric">
+                <span>Burn Rate</span>
+                <strong>{burnRate.toFixed(1)} / min</strong>
+              </div>
 
-        <div className="panel">
-          <h2>System Status</h2>
+              <div className="autopilot-metric">
+                <span>ETA</span>
+                <strong>{etaMinutes > 0 ? Math.round(etaMinutes) : "—"} min</strong>
+              </div>
+
+              <div className="autopilot-state">
+                {isOnline ? (flow.length > 0 ? "Campaign running" : "System idle") : "Backend offline"}
+              </div>
+
+              <div className="autopilot-advice">
+                {!isOnline ? "Reconnect backend before launching." : mode === "TEST" ? "Switch to CAMPAIGN to burn real leads." : flow.length === 0 ? "Press START CALL to begin." : "Campaign healthy — Zypher is operating."}
+              </div>
+            </div>
+          </div>
+
+        <div className="panel panel-system-status">
+            <h2>System Status</h2>
           <p><span data-system-status className="zy-glowText">Backend: {isOnline ? "Connected" : "Disconnected"}</span></p>
           <p><span className="zy-glowText">Mode: TEST</span></p>
         </div>
@@ -152,30 +222,28 @@ const total = analytics?.total ?? 0;
     {/* RADAR LANES */}
     <div className="radar-lanes">
       {[
-        ["default","real_estate","dental"],
-        ["solar","car_insurance","gym"],
-        ["plumbing","legal","ecommerce"]
-      ,
-          ["cold_calling"]
-        ].map((lane, i) => (
-        <div key={i.text} className="radar-lane">
+  { type: "scroll", items: ["real_estate","dental","cold_calling"] },
+  { type: "scroll", items: ["solar","car_insurance","gym","plumbing","legal","ecommerce"] },
+  { type: "static", items: ["default"] }
+].map((lane, i) => (
+        <div key={i} className={`radar-lane ${lane.type === "static" ? "radar-static" : ""}`}>
           <div className="radar-track">
-            {lane.map(n => (
+            {lane.items.map(n => (
               <button
-                key={n.text}
+                key={n}
                 className="btn primary radar-niche"
                 onClick={() => socket.emit("niche:select", n)}
               >
-                {n.replace("_"," ")}
+                {n.replace(/_/g," ")}
               </button>
             ))}
-            {lane.map(n => (
+            {lane.type === "scroll" && lane.items.map(n => (
               <button
                 key={n + "-dup"}
                 className="btn primary radar-niche"
                 onClick={() => socket.emit("niche:select", n)}
               >
-                {n.replace("_"," ")}
+                {n.replace(/_/g," ")}
               </button>
             ))}
           </div>
@@ -214,16 +282,39 @@ const total = analytics?.total ?? 0;
 
           <div className="panel panel-small">
             <h2>Call Flow</h2>
-            <div className="inner-glass">
+            <div className="inner-glass callflow-console">
                 {flow.length === 0
-                  ? "Waiting…"
-                  : flow.map((e, i) => <div key={i}>• {e}</div>)}
+                  ? <div className="callflow-empty"><span className="zy-glowText waiting">Waiting…</span></div>
+                  : flow.map((e, i) => (
+  <div key={i} className="callflow-line">
+    <span className="zy-glowText">{e.event || String(e)}</span>
+  </div>
+))}
               </div>
           </div>
 
           <div className="panel panel-small">
-            <h2>Lead Stats</h2>
-            <div className="inner-glass"></div>
+            <h2>Lead Pipeline</h2>
+            
+<div className="inner-glass lead-pipeline">
+  <div className="pipeline-row">
+    <span>New <span className='pipeline-metric'>{countNew} (100.00%)</span></span>
+    <div className="bar"><div style={{ width: `${countNew ? (countNew / countNew) * 100 : 0}%` }}></div></div>
+  </div>
+  <div className="pipeline-row">
+    <span>Contacted <span className='pipeline-metric'>{countContacted} ({(countContacted / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
+    <div className="bar"><div style={{ width: `${countContacted / Math.max(countNew,1) * 100}%` }}></div></div>
+  </div>
+  <div className="pipeline-row">
+    <span>Qualified <span className='pipeline-metric'>{countQualified} ({(countQualified / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
+    <div className="bar"><div style={{ width: `${countQualified / Math.max(countNew,1) * 100}%` }}></div></div>
+  </div>
+  <div className="pipeline-row">
+    <span>Booked <span className='pipeline-metric'>{countBooked} ({(countBooked / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
+    <div className="bar"><div style={{ width: `${countBooked / Math.max(countNew,1) * 100}%` }}></div></div>
+  </div>
+</div>
+
           </div>
       </div>
     </div>
