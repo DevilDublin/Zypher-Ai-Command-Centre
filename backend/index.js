@@ -48,6 +48,9 @@ import { agentReply } from "./brain/agent.js";
 import { initVoiceRuntime, setActiveNiche, setCallDirection, setActiveLead } from "./voiceRuntime.js";
 import { setIO, onInternal } from "./socketBus.js";
 import { createBooking } from "./googleCalendar.js";
+import { leadHandler2 } from "./leadHandler2.js";
+import { getAdapters } from "./adapters/core/router.js";
+import { provisionClient } from "./provisionClient.js";
 import { spawn } from "child_process";
 
 dotenv.config();
@@ -68,82 +71,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// -------------------
 
-app.post("/lead", async (req, res) => {
-  console.log("🧪 /lead HEADERS:", req.headers);
-
-  const lead = req.body;
-  console.log("📧 NEW LEAD:", JSON.stringify(lead, null, 2));
-
-  try {
-    const text = `
-New Zypher Lead
-
-Niche: ${lead.niche}
-Direction: ${lead.direction}
-
-Name: ${lead.name}
-Phone: ${lead.phone}
-Email: ${lead.email}
-
-Details:
-${JSON.stringify(lead.data, null, 2)}
-
-Calendar: Provisional slot booked (time to be confirmed)
-`;
-    const start = new Date(Date.now() + 60*60*1000);
-    const end = new Date(start.getTime() + 30*60000);
-
-      // 1) Internal Zypher ops email
-      await mailer.sendMail({
-        from: process.env.EMAIL_USER,
-        to: process.env.EMAIL_USER,
-        subject: `🧠 Zypher Lead – ${lead.niche}`,
-        text
-      });
-
-      // 2) Client confirmation email
-      await mailer.sendMail({
-        from: `Zypher Agents <${process.env.EMAIL_USER}>`,
-        to: lead.email,
-        subject: "Your Zypher consultation is booked",
-        text: `Hi ${lead.name},
-
-Thanks for speaking with Zypher.
-
-We've provisionally booked your consultation for:
-${start.toLocaleString("en-GB")}
-
-Niche: ${lead.niche}
-
-If you need to reschedule, just reply to this email.
-
-— Zypher Agents`
-      });
-
-
-    await createBooking({
-      name: lead.name,
-      email: lead.email,
-      phone: lead.phone,
-      niche: lead.niche,
-      start: start.toISOString(),
-      end: end.toISOString()
-    });
-
-    console.log("📅 Google Calendar booking created");
-
-    console.log("📤 Lead email sent");
-  } catch (err) {
-    console.error("❌ Email send failed:", err.message);
-  }
-
-  res.json({ ok: true });
+app.post("/provision", (req, res) => {
+  const env = req.headers["x-env"] || "CAMPAIGN";
+  const adapters = getAdapters({ environment: env });
+  provisionClient(req, res, adapters);
 });
 
-// Twilio Voice Webhook (TwiML)
+
 // -------------------
+
+app.post("/lead", leadHandler2);
+
+app.post("/lead2", leadHandler2);
 app.post("/voice", (req, res) => {
   console.log("📞 [VOICE] Incoming call webhook");
 

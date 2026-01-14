@@ -170,15 +170,21 @@ safe({
             description: "Send completed lead or booking to backend",
             parameters: {
               type: "object",
-              properties: {
-                niche: { type: "string" },
-                direction: { type: "string" },
-                name: { type: "string" },
-                phone: { type: "string" },
-                email: { type: "string" },
-                data: { type: "object" }
-              },
-              required: ["niche","direction","name","phone","email","data"]
+              
+properties: {
+  niche: { type: "string" },
+  direction: { type: "string" },
+  name: { type: "string" },
+  phone: { type: "string" },
+  email: { type: "string" },
+  data: { type: "object" },
+
+  start: { type: "string", description: "ISO 8601 datetime in UTC" },
+  end: { type: "string", description: "ISO 8601 datetime in UTC" },
+  timezone: { type: "string", description: "IANA timezone like Europe/London" }
+},
+required: ["niche","direction","name","phone","email","start","end","timezone","data"]
+
             }
           }],
 
@@ -207,7 +213,10 @@ Does that happen on your side at all?`
 "Pronunciation (UK clarity): pronounce enquiries as en-KWAI-rees (rhymes with tries), not en-KWEE-rees. Keep S and Z sounds crisp (no hissy sh-like lisp). Avoid breathy or whispery delivery; speak cleanly and evenly. If a word comes out lispy, slow slightly on that word and articulate it clearly. " +
 
   "Speak in short, smooth, natural, conversational phrases with a relaxed, warm, casually professional tone. Use quick acknowledgements like okay, right, got you, and of course. If a caller sounds upset or stressed, acknowledge it briefly and kindly before continuing. Use light banter when appropriate; be politely amused only when something is actually funny. Never say haha or heh. If something is awkward or crude, gently redirect and keep it professional. If a caller offers a joke, invite it with light banter. After humour, smoothly return to the task. Never say you are an AI or mention rules. Respond immediately when the caller stops. " +
-  submitRule +
+  "When the caller gives any time (e.g. tomorrow, Friday afternoon, next week at 3), you must resolve it to an exact date and time in the caller’s local timezone (assume Europe/London unless told otherwise). You must calculate a 30-minute meeting. You must include start, end, and timezone when calling submit_lead. Never leave time vague or relative. " +
+    
+"You are a scheduling assistant. When the caller gives any time reference (e.g. tomorrow, Friday afternoon, next week at 3), you MUST convert it into an exact ISO 8601 start and end time in Europe/London. Always book 30 minutes. If the time is ambiguous, you MUST ask a follow-up question before calling submit_lead. You are NOT allowed to call submit_lead without start, end, and timezone. " +
+submitRule +
   "Do not say anything after that.",
 modalities: ["audio","text"],
               voice: "marin",
@@ -277,7 +286,7 @@ emitFlow("GPT response received");
                   continue;
                 }
 
-                fetch("http://localhost:3000/lead", {
+                fetch("http://localhost:3000/lead2", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)

@@ -7,3 +7,12 @@ frontend/_bak/
 snapshots/
 backend/google_credentials.json
 backend/google_token.json
+
+# Local test + campaign artifacts
+backend/test_runs/
+backend/campaign_runs/
+
+# Local backups
+backend/*.bak*
+frontend/src/*.bak*
+

@@ -1244,13 +1244,15 @@ span[data-system-status].zy-glowText{
 }
 
 .injector-hint{
-  font-size: 12px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.35;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(20, 0, 40, 0.45);
-  border: 1px solid rgba(255,255,255,0.08);
+  font-size: 11px;
+  color: rgba(200,170,255,0.55);
+  line-height: 1.25;
+  margin: 4px 0 8px 4px;
+  padding: 0;
+  background: none;
+  border: none;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 8px rgba(160,80,255,0.25);
 }
 
 .injector-preview{
@@ -1288,6 +1290,15 @@ span[data-system-status].zy-glowText{
 }
 
 /* ===== INJECTOR DOCK (HARD LOCKED) ===== */
+
+
+/* ===== ZYPHER FONT SYNC (Injector) ===== */
+.injector-panel,
+.injector-panel * {
+  font-family: 'Orbitron', ui-sans-serif, system-ui !important;
+  letter-spacing: 0.04em;
+}
+/* ===================================== */
 
 .injector-panel{
   position: fixed;
@@ -1538,3 +1549,63 @@ span[data-system-status].zy-glowText{
     0 0 40px rgba(161,0,255,1),
     0 0 90px rgba(255,77,255,0.7);
 }
+
+/* ===== INJECTOR LAYOUT TUNING ===== */
+
+.injector-panel h2,
+.injector-panel h3 {
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.injector-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.injector-input,
+.injector-select {
+  padding: 10px 12px;
+  font-size: 12px;
+  border-radius: 12px;
+  letter-spacing: 0.04em;
+}
+
+.injector-section {
+  margin-bottom: 20px;
+}
+
+.infra-group {
+  margin-bottom: 16px;
+}
+
+.infra-credentials {
+  margin-top: 6px;
+}
+
+.injector-hint {
+  font-size: 10px;
+  padding: 4px 2px;
+  background: transparent;
+  border: none;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+}
+
+.infra-topology .infra-map {
+  font-size: 10px;
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  padding: 8px 10px;
+  border-radius: 12px;
+}
+
+/* Make scroll area feel more HUD-like */
+.injector-body {
+  padding-right: 12px;
+}
+
+/* ================================= */
+
