@@ -11,7 +11,30 @@ export default function App() {
   const [isOnline, setIsOnline] = useState(false);
   const [mode, setMode] = useState("TEST");
 
-  const handleStartCall = () => {
+  
+  
+  
+    const injectorCampaignLocked = (mode === "CAMPAIGN");
+const [injectorOpen, setInjectorOpen] = useState(false);
+
+  const [injector, setInjector] = useState({
+    clientName: "",
+    phone: "",
+    email: "",
+    company: "",
+    twilioSid: "",
+    twilioToken: "",
+    twilioFrom: "",
+    openaiKey: "",
+    calendarEmail: "",
+    mode: "TEST",
+    niche: "",
+    direction: "inbound",
+      skin: "default",
+      customPrompt: ""
+});
+
+const handleStartCall = () => {
     socket.emit("call_start", { mode });
     addNotification("Call started (" + mode + ")");
   };
@@ -317,6 +340,109 @@ const total = analytics?.total ?? 0;
 
           </div>
       </div>
-    </div>
+
+        {/* === CLIENT INJECTOR === */}
+        <div
+          className={`injector-tab ${injectorOpen ? "open" : ""}`}
+          onClick={() => setInjectorOpen(!injectorOpen)}
+        ></div>
+
+        <div className={`injector-panel ${injectorOpen ? "open" : ""}`}>
+          <h2>Client Injector</h2>
+          <div className="inner-glass injector-body">
+                              <div className="injector-section">
+                <h3>Client</h3>
+                <input className="injector-input" placeholder="Client name" value={injector.clientName} onChange={e => setInjector({ ...injector, clientName: e.target.value })} />
+                <input className="injector-input" placeholder="Company" value={injector.company} onChange={e => setInjector({ ...injector, company: e.target.value })} />
+                <input className="injector-input" placeholder="Email" value={injector.email} onChange={e => setInjector({ ...injector, email: e.target.value })} />
+                <input className="injector-input" placeholder="Phone" value={injector.phone} onChange={e => setInjector({ ...injector, phone: e.target.value })} />
+              </div>
+
+              <div className="injector-section">
+                <h3>Infrastructure</h3>
+                <input className="injector-input" placeholder="Twilio Account SID" value={injector.twilioSid} onChange={e => setInjector({ ...injector, twilioSid: e.target.value })} />
+                <input className="injector-input" placeholder="Twilio Auth Token" type="password" value={injector.twilioToken} onChange={e => setInjector({ ...injector, twilioToken: e.target.value })} />
+                <input className="injector-input" placeholder="Twilio From Number (+44...)" value={injector.twilioFrom} onChange={e => setInjector({ ...injector, twilioFrom: e.target.value })} />
+                <input className="injector-input" placeholder="OpenAI API Key" type="password" value={injector.openaiKey} onChange={e => setInjector({ ...injector, openaiKey: e.target.value })} />
+                <input className="injector-input" placeholder="Calendar email (Google)" value={injector.calendarEmail} onChange={e => setInjector({ ...injector, calendarEmail: e.target.value })} />
+              </div>
+
+              <div className="injector-section">
+                <h3>Agent</h3>
+
+                <div className="injector-label">Role (what it does)</div>
+                <select className="injector-select" value={injector.niche} onChange={e => setInjector({ ...injector, niche: e.target.value })}>
+                  <option value="">Select role…</option>
+                  <option value="inbound_receptionist_outbound_setter">Inbound receptionist + outbound appointment setter</option>
+                  <option value="intake_lead_qualifier">Intake agent + lead qualifier</option>
+                  <option value="receptionist_scheduler">Receptionist + appointment scheduler</option>
+                  <option value="inbound_capture_outbound_quote_followup">Inbound lead capture + outbound quote follow-up</option>
+                  <option value="outbound_coldcaller_lead_qualifier">Outbound cold caller + lead qualifier</option>
+                  <option value="inbound_receptionist_missed_call_recovery">Inbound receptionist + missed-call recovery</option>
+                  <option value="support_faq_agent">Support & FAQ agent</option>
+                  <option value="frontline_receptionist_general">Frontline receptionist (general)</option>
+                </select>
+
+                <div className="injector-label" style={{marginTop:"10px"}}>Skin (industry look/voice)</div>
+                <select className="injector-select" value={injector.skin} onChange={e => setInjector({ ...injector, skin: e.target.value })}>
+                  <option value="default">Default</option>
+                  <option value="real_estate">Real Estate</option>
+                  <option value="law_firm">Law Firm</option>
+                  <option value="medical_clinic">Medical / Clinic</option>
+                  <option value="insurance">Insurance</option>
+                  <option value="marketing_agency">Marketing Agency</option>
+                  <option value="solar_trades">Solar / Trades</option>
+                  <option value="ecommerce">E-commerce</option>
+                  <option value="custom">Custom…</option>
+                </select>
+
+                {injector.skin === "custom" && (
+                  <div className="injector-custom">
+                    <div className="injector-label">Custom prompt (AI will generate the script)</div>
+                    <textarea
+                      className="injector-textarea"
+                      rows={5}
+                      placeholder='Describe the business + what you want Zypher to do. Example: "We are a Harley dealership. Answer inbound calls, qualify riders, and book test rides + service appointments…"'
+                      value={injector.customPrompt}
+                      onChange={e => setInjector({ ...injector, customPrompt: e.target.value })}
+                    />
+                    <button
+                      className="btn"
+                      onClick={() => console.log("GENERATE_SCRIPT_REQUEST", { skin: injector.skin, role: injector.niche, prompt: injector.customPrompt })}
+                      disabled={!injector.customPrompt.trim()}
+                      style={{ marginTop: "10px", opacity: injector.customPrompt.trim() ? 1 : 0.4 }}
+                    >
+                      Generate Script (preview)
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="injector-section">
+                <h3>Deployment</h3>
+
+                <div className="injector-hint">
+                  Injector is <b>CAMPAIGN-only</b>. Switch MODE in Command Centre to enable provisioning.
+                </div>
+
+                <button
+                  className="btn primary"
+                  disabled={!injectorCampaignLocked}
+                  style={{ marginTop: "10px", opacity: injectorCampaignLocked ? 1 : 0.4 }}
+                  onClick={() => console.log("PROVISION_CLIENT", injector)}
+                >
+                  Provision Client
+                </button>
+
+                <pre className="injector-preview">
+                  {JSON.stringify(injector, null, 2)}
+                </pre>
+              </div>
+</div>
+
+          </div>
+        </div>
+
+
   )
 }
