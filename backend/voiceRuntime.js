@@ -4,7 +4,7 @@ import WebSocket from "ws";
 import mulaw from "mulaw-js";
 import { createAudioBridge } from "./audioBridge.js";
 import { NICHES } from "./niches.js";
-import { getIO } from "./socketBus.js";
+import { getIO, emitInternal } from "./socketBus.js";
 
 let FLOW_IO = null;
 const FLOW_BUFFER = [];
@@ -407,7 +407,12 @@ if (data.type === "response.created") responseActive = true;
           emitFlow("Twilio stream stopped");
           emitFlow("Call ended");
         try { ai.close(); } catch {}
-      }
+      
+  try {
+    emitInternal("call:ended", { reason: "twilio_hangup" });
+} catch {}
+}
+
     });
   });
 }

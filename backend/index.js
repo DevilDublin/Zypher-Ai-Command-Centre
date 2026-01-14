@@ -46,7 +46,7 @@ import dotenv from "dotenv";
 import twilio from "twilio";
 import { agentReply } from "./brain/agent.js";
 import { initVoiceRuntime, setActiveNiche, setCallDirection, setActiveLead } from "./voiceRuntime.js";
-import { setIO } from "./socketBus.js";
+import { setIO, onInternal } from "./socketBus.js";
 import { createBooking } from "./googleCalendar.js";
 import { spawn } from "child_process";
 
@@ -166,6 +166,8 @@ const io = new Server(server, {
 
 setIO(io);
 
+
+
 initVoiceRuntime(server, io);
 
 // ===== PIPELINE TELEMETRY =====
@@ -199,6 +201,22 @@ const twilioClient = twilio(
 );
 
 let activeCallSid = null;
+
+function terminateCall(reason = "unknown") {
+  if (!activeCallSid && reason !== "twilio_hangup") return;
+  console.log("☎️ Terminating call:", reason);
+  activeCallSid = null;
+  try {
+    io.emit("notify", "Call ended");
+    io.emit("system:idle");
+  } catch {}
+}
+
+
+onInternal("call:ended", (data = {}) => {
+  terminateCall(data.reason || "twilio_hangup");
+});
+
 
 // -------------------
 // Campaign loading
@@ -373,19 +391,19 @@ io.on("connection", socket => {
   });
 
   socket.on("call_stop", async () => {
-    try {
-      if (!activeCallSid) {
-        io.emit("notify", "No active call");
-        return;
-      }
+      try {
+        if (!activeCallSid) {
+          io.emit("notify", "No active call");
+          return;
+        }
 
-      await twilioClient.calls(activeCallSid).update({ status: "completed" });
-      activeCallSid = null;
-      io.emit("notify", "Call ended");
-    } catch (err) {
-      io.emit("notify", `Stop error: ${err.message}`);
-    }
-  });
+        await twilioClient.calls(activeCallSid).update({ status: "completed" });
+        terminateCall("ui_stop");
+      } catch (err) {
+        io.emit("notify", `Stop error: ${err.message}`);
+      }
+    });
+      
 });
 
 function emitLines(socket, text) {
