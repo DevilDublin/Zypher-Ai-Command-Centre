@@ -16,3 +16,11 @@ backend/campaign_runs/
 backend/*.bak*
 frontend/src/*.bak*
 
+
+# Local secrets
+backend/auth.js
+backend/clients.json
+
+# Local UI backups
+frontend/src/*.BEFORE_*
+frontend/src/*.BROKEN_*
