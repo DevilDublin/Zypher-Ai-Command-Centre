@@ -1,0 +1,35 @@
+# Snapshots & backups
+snapshots/
+*_SAFE
+*_BROKEN*
+*_BEFORE*
+
+# Audio junk
+*.wav
+*.ulaw
+*.raw
+*.pcm
+test*
+phase*
+
+# Old experiments
+opusDecode.js
+openaiReply.js
+openaiTranscribe.js
+
+# Node
+node_modules/
+.env
+
+# Voice engine scratch files
+tts.js.*
+voiceRuntime.js.*
+*_PRE
+*_FAILED*
+*_BROKEN*
+_snap_*
+*.wav
+*.raw
+*.ulaw
+*.pcm
+
