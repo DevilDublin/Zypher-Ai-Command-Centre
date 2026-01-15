@@ -13,6 +13,7 @@ export default function App() {
 
   
   const [injectorOpen, setInjectorOpen] = useState(false);
+  const [deployResult, setDeployResult] = useState(null);
   const [injector, setInjector] = useState({
     clientName: "",
     phone: "",
@@ -48,7 +49,39 @@ const [notifications, setNotifications] = useState([]);
   const campaignStartRef = useRef(null);
 
 
-  const addNotification = (text) => {
+  
+  async function deployAgent() {
+    try {
+      setDeployResult(null);
+
+      const res = await fetch("http://localhost:3000/provision", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-env": mode
+        },
+        body: JSON.stringify({
+          clientName: injector.clientName,
+          company: injector.company,
+          email: injector.email,
+          phone: injector.phone,
+          niche: injector.niche,
+          skin: injector.skin,
+          direction: injector.direction
+        })
+      });
+
+      const data = await res.json();
+      if (!data.ok) throw new Error("Provision failed");
+
+      setDeployResult(data);
+      addNotification("Client provisioned: " + data.clientId);
+    } catch (e) {
+      console.error(e);
+      addNotification("Provision failed");
+    }
+  }
+const addNotification = (text) => {
     const id = Date.now() + Math.random();
 
     // Insert at top, keep max 3
@@ -405,7 +438,7 @@ const total = analytics?.total ?? 0;
     className="btn primary"
     disabled={mode !== "CAMPAIGN"}
     style={{ opacity: mode !== "CAMPAIGN" ? 0.4 : 1 }}
-    onClick={() => console.log("CAMPAIGN INJECT", injector)}
+    onClick={deployAgent}
   >
     Deploy Agent
   </button>
