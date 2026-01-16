@@ -1,9 +1,17 @@
+
+if (process.env.GOOGLE_ENABLED !== "true") {
+  console.log("📅 Google Calendar disabled (GOOGLE_ENABLED != true)");
+  export async function createBooking() {
+    return { disabled: true };
+  }
+}
+
 import crypto from "crypto";
 import fs from "fs";
 import { google } from "googleapis";
 
-const CREDENTIALS = JSON.parse(fs.readFileSync("./google_credentials.json"));
-const TOKENS = JSON.parse(fs.readFileSync("./google_token.json"));
+const CREDENTIALS = JSON.parse(fs.readFileSync(new URL("./google_credentials.json", import.meta.url)));
+const TOKENS = JSON.parse(fs.readFileSync(new URL("./google_token.json", import.meta.url)));
 
 const { client_id, client_secret, redirect_uris } =
   CREDENTIALS.web || CREDENTIALS.installed;

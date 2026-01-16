@@ -1,3 +1,11 @@
+
+if (process.env.GOOGLE_ENABLED !== "true") {
+  console.log("📅 Google adapter disabled (GOOGLE_ENABLED != true)");
+  export async function createBooking() {
+    return { disabled: true };
+  }
+}
+
 import { google } from "googleapis";
 import fs from "fs";
 
