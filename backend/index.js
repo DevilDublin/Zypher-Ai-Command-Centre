@@ -99,6 +99,16 @@ app.post("/voice", (req, res) => {
   res.send(twiml.trim());
 });
 
+
+/* ===== ZYPHER COMMAND CENTRE (STATIC BUILD) ===== */
+const DEV_DIST = "/Users/dev/Downloads/Zypher-Ai-Command-Centre/frontend/dist";
+app.use("/dev", express.static(DEV_DIST));
+app.get("/dev/*", (req, res) => {
+  res.sendFile(path.join(DEV_DIST, "index.html"));
+});
+/* ===== END COMMAND CENTRE ===== */
+
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: "*" }
