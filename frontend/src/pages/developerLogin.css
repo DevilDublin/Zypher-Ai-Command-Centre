@@ -1,0 +1,61 @@
+.dev-login-screen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #12002a, #050008);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.fade-in {
+  animation: fadeIn 0.9s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dev-login-card {
+  background: rgba(20,0,40,0.7);
+  backdrop-filter: blur(18px);
+  padding: 42px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  width: 360px;
+  text-align: center;
+}
+
+.dev-login-card h1 {
+  letter-spacing: 0.22em;
+  margin-bottom: 24px;
+}
+
+.dev-login-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  background: black;
+  border: 1px solid #a100ff;
+  color: #ff4dff;
+  text-align: center;
+}
+
+.dev-login-card button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #a100ff, #ff4dff);
+  border: none;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.error {
+  color: #ff4dff;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}

@@ -1,4 +1,6 @@
+import DeveloperLogin from "./pages/DeveloperLogin";
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAnalytics } from "./lib/useAnalytics";
 import { socket } from "./lib/socket";
 import { socketState } from "./lib/socketStore";
@@ -6,6 +8,7 @@ import { socketState } from "./lib/socketStore";
 export default function App() {
 
   const analytics = useAnalytics();
+  const navigate = useNavigate();
 
   
   const [isOnline, setIsOnline] = useState(false);
