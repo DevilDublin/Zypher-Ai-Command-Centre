@@ -10,8 +10,32 @@ import crypto from "crypto";
 import fs from "fs";
 import { google } from "googleapis";
 
-const CREDENTIALS = JSON.parse(fs.readFileSync(new URL("./google_credentials.json", import.meta.url)));
-const TOKENS = JSON.parse(fs.readFileSync(new URL("./google_token.json", import.meta.url)));
+function readJsonMaybe(pathUrl) {
+  try {
+    return JSON.parse(fs.readFileSync(pathUrl));
+  } catch (e) {
+    return null;
+  }
+}
+
+const CREDENTIALS =
+  (process.env.GOOGLE_CREDENTIALS_JSON && JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON)) ||
+  readJsonMaybe(new URL("./google_credentials.json", import.meta.url));
+
+const TOKENS =
+  (process.env.GOOGLE_TOKEN_JSON && JSON.parse(process.env.GOOGLE_TOKEN_JSON)) ||
+  readJsonMaybe(new URL("./google_token.json", import.meta.url));
+
+if (!CREDENTIALS || !TOKENS) {
+  console.warn("⚠️ Google Calendar disabled (missing GOOGLE_CREDENTIALS_JSON/GOOGLE_TOKEN_JSON)");
+}
+
+
+if (!CREDENTIALS || !TOKENS) {
+  export async function createBooking() {
+    return { disabled: true, reason: "google_creds_missing" };
+  }
+}
 
 const { client_id, client_secret, redirect_uris } =
   CREDENTIALS.web || CREDENTIALS.installed;
