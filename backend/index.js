@@ -1,3 +1,4 @@
+import { login } from "./auth.js";
 
 // ===== FFMPEG SILENCER =====
 const origStdout = process.stdout.write.bind(process.stdout);
@@ -68,6 +69,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+app.get("/health", (req, res) => {
+  res.json({ ok: true, service: "zypher-backend" });
+});
+
 app.use(cors());
 app.use(express.json());
 
@@ -367,4 +373,7 @@ function emitLines(socket, text) {
 
 server.listen(PORT, () => {
   console.log(`Zypher backend running on http://localhost:${PORT}`);
-});
+})
+app.post("/auth/login", express.json(), login);
+
+;
