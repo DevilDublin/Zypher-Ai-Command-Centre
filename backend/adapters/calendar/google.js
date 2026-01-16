@@ -1,28 +1,51 @@
 import { google } from "googleapis";
 import fs from "fs";
 
-const CREDENTIALS = JSON.parse(fs.readFileSync("./google_credentials.json"));
-const TOKENS = JSON.parse(fs.readFileSync("./google_token.json"));
-
-const { client_id, client_secret, redirect_uris } =
-  CREDENTIALS.web || CREDENTIALS.installed;
-
-const auth = new google.auth.OAuth2(
-  client_id,
-  client_secret,
-  redirect_uris[0]
-);
-
-auth.setCredentials(TOKENS);
-
-const calendar = google.calendar({ version: "v3", auth });
-
+const TZ = "Europe/London";
+const BUSINESS_START = 11;
+const BUSINESS_END = 16;
+const SLOT_MINUTES = 30;
 const CALENDAR_ID = "6e6b28118554839fd9f04317d538404332baaa1c66d7306438164bcaea135169@group.calendar.google.com";
 
-const BUSINESS_START = 11; // 11am
-const BUSINESS_END = 16;   // 4pm
-const SLOT_MINUTES = 30;
-const TZ = "Europe/London";
+let calendar = null;
+
+function readJsonMaybe(url) {
+  try {
+    return JSON.parse(fs.readFileSync(url));
+  } catch {
+    return null;
+  }
+}
+
+if (process.env.GOOGLE_ENABLED === "true") {
+  const CREDENTIALS =
+    process.env.GOOGLE_CREDENTIALS_JSON
+      ? JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON)
+      : readJsonMaybe(new URL("../../google_credentials.json", import.meta.url));
+
+  const TOKENS =
+    process.env.GOOGLE_TOKEN_JSON
+      ? JSON.parse(process.env.GOOGLE_TOKEN_JSON)
+      : readJsonMaybe(new URL("../../google_token.json", import.meta.url));
+
+  if (CREDENTIALS && TOKENS) {
+    const { client_id, client_secret, redirect_uris } =
+      CREDENTIALS.web || CREDENTIALS.installed;
+
+    const auth = new google.auth.OAuth2(
+      client_id,
+      client_secret,
+      redirect_uris[0]
+    );
+
+    auth.setCredentials(TOKENS);
+    calendar = google.calendar({ version: "v3", auth });
+  } else {
+    console.log("📅 Google adapter disabled (missing credentials)");
+  }
+} else {
+  console.log("📅 Google adapter disabled (GOOGLE_ENABLED != true)");
+}
 
 function roundToNextSlot(date) {
   const ms = SLOT_MINUTES * 60 * 1000;
@@ -33,10 +56,7 @@ function clampToBusinessHours(date) {
   const d = new Date(date);
   const h = d.getHours();
 
-  if (h < BUSINESS_START) {
-    d.setHours(BUSINESS_START, 0, 0, 0);
-  }
-
+  if (h < BUSINESS_START) d.setHours(BUSINESS_START, 0, 0, 0);
   if (h >= BUSINESS_END) {
     d.setDate(d.getDate() + 1);
     d.setHours(BUSINESS_START, 0, 0, 0);
@@ -59,8 +79,11 @@ async function getBusy(start, end) {
 }
 
 export async function getNextFreeSlot(requestedStart) {
-  let cursor = roundToNextSlot(new Date(requestedStart));
-  cursor = clampToBusinessHours(cursor);
+  if (!calendar) return null;
+
+  let cursor = clampToBusinessHours(
+    roundToNextSlot(new Date(requestedStart))
+  );
 
   while (true) {
     const slotEnd = new Date(cursor.getTime() + SLOT_MINUTES * 60000);
@@ -70,15 +93,19 @@ export async function getNextFreeSlot(requestedStart) {
       return { start: cursor, end: slotEnd };
     }
 
-    cursor = new Date(cursor.getTime() + SLOT_MINUTES * 60000);
-    cursor = clampToBusinessHours(cursor);
+    cursor = clampToBusinessHours(
+      new Date(cursor.getTime() + SLOT_MINUTES * 60000)
+    );
   }
 }
 
 export async function createBooking(clientId, booking) {
-  const { start, name, email, phone, niche } = booking;
+  if (!calendar) return { disabled: true };
 
-  const slot = await getNextFreeSlot(new Date(start));
+  const { start, name, email, phone, niche } = booking;
+  const slot = await getNextFreeSlot(start);
+
+  if (!slot) return { disabled: true };
 
   const event = {
     summary: `Zypher Lead – ${name}`,
