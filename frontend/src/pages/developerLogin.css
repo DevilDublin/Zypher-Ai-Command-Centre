@@ -1,5 +1,5 @@
 .zypher-auth-overlay {
-  position: fixed;
+  position:relative;
   inset: 0;
   backdrop-filter: blur(8px);
   background: radial-gradient(circle at center, rgba(40,0,80,.45), rgba(0,0,0,.9));
