@@ -110,25 +110,38 @@ setIO(io);
 
 initVoiceRuntime(server, io);
 
-// ===== PIPELINE TELEMETRY =====
-function emitPipeline() {
-  try {
-    const py = spawn("python3", ["pipeline.py"]);
-    let out = "";
+  // ===== PIPELINE TELEMETRY =====
+  const PIPELINE_ENABLED = process.env.PIPELINE_ENABLED === "true";
 
-    py.stdout.on("data", d => out += d.toString());
-    py.on("close", () => {
-      try {
-        const data = JSON.parse(out.trim());
-        io.emit("pipeline:update", data);
-      } catch {}
-    });
-  } catch {}
-}
+  function emitPipeline() {
+    if (!PIPELINE_ENABLED) return;
 
-setInterval(emitPipeline, 3000);
-emitPipeline();
-// ===== END PIPELINE TELEMETRY =====
+    try {
+      const py = spawn("python3", ["pipeline.py"]);
+      let out = "";
+
+      py.stdout.on("data", d => out += d.toString());
+      py.on("close", () => {
+        try {
+          const data = JSON.parse(out.trim());
+          io.emit("pipeline:update", data);
+        } catch {}
+      });
+
+      py.on("error", () => {
+        console.warn("⚠️ Pipeline disabled (python not available)");
+      });
+
+    } catch {
+      console.warn("⚠️ Pipeline disabled (spawn failed)");
+    }
+  }
+
+  if (PIPELINE_ENABLED) {
+    setInterval(emitPipeline, 3000);
+    emitPipeline();
+  }
+  // ===== END PIPELINE TELEMETRY =====
 
 const PORT = 3000;
 
