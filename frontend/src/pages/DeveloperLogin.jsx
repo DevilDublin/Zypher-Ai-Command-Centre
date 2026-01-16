@@ -2,17 +2,21 @@ import { useState } from "react";
 import "./developerLogin.css";
 
 export default function DeveloperLogin() {
-  const [key, setKey] = useState("");
+  const [passkey, setPasskey] = useState("");
   const [error, setError] = useState(false);
 
   const submit = async () => {
-    const res = await fetch("/api/dev-auth", {
+    setError(false);
+
+    const res = await fetch("/.netlify/functions/dev-auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key })
+      body: JSON.stringify({ passkey })
     });
 
-    if (res.ok) {
+    const data = await res.json();
+
+    if (data.ok === true) {
       window.location.href = "/dev";
     } else {
       setError(true);
@@ -28,8 +32,8 @@ export default function DeveloperLogin() {
         <input
           type="password"
           placeholder="Enter passkey"
-          value={key}
-          onChange={e => setKey(e.target.value)}
+          value={passkey}
+          onChange={e => setPasskey(e.target.value)}
         />
 
         {error && <div className="error">ACCESS DENIED</div>}

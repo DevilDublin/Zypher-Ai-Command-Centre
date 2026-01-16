@@ -1,27 +1,21 @@
-export default async (req) => {
-  if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+export async function handler(event) {
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
   }
 
-  const { key } = await req.json();
-  const PASSKEY = process.env.DEV_PASSKEY;
+  let body = {};
+  try {
+    body = JSON.parse(event.body || "{}");
+  } catch {}
 
-  if (!PASSKEY) {
-    return new Response(
-      JSON.stringify({ ok: false, error: "Server not configured" }),
-      { status: 500 }
-    );
-  }
+  const provided = String(body.passkey ?? body.key ?? "").trim();
+  const expected = String(process.env.DEV_PASSKEY ?? "").trim();
 
-  if (key !== PASSKEY) {
-    return new Response(
-      JSON.stringify({ ok: false }),
-      { status: 401 }
-    );
-  }
+  const ok = expected.length > 0 && provided === expected;
 
-  return new Response(
-    JSON.stringify({ ok: true }),
-    { status: 200 }
-  );
-};
+  return {
+    statusCode: 200,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ok })
+  };
+}
