@@ -1,8 +1,8 @@
 import { google } from "googleapis";
 import fs from "fs";
 
-const CREDENTIALS = JSON.parse(fs.readFileSync("./google_credentials.json"));
-const TOKENS = JSON.parse(fs.readFileSync("./google_token.json"));
+const CREDENTIALS = JSON.parse(fs.readFileSync(new URL("../../google_credentials.json", import.meta.url)));
+const TOKENS = JSON.parse(fs.readFileSync(new URL("../../google_token.json", import.meta.url)));
 
 const { client_id, client_secret, redirect_uris } =
   CREDENTIALS.web || CREDENTIALS.installed;
