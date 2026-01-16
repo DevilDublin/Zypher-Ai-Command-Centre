@@ -67,7 +67,13 @@ const mailer = nodemailer.createTransport({
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+
 const app = express();
+
+app.get("/health", (req, res) => {
+  res.json({ ok: true, service: "zypher-backend" });
+});
+
 app.use(cors());
 app.use(express.json());
 
