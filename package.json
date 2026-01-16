@@ -1,0 +1,7 @@
+{
+  "name": "zypher-root",
+  "private": true,
+  "scripts": {
+    "start": "node backend/index.js"
+  }
+}
