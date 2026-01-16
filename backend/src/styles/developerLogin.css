@@ -1,0 +1,69 @@
+.dev-login-bg {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #050014, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.dev-login-bg.show {
+  opacity: 1;
+}
+
+.dev-login-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 40px;
+  width: 360px;
+  box-shadow: 0 0 60px rgba(161, 0, 255, 0.35);
+  text-align: center;
+  animation: rise 0.8s ease;
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.dev-login-card h1 {
+  color: #e8d9ff;
+  margin-bottom: 24px;
+  letter-spacing: 0.08em;
+}
+
+.dev-login-card input {
+  width: 100%;
+  padding: 14px;
+  background: black;
+  border: 1px solid #a100ff;
+  color: #e8d9ff;
+  text-align: center;
+  font-size: 1rem;
+  outline: none;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 0 15px rgba(161, 0, 255, 0.4);
+}
+
+.dev-login-card button {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #a100ff, #ff4dff);
+  border: none;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  border-radius: 10px;
+}

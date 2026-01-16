@@ -76,6 +76,13 @@ app.get("/health", (req, res) => {
 
 app.use(cors());
 app.use(express.json());
+app.post("/auth/dev", (req, res) => {
+  if (req.body?.key === process.env.ADMIN_PASSWORD) {
+    return res.json({ ok: true });
+  }
+  res.status(401).json({ error: "denied" });
+});
+
 
 
 app.post("/provision", (req, res) => {
