@@ -1,0 +1,8 @@
+[build]
+functions = "frontend/netlify/functions"
+
+[dev]
+command = "npm run dev"
+targetPort = 5173
+port = 8888
+framework = "vite"

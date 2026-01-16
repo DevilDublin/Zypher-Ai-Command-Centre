@@ -1,64 +1,48 @@
 import { socket } from "./socket";
 import { socketState } from "./socketStore";
 
+let rafPending = false;
+
+function scheduleUpdate(fn) {
+  if (rafPending) return;
+  rafPending = true;
+
+  requestAnimationFrame(() => {
+    rafPending = false;
+    fn();
+  });
+}
+
 export function initSocketListeners() {
   socket.on("connect", () => {
-    socketState.connected = true;
-    socketState.notifications.unshift({
-      message: "Socket connected",
-      time: new Date().toLocaleTimeString(),
+    scheduleUpdate(() => {
+      socketState.connected = true;
+      socketState.notifications.unshift({
+        type: "system",
+        text: "Backend connected"
+      });
     });
-    console.log("🟢 Socket connected");
   });
 
   socket.on("disconnect", () => {
-    socketState.connected = false;
-    socketState.notifications.unshift({
-      message: "Socket disconnected",
-      time: new Date().toLocaleTimeString(),
+    scheduleUpdate(() => {
+      socketState.connected = false;
+      socketState.notifications.unshift({
+        type: "system",
+        text: "Backend disconnected"
+      });
     });
-    console.log("🔴 Socket disconnected");
   });
 
-  // backend emits: { connected, mode }
-  socket.on("system:status", (data = {}) => {
-    if (typeof data.connected === "boolean") socketState.connected = data.connected;
-    if (typeof data.mode === "string") socketState.mode = data.mode;
+  socket.on("pipeline:update", (data) => {
+    scheduleUpdate(() => {
+      socketState.pipeline = data;
+    });
   });
 
-  // backend emits: { total, processed, remaining } (optional)
-  socket.on("analytics:update", (data = {}) => {
-    socketState.analytics = {
-      total: Number(data.total ?? socketState.analytics.total) || 0,
-      processed: Number(data.processed ?? socketState.analytics.processed) || 0,
-      remaining: Number(data.remaining ?? socketState.analytics.remaining) || 0,
-    };
-  });
-
-  // ✅ YOUR CURRENT BACKEND emits campaign_stats: { total, index, remaining }
-  
-  socket.on("pipeline:update", (data = {}) => {
-    socketState.pipeline = {
-      new: Number(data.new) || 0,
-      contacted: Number(data.contacted) || 0,
-      qualified: Number(data.qualified) || 0,
-      booked: Number(data.booked) || 0,
-    };
-  });
-
-
-  socket.on("campaign_stats", (data = {}) => {
-    socketState.analytics = {
-      total: Number(data.total) || 0,
-      processed: Number(data.index) || 0,
-      remaining: Number(data.remaining) || 0,
-    };
-  });
-
-  socket.on("notification", (msg) => {
-    socketState.notifications.unshift({
-      message: String(msg),
-      time: new Date().toLocaleTimeString(),
+  socket.on("notify", (msg) => {
+    scheduleUpdate(() => {
+      socketState.notifications.unshift(msg);
     });
   });
 }

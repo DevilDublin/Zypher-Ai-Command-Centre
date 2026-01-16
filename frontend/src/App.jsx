@@ -5,7 +5,6 @@ import { useAnalytics } from "./lib/useAnalytics";
 import { socket } from "./lib/socket";
 import { socketState } from "./lib/socketStore";
 
-import DeveloperLogin from "./pages/DeveloperLogin";
 
 export default function App() {
 
@@ -202,17 +201,16 @@ const total = analytics?.total ?? 0;
           <div className="controls">
             <button className="btn primary" onClick={handleStartCall}>START CALL</button>
             <button className="btn danger" onClick={handleStopCall}>STOP</button>
-            <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={openDeveloperGate}
-// {
-                const next = mode === "TEST" ? "CAMPAIGN" : "TEST";
-                setMode(next);
-                socket.emit("mode:update", next);
-                if (next === "CAMPAIGN") {
-                  campaignStartRef.current = Date.now();
-                } else {
-                  campaignStartRef.current = null;
-                }
-              }}>MODE: {mode}</button>
+            <button
+  className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`}
+  onClick={() => {
+    const next = mode === "TEST" ? "CAMPAIGN" : "TEST";
+    setMode(next);
+    socket.emit("mode:update", next);
+  }}
+>
+  MODE: {mode}
+</button>
           </div>
 
 

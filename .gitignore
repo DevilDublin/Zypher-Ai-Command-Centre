@@ -24,3 +24,7 @@ backend/clients.json
 # Local UI backups
 frontend/src/*.BEFORE_*
 frontend/src/*.BROKEN_*
+
+# Netlify local state
+.netlify/
+frontend/.netlify/

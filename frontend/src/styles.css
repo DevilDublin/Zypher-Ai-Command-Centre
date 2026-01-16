@@ -29,7 +29,6 @@ html, body{
     radial-gradient(1200px 700px at 50% 120%, rgba(255,77,255,0.10), transparent 60%),
     linear-gradient(180deg, var(--bg2), var(--bg1) 45%, var(--bg0));
 
-  background: rgba(255,45,85,0.22);
 }
 
 body{
@@ -1609,3 +1608,126 @@ span[data-system-status].zy-glowText{
 
 /* ================================= */
 
+
+/* ===== Pipeline idle state (armed but no data) ===== */
+.pipeline-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.pipeline-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(180, 120, 255, 0.15),
+    rgba(180, 120, 255, 0.35),
+    rgba(180, 120, 255, 0.15)
+  );
+  opacity: 0.25;
+  filter: blur(6px);
+  animation: pipeline-idle 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pipeline-idle {
+  0% { opacity: 0.15; }
+  50% { opacity: 0.35; }
+  100% { opacity: 0.15; }
+}
+
+/* ===============================
+   ZYPHER OS — CINEMATIC NEON CORE
+   GPU SAFE (opacity + transform)
+   =============================== */
+
+/* --- Subtle cold neon pulse --- */
+@keyframes zypher-pulse {
+  0%   { opacity: 0.75; filter: drop-shadow(0 0 12px rgba(160,120,255,0.35)); }
+  50%  { opacity: 1;    filter: drop-shadow(0 0 22px rgba(180,140,255,0.75)); }
+  100% { opacity: 0.75; filter: drop-shadow(0 0 12px rgba(160,120,255,0.35)); }
+}
+
+/* --- Rare organic flicker (not epilepsy) --- */
+@keyframes zypher-flicker {
+  0% { opacity: 1; }
+  97% { opacity: 1; }
+  98% { opacity: 0.92; }
+  99% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* --- Background energy drift --- */
+@keyframes zypher-drift {
+  0%   { transform: translate3d(0,0,0); }
+  50%  { transform: translate3d(-1px, 1px, 0); }
+  100% { transform: translate3d(0,0,0); }
+}
+
+/* --- Apply to main OS container --- */
+.zypher-os,
+.os-root,
+.os-shell {
+  animation:
+    zypher-drift 18s ease-in-out infinite,
+    zypher-flicker 14s infinite;
+  will-change: transform, opacity;
+}
+
+/* --- Headline / core text glow --- */
+.zypher-title,
+.os-title,
+.system-title {
+  animation:
+    zypher-pulse 4.5s ease-in-out infinite,
+    zypher-flicker 11s infinite;
+  text-shadow:
+    0 0 18px rgba(180,140,255,0.6),
+    0 0 36px rgba(140,80,255,0.35);
+}
+
+/* --- Panels breathe, not jitter --- */
+.panel,
+.glass-panel,
+.os-panel {
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+}
+
+.panel:hover,
+.glass-panel:hover,
+.os-panel:hover {
+  transform: translateZ(0) scale(1.015);
+  box-shadow:
+    0 0 28px rgba(180,120,255,0.45),
+    inset 0 0 18px rgba(255,255,255,0.08);
+}
+
+/* --- Respect reduced motion --- */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* --- OS buttons: cold neon charge --- */
+.os-button,
+button {
+  position: relative;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.os-button:hover,
+button:hover {
+  transform: translateZ(0) scale(1.03);
+  box-shadow:
+    0 0 22px rgba(120,255,255,0.45),
+    0 0 42px rgba(120,180,255,0.25);
+}
+
+/* === Zypher OS: suppress global focus ring (keep accessibility elsewhere) === */
+.zypher-os button:focus,
+.zypher-os button:focus-visible {
+  outline: none;
+}
