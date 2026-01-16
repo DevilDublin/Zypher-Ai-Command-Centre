@@ -5,7 +5,16 @@ import { useAnalytics } from "./lib/useAnalytics";
 import { socket } from "./lib/socket";
 import { socketState } from "./lib/socketStore";
 
+import DeveloperLogin from "./pages/DeveloperLogin";
+
 export default function App() {
+
+  const [authOpen, setAuthOpen] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  const openDeveloperGate = () => setAuthOpen(true);
+  const closeDeveloperGate = () => setAuthOpen(false);
+
 
   const analytics = useAnalytics();
   const navigate = useNavigate();
@@ -176,13 +185,25 @@ const total = analytics?.total ?? 0;
         <span className={`status `}>{isOnline ? "ONLINE" : "OFFLINE"}</span>
       </header>
 
+    {authOpen && !isAuthed && (
+      <DeveloperLogin
+        onSuccess={() => {
+          setIsAuthed(true);
+          setAuthOpen(false);
+        }}
+        onClose={() => setAuthOpen(false)}
+      />
+    )}
+
+
       <div className="grid">
         <div className="panel">
           <h2>System Control</h2>
           <div className="controls">
             <button className="btn primary" onClick={handleStartCall}>START CALL</button>
             <button className="btn danger" onClick={handleStopCall}>STOP</button>
-            <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={() => {
+            <button className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`} onClick={openDeveloperGate}
+// {
                 const next = mode === "TEST" ? "CAMPAIGN" : "TEST";
                 setMode(next);
                 socket.emit("mode:update", next);

@@ -22,7 +22,10 @@ export default function DeveloperLogin() {
   };
 
   return (
-    <div className="dev-login-screen fade-in">
+    
+<div className="zypher-auth-overlay">
+  <div className="zypher-auth-panel">
+ className="dev-login-screen fade-in">
       <div className="dev-login-card">
         <h1>DEVELOPER TERMINAL</h1>
 
@@ -33,7 +36,7 @@ export default function DeveloperLogin() {
           onChange={e => setKey(e.target.value)}
         />
 
-        {error && <div className="error">ACCESS DENIED</div>}
+        {error && <div className="error">ACCESS DENIED</div></div>}
 
         <button onClick={submit}>ENTER</button>
       </div>
