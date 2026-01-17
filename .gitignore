@@ -28,3 +28,10 @@ frontend/src/*.BROKEN_*
 # Netlify local state
 .netlify/
 frontend/.netlify/
+
+# Zypher local artifacts
+archives/
+frontend/src/pages/*.bak_*
+frontend/public/audio/
+backend/demo.mp3
+backend/public/
