@@ -1,33 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-import "./developerLogin.css";
+import { useNavigate } from "react-router-dom";
 
 export default function DeveloperLogin() {
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
+
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState(false);
 
-  const [placeholder, setPlaceholder] = useState("");
-  const fullText = "ENTER PASSKEY";
-  const [isTyping, setIsTyping] = useState(false);
-
-  useEffect(() => {
-    if (passkey.length > 0) return;
-
-    let i = 0;
-    const interval = setInterval(() => {
-      setPlaceholder(fullText.slice(0, i) + "▍");
-      i++;
-      if (i > fullText.length) {
-        setPlaceholder(fullText);
-        clearInterval(interval);
-      }
-    }, 80);
-
-    return () => clearInterval(interval);
-  }, []);
-
-
-  // === MATRIX / HIEROGLYPH RAIN ===
+  /* ===== MATRIX BACKGROUND ===== */
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -39,40 +20,43 @@ export default function DeveloperLogin() {
     resize();
     window.addEventListener("resize", resize);
 
-    const chars = "𓂀𓁶𓆣𓋹𓍿𓊹ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const fontSize = 16;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = Array(columns).fill(1);
 
     const draw = () => {
-      const speedBoost = passkey.length > 0 ? 1.6 : 1;
       ctx.fillStyle = "rgba(0,0,0,0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
       ctx.fillStyle = "#00ffff";
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
         const text = chars[Math.floor(Math.random() * chars.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
-        drops[i] += speedBoost;
+        drops[i]++;
       }
     };
 
     const interval = setInterval(draw, 33);
-
     return () => {
       clearInterval(interval);
       window.removeEventListener("resize", resize);
     };
   }, []);
 
+  /* ===== SUBMIT ===== */
   const submit = async () => {
     setError(false);
+
+    if (window.location.port === "5173") {
+      navigate("/developer");
+      return;
+    }
+
     try {
       const res = await fetch("/.netlify/functions/dev-auth", {
         method: "POST",
@@ -80,7 +64,7 @@ export default function DeveloperLogin() {
         body: JSON.stringify({ passkey })
       });
       const data = await res.json();
-      if (data.ok) window.location.href = "/dev";
+      if (data.ok) navigate("/developer");
       else setError(true);
     } catch {
       setError(true);
@@ -92,20 +76,14 @@ export default function DeveloperLogin() {
       <canvas ref={canvasRef} className="matrix-canvas" />
 
       <div className="dev-login-overlay">
-        <button
-          className="close-btn"
-          onClick={() => (window.location.href = "/")}
-        >
-          ✕
-        </button>
-
-        <div className="dev-login-card">
+        <button className="dev-login-close" aria-label="Close" onClick={() => navigate("/")}>×</button>
+<div className="dev-login-card">
           <h1>ZYPHER</h1>
           <span className="subtitle">Developer Terminal</span>
 
           <input
             type="password"
-            placeholder={placeholder}
+            placeholder="ENTER PASSKEY"
             value={passkey}
             onChange={(e) => setPasskey(e.target.value)}
           />

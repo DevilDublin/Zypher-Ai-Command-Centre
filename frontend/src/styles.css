@@ -89,7 +89,7 @@ padding: 30px;
   padding: 22px;
   background: var(--glass);
   border: 1px solid var(--stroke);
-  backdrop-filter: blur(18px);
+  backdrop-
   box-shadow: var(--shadow), var(--glow), var(--glow2);
   overflow:hidden;
 
@@ -701,7 +701,7 @@ html, body { overscroll-behavior: none; background: var(--bg0); }
 }
 
 .radar-lane:not(.radar-static) .radar-track{
-  filter: blur(0.3px);
+  
 }
 
 /* subtle motion blur illusion */
@@ -1133,12 +1133,12 @@ span[data-system-status].zy-glowText{
   from{
     opacity: 0;
     transform: translateY(6px);
-    filter: blur(1px);
+    
   }
   to{
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
+    
   }
 }
 
@@ -1307,7 +1307,7 @@ span[data-system-status].zy-glowText{
   height: calc(100vh - 48px);
   background: var(--glass);
   border-radius: 28px;
-  backdrop-filter: blur(20px);
+  backdrop-
   box-shadow:
     -12px 0 40px rgba(0,0,0,0.6),
     0 0 60px rgba(161,0,255,0.25),
@@ -1495,7 +1495,7 @@ span[data-system-status].zy-glowText{
       rgba(255,77,255,0.00) 72%
     );
 
-  filter: blur(10px);
+  
   opacity: 0.95;
 
   pointer-events: none;
@@ -1626,7 +1626,7 @@ span[data-system-status].zy-glowText{
     rgba(180, 120, 255, 0.15)
   );
   opacity: 0.25;
-  filter: blur(6px);
+  
   animation: pipeline-idle 3s ease-in-out infinite;
   pointer-events: none;
 }
@@ -1730,4 +1730,756 @@ button:hover {
 .zypher-os button:focus,
 .zypher-os button:focus-visible {
   outline: none;
+}
+
+
+/* ===============================
+   SCROLL DOCUMENT (SAFE LAYER)
+================================ */
+
+.scroll-doc{
+  position: relative;
+  margin-top: 100vh; /* starts AFTER hero */
+  background: black;
+}
+
+
+/* ===============================
+   ENABLE PAGE SCROLL (REQUIRED)
+================================ */
+html, body{
+  overflow-y: auto;
+}
+
+
+/* ===============================
+   ALLOW PAGE SCROLL (CRITICAL)
+================================ */
+.zypher-os{
+  overflow-y: auto;
+}
+
+
+/* ===============================
+   SECTION 2 – INTRO
+================================ */
+
+.zy-section-intro{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    circle at top,
+    rgba(0,255,255,0.04),
+    rgba(0,0,0,0.95)
+  );
+}
+
+.zy-section-inner{
+  max-width: 880px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.zy-section-inner h2{
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 500;
+  margin-bottom: 20px;
+  letter-spacing: 0.04em;
+}
+
+.zy-section-inner p{
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+  line-height: 1.7;
+  color: rgba(200,255,255,0.85);
+}
+
+
+/* ===============================
+   Scroll Reveal (Section Entry)
+   Premium / Subtle / Accessible
+================================ */
+
+.zy-section{
+  opacity: 0;
+  transform: translateY(24px);
+  animation: zy-reveal 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@keyframes zy-reveal{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .zy-section{
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ===============================
+   Zypher System Panel (Scroll)
+================================ */
+
+.zy-section{
+  position: relative;
+  padding: 140px 24px;
+}
+
+.zy-section-inner{
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 64px 64px 72px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  animation: none;
+}
+
+/* Divider */
+.zy-divider{
+  width: 64px;
+  height: 1px;
+  margin: 28px auto;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #00ffff,
+    transparent
+  );
+  box-shadow: 0 0 12px rgba(0,255,255,0.8);
+}
+
+/* Staggered reveal */
+.zy-section-inner > *{
+  opacity: 0;
+  transform: translateY(16px);
+  animation: zy-child-reveal 600ms ease forwards;
+}
+
+.zy-section-inner > *:nth-child(1){ animation-delay: 0.05s; }
+.zy-section-inner > *:nth-child(2){ animation-delay: 0.18s; }
+.zy-section-inner > *:nth-child(3){ animation-delay: 0.32s; }
+
+@keyframes zy-child-reveal{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zy-panel-breathe{
+  0%,100%{
+    box-shadow:
+      0 0 0 1px rgba(0,255,255,0.04),
+      0 40px 120px rgba(0,0,0,0.6);
+  }
+  50%{
+    box-shadow:
+      0 0 0 1px rgba(0,255,255,0.08),
+      0 50px 160px rgba(0,0,0,0.7);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .zy-section-inner{
+    animation: none;
+  }
+  .zy-section-inner > *{
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ===============================
+   Zypher Micro Sections
+================================ */
+
+.zy-micro{
+  margin-top: 42px;
+  padding-left: 28px;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-18px);
+  animation: zy-micro-in 700ms cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.zy-micro:nth-of-type(2){
+  animation-delay: 0.15s;
+}
+.zy-micro:nth-of-type(3){
+  animation-delay: 0.3s;
+}
+
+.zy-micro::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    #00ffff,
+    rgba(0,255,255,0.1)
+  );
+  box-shadow: 0 0 12px rgba(0,255,255,0.6);
+}
+
+.zy-micro h3{
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  color: #cfffff;
+}
+
+.zy-micro p{
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+@keyframes zy-micro-in{
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* ===============================
+   ZYPHER SYSTEM BOOT ANIMATIONS
+================================ */
+
+/* Section boot-in */
+.zy-section{
+  opacity: 0;
+  
+  transform: translateY(40px) scale(0.98);
+  animation: zy-boot-in 900ms cubic-bezier(0.16,1,0.3,1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 45%;
+}
+
+@keyframes zy-boot-in{
+  0%{
+    opacity: 0;
+    
+  }
+  60%{
+    opacity: 1;
+    
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+/* ===============================
+   MICRO GLITCH SNAP
+================================ */
+
+.zy-section h2,
+.zy-micro h3{
+  position: relative;
+}
+
+.zy-section h2::after,
+.zy-micro h3::after{
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #00ffff;
+  opacity: 0;
+  transform: translateX(-2px);
+  animation: zy-glitch 900ms steps(1) forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 30%;
+}
+
+@keyframes zy-glitch{
+  0%{ opacity: 0 }
+  55%{ opacity: 0 }
+  58%{ opacity: .6; transform: translateX(2px) }
+  60%{ opacity: 0 }
+  100%{ opacity: 0 }
+}
+
+
+/* ===============================
+   SCANLINE SWEEP
+================================ */
+
+.zy-section::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -120%;
+  height: 120%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(0,255,255,0.08),
+    transparent
+  );
+  animation: zy-scan 1.2s ease-out forwards;
+  animation-timeline: view();
+  animation-range: entry 0% entry 35%;
+  pointer-events: none;
+}
+
+@keyframes zy-scan{
+  to{
+    top: 120%;
+  }
+}
+
+
+/* ===============================
+   MICRO STAGGER
+================================ */
+
+.zy-micro{
+  opacity: 0;
+  transform: translateY(24px);
+  animation: zy-micro-rise 700ms cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.zy-micro:nth-of-type(1){ animation-delay: .2s }
+.zy-micro:nth-of-type(2){ animation-delay: .35s }
+.zy-micro:nth-of-type(3){ animation-delay: .5s }
+
+@keyframes zy-micro-rise{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ===============================
+   SECTION REVEAL (PRODUCTION)
+================================ */
+
+.zy-section,
+.zy-micro{
+  opacity: 0;
+  transform: translateY(72px);
+  
+  transition:
+    opacity 1200ms cubic-bezier(0.16,1,0.3,1),
+    transform 1200ms cubic-bezier(0.16,1,0.3,1),
+    filter 1200ms cubic-bezier(0.16,1,0.3,1);
+}
+
+.zy-reveal{
+  opacity: 1;
+  transform: translateY(0);
+  
+}
+
+
+/* ===============================
+   GLITCH SNAP (ON REVEAL)
+================================ */
+
+.zy-reveal h2::after{
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: #00ffff;
+  opacity: 0;
+  transform: translateX(-2px);
+  animation: zy-glitch-snap 400ms steps(1);
+}
+
+@keyframes zy-glitch-snap{
+  0%{ opacity: 0 }
+  40%{ opacity: .7; transform: translateX(2px) }
+  60%{ opacity: 0 }
+  100%{ opacity: 0 }
+}
+
+
+/* ===============================
+   STAGGER CHILD ELEMENTS
+================================ */
+
+.zy-reveal h2{
+  transition-delay: 0ms;
+}
+
+.zy-reveal p{
+  transition-delay: 140ms;
+}
+
+.zy-reveal .zy-micro{
+  transition-delay: 280ms;
+}
+
+
+/* ===============================
+   SYSTEM SCAN LINE
+================================ */
+
+.zy-scan{
+  width: 48px;
+  height: 2px;
+  margin: 16px auto 28px;
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.zy-reveal .zy-scan{
+  opacity: 1;
+  transform: scaleX(1);
+  transition:
+    opacity 600ms ease,
+    transform 900ms cubic-bezier(0.16,1,0.3,1);
+}
+
+
+/* ===============================
+   TEXT ANIMATION SYSTEM
+================================ */
+
+/* Headline scan-in */
+.zy-h2{
+  opacity: 0;
+  transform: translateY(16px);
+  
+}
+
+.zy-reveal .zy-h2{
+  opacity: 1;
+  transform: translateY(0);
+  
+  transition:
+    opacity 900ms ease,
+    transform 900ms cubic-bezier(0.16,1,0.3,1),
+    filter 900ms ease;
+}
+
+/* Paragraph line reveal */
+.zy-p{
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.zy-reveal .zy-p{
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 900ms ease 160ms,
+    transform 900ms cubic-bezier(0.16,1,0.3,1) 160ms;
+}
+
+/* Feature rows */
+.zy-feature{
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.zy-reveal .zy-feature{
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 700ms ease,
+    transform 900ms cubic-bezier(0.16,1,0.3,1);
+}
+
+/* Stagger features automatically */
+.zy-feature:nth-child(1){ transition-delay: 0ms; }
+.zy-feature:nth-child(2){ transition-delay: 120ms; }
+.zy-feature:nth-child(3){ transition-delay: 240ms; }
+
+/* Energy line pulse */
+.zy-bar{
+  width: 2px;
+  height: 0;
+  background: linear-gradient(180deg, transparent, #00ffff, transparent);
+  margin-right: 18px;
+}
+
+.zy-reveal .zy-bar{
+  height: 48px;
+  transition: height 600ms ease;
+}
+
+
+/* ===============================
+   ZYPHER SCROLL MOTION v2
+   Strong, Clean, No Blur
+================================ */
+
+.zy-section{
+  opacity: 0;
+  transform: translateY(48px) scale(0.98);
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zy-section.is-visible{
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.zy-feature{
+  opacity: 0;
+  transform: translateX(-40px);
+  transition:
+    opacity 600ms ease,
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zy-feature.is-visible{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.zy-bar{
+  height: 100%;
+  width: 2px;
+  background: #00ffff;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 600ms ease;
+}
+
+.zy-feature.is-visible .zy-bar{
+  transform: scaleY(1);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .zy-section,
+  .zy-feature{
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+
+/* ===============================
+   ZYPHER TEXT MOTION v1
+   Text-only / Premium / Visible
+================================ */
+
+.zy-animate{
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.zy-animate.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Headings — subtle glitch settle */
+.zy-h2{
+  letter-spacing: 0.08em;
+}
+
+.zy-h2.is-visible{
+  letter-spacing: 0.02em;
+  transition:
+    opacity 700ms ease,
+    transform 700ms ease,
+    letter-spacing 900ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Paragraphs — cinematic ease */
+.zy-p{
+  transition-delay: 120ms;
+}
+
+/* Feature blocks — staggered */
+.zy-feature{
+  transform: translateX(-48px);
+}
+
+.zy-feature.is-visible{
+  transform: translateX(0);
+}
+
+/* Stagger effect */
+.zy-feature:nth-child(1){ transition-delay: 120ms; }
+.zy-feature:nth-child(2){ transition-delay: 240ms; }
+.zy-feature:nth-child(3){ transition-delay: 360ms; }
+
+/* Neon bar grow */
+.zy-bar{
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zy-feature.is-visible .zy-bar{
+  transform: scaleY(1);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .zy-animate{
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* === EMERGENCY VISIBILITY OVERRIDE === */
+.zy-animate{
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ===============================
+   DEV LOGIN LAYER FIX
+   =============================== */
+.matrix-canvas{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dev-login-overlay{
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+}
+
+/* ===============================
+   DEVELOPER LOGIN (CANONICAL)
+   =============================== */
+
+.dev-login-card{
+  min-width: 420px;
+  padding: 32px 36px;
+  background: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  border-radius: 8px;
+  text-align: center;
+
+  box-shadow:
+    0 0 40px rgba(0, 255, 255, 0.25),
+    inset 0 0 20px rgba(0, 255, 255, 0.08);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.dev-login-card h1{
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: 0.35em;
+  color: #00ffff;
+}
+
+.dev-login-card .subtitle{
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 24px;
+  opacity: 0.75;
+}
+
+.dev-login-card input{
+  width: 100%;
+  padding: 14px;
+  background: black;
+  border: 1px solid rgba(0,255,255,0.4);
+  color: #00ffff;
+  font-size: 1rem;
+  text-align: center;
+  outline: none;
+}
+
+.dev-login-card .enter-btn{
+  margin-top: 22px;
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid #ff3b3b;
+  color: #ff3b3b;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+}
+
+/* ===============================
+   DEV LOGIN CLOSE BUTTON
+   =============================== */
+.dev-login-close{
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  width: 38px;
+  height: 38px;
+
+  background: transparent;
+  border: 1px solid rgba(0,255,255,0.35);
+  color: #00ffff;
+
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+
+  display: grid;
+  place-items: center;
+
+  opacity: 0.7;
+  transition:
+    opacity 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.dev-login-close:hover{
+  opacity: 1;
+  box-shadow: 0 0 16px rgba(0,255,255,0.4);
+  transform: scale(1.05);
+}
+
+/* ===============================
+   DEV LOGIN CARD GLOW UPGRADE
+   =============================== */
+.dev-login-card{
+  box-shadow:
+    0 0 60px rgba(0, 255, 255, 0.35),
+    0 0 120px rgba(0, 255, 255, 0.12),
+    inset 0 0 28px rgba(0, 255, 255, 0.10);
+}
+
+/* ===============================
+   DEV TERMINAL LOCK (HARD)
+   =============================== */
+.os-btn.dev{
+  pointer-events: none !important;
+  opacity: 0.35;
+  filter: grayscale(1);
+  cursor: default;
 }
