@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import DeveloperLogin from "./DeveloperLogin";
-import "./ZypherOS.css";
+import "./zypherOS.css";
 
 export default function ZypherOS() {
   
