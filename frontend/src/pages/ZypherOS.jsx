@@ -139,15 +139,14 @@ useEffect(() => {
           <div className="os-logo zypher-title">ZYPHER</div>
 
           <div className="os-actions">
-            <button className="os-btn client" disabled>
+            <button className="os-btn client" onClick={() => { sessionStorage.setItem("zy_dev_intent","client"); nav("/developer"); }}>
               <span data-text="CLIENT ACCESS">CLIENT ACCESS</span>
             </button>
 
             <button
               className="os-btn dev"
               onClick={() => {
-                sessionStorage.setItem("zy_dev_intent", "1");
-                /* DEV TERMINAL LOCKED */null;
+                sessionStorage.setItem("zy_dev_intent","dev"); nav("\/developer");
               }}
             >
               <span data-text="DEVELOPER TERMINAL">
