@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function DeveloperLogin() {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
+  const location = useLocation();
+  const isDev = location.pathname === "/dev";
 
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState(false);
@@ -12,6 +14,7 @@ export default function DeveloperLogin() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+      console.log("CLIENT CANVAS SIZE:", canvas.width, canvas.height);
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -28,12 +31,11 @@ export default function DeveloperLogin() {
     const draw = () => {
       ctx.fillStyle = "rgba(0,0,0,0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#00ffff";
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      ctx.fillStyle = "#ff3c3c";
+        ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
@@ -73,7 +75,7 @@ export default function DeveloperLogin() {
 
   return (
     <>
-      <canvas ref={canvasRef} className="matrix-canvas" />
+      <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, zIndex: 0 }} className="matrix-canvas" />
 
       <div className="dev-login-overlay">
         <button className="dev-login-close" aria-label="Close" onClick={() => navigate("/")}>×</button>
