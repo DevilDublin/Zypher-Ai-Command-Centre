@@ -252,7 +252,7 @@ body.zy-auth-enter .dev-login-card h1{
    (prevents prod/local drift)
 ================================ */
 .login-close,
-.dev-login-close {
+.dev-login-overlay .dev-login-close {
   position: fixed !important;
   top: 16px !important;
   right: 16px !important;

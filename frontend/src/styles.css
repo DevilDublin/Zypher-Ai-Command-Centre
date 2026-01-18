@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 :root{
   --bg0:#070012;
   --bg1:#0b0020;
@@ -89,7 +91,7 @@ padding: 30px;
   padding: 22px;
   background: var(--glass);
   border: 1px solid var(--stroke);
-  backdrop-
+  backdrop-filter: blur(10px);
   box-shadow: var(--shadow), var(--glow), var(--glow2);
   overflow:hidden;
 
@@ -1307,7 +1309,7 @@ span[data-system-status].zy-glowText{
   height: calc(100vh - 48px);
   background: var(--glass);
   border-radius: 28px;
-  backdrop-
+  backdrop-filter: blur(10px);
   box-shadow:
     -12px 0 40px rgba(0,0,0,0.6),
     0 0 60px rgba(161,0,255,0.25),
