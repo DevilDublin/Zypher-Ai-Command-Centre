@@ -1,0 +1,107 @@
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [connected, setConnected] = useState(false);
+
+  // Initial client state fetch
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(() => {});
+  }, []);
+
+  // Realtime socket connection
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    const socket = io("http://localhost:3000", {
+      extraHeaders: { "x-client-id": clientId }
+    });
+
+    socket.on("connect", () => setConnected(true));
+    socket.on("disconnect", () => setConnected(false));
+
+    socket.on("notify", (message) => {
+      setEvents(prev =>
+        [{ message, ts: Date.now() }, ...prev].slice(0, 5)
+      );
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
+  if (!clientState) return null;
+
+  return (
+    <>
+      <header className="header">
+        <div className="client-id">
+          CLIENT ID: {clientState.clientId}
+        </div>
+        <h1>YOUR CLIENT DASHBOARD</h1>
+      </header>
+
+      <div className="grid">
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>ACCOUNT STATUS</h3>
+            <div className="metric">{connected ? "ACTIVE" : "DISCONNECTED"}</div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>TODAY'S ACTIVITY</h3>
+            <div className="metric">{events.length}</div>
+            <div className="sub">Realtime events</div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>LIVE AGENT</h3>
+            <div className="metric">{connected ? "Listening" : "Offline"}</div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>NUMBER PERFORMANCE</h3>
+            <div className="metric">—</div>
+            <div className="sub">Metrics coming soon</div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>SERVICE HEALTH</h3>
+            <div className="metric">{connected ? "Healthy" : "Disconnected"}</div>
+          </div>
+        </div>
+
+        <div className="panel">
+          <div className="panel-inner">
+            <h3>RECENT EVENTS</h3>
+            <ul className="events">
+              {events.map((e, i) => (
+                <li key={i}>
+                  {new Date(e.ts).toLocaleTimeString()} — {e.message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import ZypherOS from "./pages/ZypherOS";
 import DeveloperLogin from "./pages/DeveloperLogin";
 import ClientLogin from "./pages/ClientLogin";
+import ClientShell from "./client/ClientShell";
+import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
 import App from "./App";
 
 
@@ -23,6 +25,8 @@ export default function RouterApp() {
       <Routes>
         <Route path="/" element={<ZypherOS />} />
         <Route path="/client" element={<ClientLogin />} />
+          <Route path="/dashboard" element={<ClientShell />} />
+          <Route path="/client-dashboard" element={<ClientDashboardShell />} />
         <Route path="/dev" element={<DeveloperLogin />} />
         <Route path="/developer" element={<DeveloperLogin />} />
         <Route path="*" element={<Navigate to="/" replace />} />

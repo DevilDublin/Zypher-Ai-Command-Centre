@@ -1,0 +1,159 @@
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [connected, setConnected] = useState(false);
+
+  // Initial client state fetch
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(() => {});
+  }, []);
+
+  // Realtime socket connection
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    const socket = io("http://localhost:3000", {
+      extraHeaders: { "x-client-id": clientId }
+    });
+
+    socket.on("connect", () => setConnected(true));
+    socket.on("disconnect", () => setConnected(false));
+
+    socket.on("notify", (message) => {
+      setEvents(prev =>
+        [{ message, ts: Date.now() }, ...prev].slice(0, 5)
+      );
+    });
+
+    return (
+      <>
+        <div className="client-root">
+          <header className="header">
+            <h1>YOUR CLIENT DASHBOARD</h1>
+          </header>
+
+          <div className="grid">
+
+            <div className="panel">
+              <h2>ACCOUNT STATUS</h2>
+              <div className="status-line">
+                <span className="dot pulse"></span>
+                <span>{connected ? "ACTIVE" : "DISCONNECTED"}</span>
+              </div>
+            </div>
+
+            <div className="panel">
+              <h2>TODAY’S ACTIVITY</h2>
+              <div className="metric">{events.length}</div>
+              <div className="muted">events today</div>
+            </div>
+
+            <div className="panel">
+              <h2>LIVE AGENT</h2>
+              <div className="wave">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div className="muted">{connected ? "LISTENING" : "OFFLINE"}</div>
+            </div>
+
+            <div className="panel">
+              <h2>NUMBER PERFORMANCE</h2>
+              <div className="bar">
+                <div className="bar-fill" style={{ width: Math.min(events.length * 10, 100) + "%" }}></div>
+              </div>
+              <div className="tiny">{events.length} calls processed</div>
+            </div>
+
+            <div className="panel">
+              <h2>SERVICE HEALTH</h2>
+              <div className="status-line">
+                <span className="dot good"></span>
+                <span>HEALTHY</span>
+              </div>
+              <div className="tiny">avg latency ~120ms</div>
+            </div>
+
+            <div className="panel">
+              <h2>RECENT EVENTS</h2>
+              <ul className="events">
+                {events.map((e, i) => (
+                  <li key={i}>{e.message}</li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+        </div>
+    );
+    return (
+      <>
+        <div className="client-root">
+          <header className="header">
+            <h1>YOUR CLIENT DASHBOARD</h1>
+          </header>
+
+          <div className="grid">
+
+            <div className="panel">
+              <h2>ACCOUNT STATUS</h2>
+              <div className="status-line">
+                <span className="dot pulse"></span>
+                <span>{connected ? "ACTIVE" : "DISCONNECTED"}</span>
+              </div>
+            </div>
+
+            <div className="panel">
+              <h2>TODAY’S ACTIVITY</h2>
+              <div className="metric">{events.length}</div>
+              <div className="muted">events today</div>
+            </div>
+
+            <div className="panel">
+              <h2>LIVE AGENT</h2>
+              <div className="wave">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div className="muted">{connected ? "LISTENING" : "OFFLINE"}</div>
+            </div>
+
+            <div className="panel">
+              <h2>NUMBER PERFORMANCE</h2>
+              <div className="bar">
+                <div className="bar-fill" style={{ width: Math.min(events.length * 10, 100) + "%" }}></div>
+              </div>
+              <div className="tiny">{events.length} calls processed</div>
+            </div>
+
+            <div className="panel">
+              <h2>SERVICE HEALTH</h2>
+              <div className="status-line">
+                <span className="dot good"></span>
+                <span>HEALTHY</span>
+              </div>
+              <div className="tiny">avg latency ~120ms</div>
+            </div>
+
+            <div className="panel">
+              <h2>RECENT EVENTS</h2>
+              <ul className="events">
+                {events.map((e, i) => (
+                  <li key={i}>{e.message}</li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
+        </div>
+    );}

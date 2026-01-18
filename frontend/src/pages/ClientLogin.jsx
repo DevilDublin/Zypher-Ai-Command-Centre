@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./developerLogin.css";
 
-export default function DeveloperLogin() {
+export default function ClientLogin() {
 
   useEffect(() => {
     document.body.classList.add("zy-auth-enter");
@@ -58,27 +58,10 @@ export default function DeveloperLogin() {
   }, []);
 
   /* ===== SUBMIT ===== */
-  const submit = async () => {
-    setError(false);
-
-    if (window.location.port === "5173") {
-      navigate("/developer");
-      return;
-    }
-
-    try {
-      const res = await fetch("/.netlify/functions/dev-auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passkey })
-      });
-      const data = await res.json();
-      if (data.ok) navigate("/developer");
-      else setError(true);
-    } catch {
-      setError(true);
-    }
-  };
+  const submit = () => {
+      setError(false);
+      navigate("/client-dashboard");
+    };
 
   return (
     <>
@@ -95,6 +78,7 @@ export default function DeveloperLogin() {
             placeholder="ENTER PASSKEY"
             value={passkey}
             onChange={(e) => setPasskey(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
           />
 
           {error && <div className="error">ACCESS DENIED</div>}

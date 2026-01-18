@@ -1,0 +1,62 @@
+
+import React, { useEffect, useState } from "react";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) {
+      setError("No client ID found in localStorage");
+      return;
+    }
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(e => setError(String(e)));
+  }, []);
+
+  if (error) {
+    return (
+      <div style={{ padding: 40, color: "#ff6b6b", fontFamily: "monospace" }}>
+        CLIENT ERROR: {error}
+      </div>
+    );
+  }
+
+  if (!clientState) {
+    return (
+      <div style={{ padding: 40, opacity: 0.6 }}>
+        Booting client session…
+      </div>
+    );
+  }
+
+  return (
+    <div className="client-root">
+      <header className="header">
+        <div style={{ opacity: 0.6, fontSize: 12, letterSpacing: "0.15em" }}>
+          CLIENT ID: {clientState.clientId}
+        </div>
+        <div style={{ fontSize: 26, marginTop: 6 }}>
+          {clientState.name}
+        </div>
+      </header>
+
+      <pre style={{
+        marginTop: 20,
+        background: "rgba(0,0,0,0.35)",
+        padding: 16,
+        borderRadius: 8,
+        color: "#00ffff",
+        fontSize: 12
+      }}>
+{JSON.stringify(clientState, null, 2)}
+      </pre>
+    </div>
+  );
+}

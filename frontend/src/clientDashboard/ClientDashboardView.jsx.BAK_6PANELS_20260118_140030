@@ -1,0 +1,54 @@
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [connected, setConnected] = useState(false);
+
+  // Fetch initial client state
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(() => {});
+  }, []);
+
+  // Realtime socket
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    const socket = io("http://localhost:3000", {
+      extraHeaders: { "x-client-id": clientId }
+    });
+
+    socket.on("connect", () => setConnected(true));
+    socket.on("disconnect", () => setConnected(false));
+
+    socket.on("notify", (message) => {
+      setEvents(prev =>
+        [{ message, ts: Date.now() }, ...prev].slice(0, 5)
+      );
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
+  return (
+    <div className="client-root">
+      <h1>YOUR CLIENT DASHBOARD</h1>
+
+      <div className="grid">
+        <div className="panel">ACCOUNT STATUS: {connected ? "ACTIVE" : "OFFLINE"}</div>
+        <div className="panel">EVENTS: {events.length}</div>
+        <div className="panel">CLIENT ID: {clientState?.clientId}</div>
+      </div>
+    </div>
+  );
+}

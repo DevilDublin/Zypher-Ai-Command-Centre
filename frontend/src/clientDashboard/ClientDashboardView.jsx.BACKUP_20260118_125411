@@ -1,0 +1,67 @@
+
+import React, { useEffect, useState } from "react";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) {
+      setError("No client ID found in localStorage");
+      return;
+    }
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(e => setError(String(e)));
+  }, []);
+
+  if (error) {
+    return (
+  <>
+    <header className="header">
+      <div className="client-id">
+        CLIENT ID: {clientState?.clientId}
+      </div>
+      <h1>YOUR CLIENT DASHBOARD</h1>
+    </header>
+
+    <div className="grid">
+      <div className="panel">ACCOUNT STATUS</div>
+      <div className="panel">TODAY'S ACTIVITY</div>
+      <div className="panel">LIVE AGENT</div>
+      <div className="panel">NUMBER PERFORMANCE</div>
+      <div className="panel">SERVICE HEALTH</div>
+      <div className="panel">RECENT EVENTS</div>
+    </div>
+  </>
+);
+}
+
+
+  if (!clientState) return null;
+
+  return (
+    <>
+      <header className="header">
+        <div className="client-id">
+          CLIENT ID: {clientState.clientId}
+        </div>
+        <h1>YOUR CLIENT DASHBOARD</h1>
+      </header>
+
+      <div className="grid">
+        <div className="panel">ACCOUNT STATUS</div>
+        <div className="panel">TODAY'S ACTIVITY</div>
+        <div className="panel">LIVE AGENT</div>
+        <div className="panel">NUMBER PERFORMANCE</div>
+        <div className="panel">SERVICE HEALTH</div>
+        <div className="panel">RECENT EVENTS</div>
+      </div>
+    </>
+  );
+}

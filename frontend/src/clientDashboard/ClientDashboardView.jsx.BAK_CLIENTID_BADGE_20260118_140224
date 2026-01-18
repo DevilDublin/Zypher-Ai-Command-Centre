@@ -1,0 +1,97 @@
+import React, { useEffect, useState } from "react";
+import { io } from "socket.io-client";
+
+export default function ClientDashboardView() {
+  const [clientState, setClientState] = useState(null);
+  const [events, setEvents] = useState([]);
+  const [connected, setConnected] = useState(false);
+
+  // Fetch initial client state
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    fetch("http://localhost:3000/client/state", {
+      headers: { "x-client-id": clientId }
+    })
+      .then(r => r.json())
+      .then(setClientState)
+      .catch(() => {});
+  }, []);
+
+  // Realtime socket
+  useEffect(() => {
+    const clientId = localStorage.getItem("clientId");
+    if (!clientId) return;
+
+    const socket = io("http://localhost:3000", {
+      extraHeaders: { "x-client-id": clientId }
+    });
+
+    socket.on("connect", () => setConnected(true));
+    socket.on("disconnect", () => setConnected(false));
+
+    socket.on("notify", (message) => {
+      setEvents(prev =>
+        [{ message, ts: Date.now() }, ...prev].slice(0, 5)
+      );
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
+  return (
+    <div className="client-root">
+      <h1>YOUR CLIENT DASHBOARD</h1>
+
+      
+      <div className="grid">
+        <div className="panel">
+          <h2>ACCOUNT STATUS</h2>
+          <div className="big">{connected ? "ACTIVE" : "OFFLINE"}</div>
+        </div>
+
+        <div className="panel">
+          <h2>TODAY'S ACTIVITY</h2>
+          <div className="bar">
+            <div className="bar-fill" style={{ width: Math.min(events.length * 15, 100) + "%" }}></div>
+          </div>
+          <div className="tiny">{events.length} realtime events</div>
+        </div>
+
+        <div className="panel">
+          <h2>LIVE AGENT</h2>
+          <div className="wave">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div className="muted">{connected ? "LISTENING" : "IDLE"}</div>
+        </div>
+
+        <div className="panel">
+          <h2>NUMBER PERFORMANCE</h2>
+          <div className="metric">{events.length * 3} calls</div>
+          <div className="tiny">today</div>
+        </div>
+
+        <div className="panel">
+          <h2>SERVICE HEALTH</h2>
+          <div className="status-line">
+            <span className="dot good"></span>
+            <span>HEALTHY</span>
+          </div>
+          <div className="tiny">latency ~120ms</div>
+        </div>
+
+        <div className="panel">
+          <h2>RECENT EVENTS</h2>
+          <ul className="events">
+            {events.map((e, i) => (
+              <li key={i}>{e.message}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  );
+}
