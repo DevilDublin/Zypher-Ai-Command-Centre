@@ -23,7 +23,7 @@ export default function RouterApp() {
     <>
 
       <Routes>
-        <Route path="/" element={<ZypherOS />} />
+        <Route path="/" element={<Navigate to="/developer" replace />} />} />
         <Route path="/client" element={<ClientLogin />} />
           <Route path="/dashboard" element={<ClientShell />} />
           <Route path="/client-dashboard" element={<ClientDashboardShell />} />
