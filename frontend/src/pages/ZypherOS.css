@@ -35,23 +35,56 @@
   justify-content: center;
   text-align: center;
 }
+<<<<<<< HEAD
 .os-logo {
   font-size: 64px;
   letter-spacing: .4em;
   opacity: .15;
   animation: pulse 4s infinite, ambient-glow 9s ease-in-out infinite;
 }
+=======
+
+
+.os-logo {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: block;
+}
+
+
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 @keyframes pulse {
   0%,100% { opacity: .12 }
   50% { opacity: .22 }
 }
 
+
+
+
+
+
 .os-actions {
+<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }.os-btn {
+=======
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+.os-btn {
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   padding: 18px 40px;
   background: transparent;
   border: 1px solid currentColor;
@@ -213,20 +246,45 @@ END DISABLED */
 
 /* === LAYOUT TIGHTENING === */
 .os-core {
+<<<<<<< HEAD
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+=======
+  padding-top: 28vh;
+}
+
+
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   justify-content: center;
   text-align: center;
 }
+<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* === GOTHAM NEON FLICKER === */
+=======
+
+
+
+
+
+
+/* === GOTHAM NEON FLICKER === */
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 /* DISABLED OLD RULE
 .zypher-title {
   position: relative;
@@ -255,12 +313,32 @@ END DISABLED */
 }
 
 /* === BUTTON CINEMATIC ENTRANCE === */
+
+
+
+
+
 .os-actions {
+<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes actions-rise {
+=======
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+@keyframes actions-rise {
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   from {
     opacity: 0;
     transform: translateY(18px);
@@ -313,20 +391,45 @@ END DISABLED */
 
 /* === LAYOUT TIGHTEN === */
 .os-core {
+<<<<<<< HEAD
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+=======
+  transform: translateY(-40px);
+}
+
+
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   justify-content: center;
   text-align: center;
 }
+<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
+=======
+
+
+
+
+
+
+/* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 body {
     45deg,
     red,
@@ -421,12 +524,32 @@ END DISABLED */
 /* ===============================
    CINEMATIC BUTTON ENTRANCE
    =============================== */
+
+
+
+
+
 .os-actions {
+<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes buttons-rise {
+=======
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+@keyframes buttons-rise {
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   0% {
     opacity: 0;
     transform: translateY(80px);
@@ -610,12 +733,32 @@ END DISABLED */
   box-shadow:
 }
 
+
+
+
+
+
 .os-actions {
+<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes action-float {
+=======
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+@keyframes action-float {
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
@@ -1741,10 +1884,22 @@ html, body{
   z-index:9999;
 }
 
-.os-actions{
-  margin-top: 72px;
-  margin-top:64px;
+
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
 }
+
+
+
+
+
 
 
 /* FIX: prevent text selection on Developer Terminal */
@@ -1756,12 +1911,33 @@ html, body{
 
 
 /* FIX: ensure action buttons are on top of all OS layers */
+<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }
+=======
+.zypher-os 
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 /* FIX: prevent scroll container from stealing clicks */
 .scroll-doc {
   pointer-events: none;
@@ -1858,12 +2034,33 @@ html, body{
    =============================== */
 
 /* Ensure buttons are interactive across full box */
+<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }.zypher-os .os-btn {
+=======
+.zypher-os 
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+.zypher-os .os-btn {
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   pointer-events: auto;
   cursor: pointer;
 }
@@ -1889,12 +2086,33 @@ html, body{
    =============================== */
 
 /* Ensure action buttons sit above all cinematic layers */
+<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* Explicitly lift buttons */
+=======
+.zypher-os 
+
+
+
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+
+
+
+/* Explicitly lift buttons */
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 .zypher-os .os-btn {
   position: relative;
   z-index: 60;
@@ -1928,6 +2146,7 @@ html, body{
   cursor: pointer !important;
 }
 
+<<<<<<< HEAD
 /* === CINEMATIC BUTTON ENTRANCE === */
 .os-actions {
   animation: actions-rise 1.2s ease-out both;
@@ -1965,5 +2184,104 @@ html, body{
   }
   50% {
     box-shadow: 0 0 18px currentColor;
+=======
+
+
+/* ===============================
+   CINEMATIC BUTTON GLOW (SAFE)
+================================ */
+
+@keyframes os-btn-glow {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(255,255,255,0.18);
+  }
+  50% {
+    box-shadow: 0 0 26px rgba(255,255,255,0.35);
+  }
+}
+
+@keyframes os-btn-flicker {
+  0%, 92%, 100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.78;
+  }
+  94% {
+    opacity: 1;
+  }
+}
+
+.os-btn {
+  animation:
+    os-btn-glow 5.5s ease-in-out infinite,
+    os-btn-flicker 11s infinite;
+}
+
+
+
+/* ===============================
+   ZYPHER BUTTON FLICKER + GLOW
+   Logo-synced, device-safe
+================================ */
+
+@keyframes os-btn-neon-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(255,255,255,0.25),
+      0 0 36px rgba(255,255,255,0.18);
+  }
+  50% {
+    box-shadow:
+      0 0 28px rgba(255,255,255,0.45),
+      0 0 58px rgba(255,255,255,0.30);
+  }
+}
+
+@keyframes os-btn-neon-flicker {
+  0%, 91%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  92% {
+    opacity: 0.75;
+    filter: brightness(1.35);
+  }
+  93% {
+    opacity: 1;
+  }
+  97% {
+    opacity: 0.85;
+  }
+}
+
+.os-btn {
+  animation:
+    os-btn-neon-glow 6.8s ease-in-out infinite,
+    os-btn-neon-flicker 13s infinite;
+  will-change: opacity, box-shadow, filter;
+}
+
+
+
+/* ===============================
+   RESPONSIVE BUTTON SAFETY
+================================ */
+
+@media (max-width: 640px) {
+  
+
+.os-actions {
+  margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
+  display: flex;
+  gap: clamp(1.6rem, 3vw, 2.6rem);
+  justify-content: center;
+}
+
+
+
+  .os-btn {
+    width: min(88vw, 360px);
+>>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   }
 }
