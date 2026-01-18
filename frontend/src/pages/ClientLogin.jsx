@@ -5,8 +5,8 @@ import "./developerLogin.css";
 export default function ClientLogin() {
 
   useEffect(() => {
-    document.body.classList.add("zy-auth-enter");
-    return () => document.body.classList.remove("zy-auth-enter");
+    document.body.classList.add("zy-auth-enter", "zy-client-auth");
+    return () => document.body.classList.remove("zy-auth-enter", "zy-client-auth");
   }, []);
 
   const navigate = useNavigate();

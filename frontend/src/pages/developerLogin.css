@@ -226,3 +226,23 @@ body.zy-auth-enter .dev-login-card h1{
 .dev-login-card .pass-eye:hover {
   text-shadow: 0 0 10px rgba(255, 60, 60, 0.9);
 }
+
+/* ===== AUTH-SCOPED PASSWORD EYES ===== */
+
+/* Developer Terminal → RED */
+.zy-dev-auth .pass-eye {
+  color: rgba(255, 60, 60, 0.8);
+}
+
+.zy-dev-auth .pass-eye:hover {
+  text-shadow: 0 0 10px rgba(255, 60, 60, 0.95);
+}
+
+/* Client Access → CYAN */
+.zy-client-auth .pass-eye {
+  color: rgba(0, 255, 255, 0.75);
+}
+
+.zy-client-auth .pass-eye:hover {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9);
+}
