@@ -139,14 +139,14 @@ useEffect(() => {
           <div className="os-logo zypher-title">ZYPHER</div>
 
           <div className="os-actions">
-            <button className="os-btn client" onClick={() => { sessionStorage.setItem("zy_dev_intent","client"); nav("/developer"); }}>
+            <button className="os-btn client" onClick={() => { nav("/client"); }}>
               <span data-text="CLIENT ACCESS">CLIENT ACCESS</span>
             </button>
 
             <button
               className="os-btn dev"
               onClick={() => {
-                sessionStorage.setItem("zy_dev_intent","dev"); nav("\/developer");
+                sessionStorage.setItem("zy_dev_intent","dev"); nav("/developer");
               }}
             >
               <span data-text="DEVELOPER TERMINAL">
