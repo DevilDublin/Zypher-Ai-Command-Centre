@@ -47,6 +47,7 @@
 }
 
 .os-actions {
+  margin-top: 72px;
   margin-top: 2.2rem !important;
   display: flex;
   gap: 2.2rem;
@@ -219,6 +220,7 @@ END DISABLED */
 }
 
 .os-actions {
+  margin-top: 72px;
   margin-top: 2.2rem !important;
   display: flex;
   gap: 2.2rem;
@@ -255,6 +257,7 @@ END DISABLED */
 
 /* === BUTTON CINEMATIC ENTRANCE === */
 .os-actions {
+  margin-top: 72px;
   margin-top: 2.2rem !important;
   display: flex;
   gap: 2.2rem;
@@ -318,6 +321,7 @@ END DISABLED */
 }
 
 .os-actions {
+  margin-top: 72px;
   margin-top: 2.2rem !important;
   display: flex;
   gap: 2.2rem;
@@ -420,6 +424,7 @@ END DISABLED */
    CINEMATIC BUTTON ENTRANCE
    =============================== */
 .os-actions {
+  margin-top: 72px;
   margin-top: 2.2rem !important;
   display: flex;
   gap: 2.2rem;
@@ -611,6 +616,7 @@ END DISABLED */
 }
 
 .os-actions {
+  margin-top: 72px;
   animation: action-float 6s ease-in-out infinite;
 }
 
@@ -1731,4 +1737,197 @@ html, body{
 .scroll-doc .zy-voice-demo{
   opacity: 1 !important;
   transform: none !important;
+}
+
+
+/* === AUTH OVERLAY === */
+.os-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(6px);
+  z-index:9999;
+}
+
+.os-actions{
+  margin-top: 72px;
+  margin-top:64px;
+}
+
+
+/* FIX: prevent text selection on Developer Terminal */
+.zypher-os .os-btn.dev,
+.zypher-os .os-btn.dev * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+/* FIX: ensure action buttons are on top of all OS layers */
+.zypher-os .os-actions {
+  position: relative;
+  z-index: 10;
+}
+
+
+/* FIX: prevent scroll container from stealing clicks */
+.scroll-doc {
+  pointer-events: none;
+}
+
+
+/* FIX: pseudo-elements must not intercept clicks */
+.zypher-os .os-btn::before,
+.zypher-os .os-btn::after,
+.zypher-os .os-btn span::before,
+.zypher-os .os-btn span::after {
+  pointer-events: none !important;
+}
+
+
+/* FIX: decorative overlays must not block interaction */
+.os-noise,
+.os-vignette {
+  pointer-events: none;
+}
+
+
+/* FINAL FIX: isolate interactive layer from scroll surface */
+.scroll-doc {
+  pointer-events: none !important;
+}
+
+.os-core {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* FINAL FIX: ensure action buttons are interactive */
+.os-actions,
+.os-actions * {
+  pointer-events: auto !important;
+}
+
+
+/* UX: ensure correct cursor on Developer Terminal */
+.os-btn.dev {
+  cursor: pointer;
+}
+
+
+/* FINAL UX FIX: force pointer cursor on Developer Terminal */
+.zypher-os .os-btn.dev,
+.zypher-os .os-btn.dev * {
+  cursor: pointer !important;
+}
+
+
+/* FINAL FIX: make Developer button own full hit-box */
+.zypher-os .os-btn.dev {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* FINAL FIX: stretch Developer span to full button hit-box */
+.zypher-os .os-btn.dev span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+
+/* FINAL FIX: button owns hover, text ignores pointer */
+.zypher-os .os-btn.dev {
+  cursor: pointer !important;
+}
+
+.zypher-os .os-btn.dev span {
+  pointer-events: auto !important;
+}
+
+/* FIX: decorative overlays must not block interaction */
+.os-noise,
+.os-vignette {
+  pointer-events: none;
+}
+
+/* ===============================
+   FINAL FIX: DEV BUTTON INTERACTION
+   =============================== */
+
+/* Ensure buttons are interactive across full box */
+.zypher-os .os-actions {
+  pointer-events: auto;
+}
+
+.zypher-os .os-btn {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Kill pointer interception from ALL decorative layers */
+.zypher-os .os-btn::before,
+.zypher-os .os-btn::after,
+.zypher-os .os-btn span::before,
+.zypher-os .os-btn span::after,
+.zypher-os .os-logo,
+.os-noise,
+.os-vignette {
+  pointer-events: none;
+}
+
+/* Ensure dev button is not visually interactive-only */
+.zypher-os .os-btn.dev {
+  cursor: pointer;
+}
+
+/* ===============================
+   FINAL FIX: Z-INDEX STACKING
+   =============================== */
+
+/* Ensure action buttons sit above all cinematic layers */
+.zypher-os .os-actions {
+  position: relative;
+  z-index: 50;
+}
+
+/* Explicitly lift buttons */
+.zypher-os .os-btn {
+  position: relative;
+  z-index: 60;
+}
+
+/* Decorative layers must stay below */
+.os-noise,
+.os-vignette,
+.os-logo,
+.zypher-title {
+  position: relative;
+  z-index: 1;
+}
+
+/* FIX: full button hitbox + cursor everywhere (dev + client) */
+.zypher-os .os-btn { cursor: pointer; }
+.zypher-os .os-btn span { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+
+/* ================================
+   FINAL HITBOX OVERRIDE (AUTHORITATIVE)
+   This MUST be last in file
+================================ */
+.zypher-os .os-btn.dev,
+.zypher-os .os-btn.dev *,
+.zypher-os .os-btn.dev::before,
+.zypher-os .os-btn.dev::after,
+.zypher-os .os-btn.dev span,
+.zypher-os .os-btn.dev span::before,
+.zypher-os .os-btn.dev span::after {
+  pointer-events: auto !important;
+  cursor: pointer !important;
 }
