@@ -6,17 +6,17 @@ import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
 export default function RouterApp() {
   return (
     <Routes>
-      {/* Main landing */}
+      {/* PUBLIC LANDING */}
       <Route path="/" element={<ZypherOS />} />
 
-      {/* Dev command centre */}
+      {/* DEV */}
       <Route path="/developer" element={<App />} />
       <Route path="/dev" element={<App />} />
 
-      {/* Client dashboard */}
+      {/* CLIENT */}
       <Route path="/dashboard/*" element={<ClientDashboardShell />} />
 
-      {/* Fallback */}
+      {/* FALLBACK */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
