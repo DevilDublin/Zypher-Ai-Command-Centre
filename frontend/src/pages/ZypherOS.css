@@ -35,14 +35,12 @@
   justify-content: center;
   text-align: center;
 }
-<<<<<<< HEAD
 .os-logo {
   font-size: 64px;
   letter-spacing: .4em;
   opacity: .15;
   animation: pulse 4s infinite, ambient-glow 9s ease-in-out infinite;
 }
-=======
 
 
 .os-logo {
@@ -53,7 +51,6 @@
 }
 
 
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 @keyframes pulse {
   0%,100% { opacity: .12 }
   50% { opacity: .22 }
@@ -65,13 +62,11 @@
 
 
 .os-actions {
-<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }.os-btn {
-=======
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
@@ -84,7 +79,6 @@
 
 
 .os-btn {
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   padding: 18px 40px;
   background: transparent;
   border: 1px solid currentColor;
@@ -118,10 +112,8 @@
   to { opacity: 1 }
 }
 
-/* ================================
    GOTHAM NEON FLICKER — ZYPHER CORE
    GPU-only, zero layout impact
-================================ */
 
 /* DISABLED OLD RULE
 .zypher-title {
@@ -246,13 +238,11 @@ END DISABLED */
 
 /* === LAYOUT TIGHTENING === */
 .os-core {
-<<<<<<< HEAD
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-=======
   padding-top: 28vh;
 }
 
@@ -265,18 +255,15 @@ END DISABLED */
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   justify-content: center;
   text-align: center;
 }
-<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* === GOTHAM NEON FLICKER === */
-=======
 
 
 
@@ -284,7 +271,6 @@ END DISABLED */
 
 
 /* === GOTHAM NEON FLICKER === */
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 /* DISABLED OLD RULE
 .zypher-title {
   position: relative;
@@ -319,13 +305,11 @@ END DISABLED */
 
 
 .os-actions {
-<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes actions-rise {
-=======
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
@@ -338,7 +322,6 @@ END DISABLED */
 
 
 @keyframes actions-rise {
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   from {
     opacity: 0;
     transform: translateY(18px);
@@ -391,13 +374,11 @@ END DISABLED */
 
 /* === LAYOUT TIGHTEN === */
 .os-core {
-<<<<<<< HEAD
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-=======
   transform: translateY(-40px);
 }
 
@@ -410,18 +391,15 @@ END DISABLED */
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   justify-content: center;
   text-align: center;
 }
-<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
-=======
 
 
 
@@ -429,7 +407,6 @@ END DISABLED */
 
 
 /* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 body {
     45deg,
     red,
@@ -459,9 +436,7 @@ END DISABLED */
   50% { transform: scale(1.015); }
 }
 
-/* ===============================
    CINEMATIC CAMERA BREATH
-   =============================== */
 .zypher-os {
   min-height: 100vh;
   overflow: visible;
@@ -474,9 +449,7 @@ END DISABLED */
   50% { transform: scale(1.02); }
 }
 
-/* ===============================
    ZYPHER NEON POWER-UP
-   =============================== */
 /* DISABLED OLD RULE
 .zypher-title {
   animation:
@@ -521,22 +494,18 @@ END DISABLED */
   50% { transform: translateY(-18px); }
 }
 
-/* ===============================
    CINEMATIC BUTTON ENTRANCE
-   =============================== */
 
 
 
 
 
 .os-actions {
-<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes buttons-rise {
-=======
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
@@ -549,7 +518,6 @@ END DISABLED */
 
 
 @keyframes buttons-rise {
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   0% {
     opacity: 0;
     transform: translateY(80px);
@@ -560,9 +528,7 @@ END DISABLED */
   }
 }
 
-/* ===============================
    FINAL AUTHORITATIVE ZYPHER CORE
-   =============================== */
 .zypher-os .os-logo.zypher-title {
   position: relative;
   font-size: clamp(4rem, 8vw, 7rem);
@@ -610,9 +576,7 @@ END DISABLED */
   50% { transform: translateY(-22px); }
 }
 
-/* ===============================
    CINEMATIC ACTION BUTTONS
-   =============================== */
 .os-btn {
   position: relative;
   padding: 1.1rem 2.6rem;
@@ -739,13 +703,11 @@ END DISABLED */
 
 
 .os-actions {
-<<<<<<< HEAD
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }@keyframes action-float {
-=======
   margin-top: calc(clamp(7rem, 14vh, 11rem) + 1.2rem); /* micro drop ~1–2cm */
   display: flex;
   gap: clamp(1.6rem, 3vw, 2.6rem);
@@ -758,7 +720,6 @@ END DISABLED */
 
 
 @keyframes action-float {
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
@@ -790,11 +751,9 @@ END DISABLED */
 }
 
 
-/* ==========================================================
    ZYPHER OS — BUTTON LIFE SYSTEM
    Subtle idle glow + rare flicker
    Scoped. GPU-only. No layout impact.
-========================================================== */
 
 /* base enhancement */
 .zypher-os .os-btn {
@@ -859,9 +818,7 @@ END DISABLED */
 }
 
 
-/* ==========================================================
    ZYPHER OS — BUTTON NEON SYSTEM (FINAL)
-========================================================== */
 
 .zypher-os .os-btn {
   position: relative;
@@ -944,10 +901,8 @@ END DISABLED */
 }
 
 
-/* ==========================================================
    ZYPHER OS — GOTHAM BUTTON FLICKER (HIGH END)
    Irregular, electrical, premium
-========================================================== */
 
 /* --- shared electrical flicker --- */
 .zypher-os .os-btn {
@@ -992,9 +947,7 @@ END DISABLED */
 
 
 
-/* ==========================================================
    BUTTON ENERGY LAYER — SCI-FI TERMINAL STYLE
-========================================================== */
 
 .zypher-os .os-btn {
   overflow: hidden;
@@ -1049,9 +1002,7 @@ END DISABLED */
 
 
 
-/* ==========================================================
    BUTTON GLITCH — BLUE/RED (GOTHAM FILTERED)
-========================================================== */
 
 .zypher-os .os-btn{
   isolation:isolate;
@@ -1128,9 +1079,7 @@ END DISABLED */
 }
 
 
-/* ===============================
    Zypher Text Animations (Cinematic)
-================================ */
 
 .zy-anim:not([data-zy-type]){
   opacity: 0;
@@ -1180,10 +1129,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_CINEMATIC_ANIMS
    High-Impact Section Motion
-================================ */
 
 /* SECTION ENTRY */
 .zy-explain{
@@ -1284,10 +1231,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_EXPLAIN_LAYOUT
    Centered / Cinematic Formatting
-================================ */
 
 .zy-explain{
   max-width: 980px;
@@ -1341,10 +1286,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_SCROLL_ANIMS
    Smooth / Staggered / Cinematic
-================================ */
 
 .zy-anim:not([data-zy-type]){
   opacity: 0;
@@ -1417,10 +1360,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_TYPE_ENGINE
    Scroll-scrubbed typing
-================================ */
 
 [data-zy-type]{
   overflow: hidden;
@@ -1456,10 +1397,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_SCROLL_TYPE_ENGINE (FIXED)
    True scroll-scrubbed typing
-================================ */
 
 [data-zy-type]{
   position: relative;
@@ -1500,20 +1439,16 @@ END DISABLED */
 }
 
 
-/* ===============================
    ZY_TYPE_VISIBILITY_GUARD
    typed elements must remain visible
-================================ */
 [data-zy-type]{
   opacity: 1 !important;
   transform: none !important;
 }
 
 
-/* ===============================
    SCROLL-OWNED OVERRIDES
    Disable time-based anims inside scroll-doc
-================================ */
 
 .scroll-doc .zy-explain,
 .scroll-doc .zy-title,
@@ -1524,10 +1459,8 @@ END DISABLED */
 }
 
 
-/* ===============================
    SCROLL SPACE (REQUIRED)
    Enables scroll-driven animation
-================================ */
 
 .scroll-doc{
   min-height: 200vh;
@@ -1544,10 +1477,8 @@ html, body{
 }
 
 
-/* ===============================
    SCROLL CONTAINER FIX
    Prevent ghost scroll space
-================================ */
 
 .zypher-os{
   height: 100vh;
@@ -1565,9 +1496,7 @@ html, body{
   padding: 10vh 10vw;
 }
 \n
-/* ===============================
    SCROLL DOCUMENT (FULL WIDTH)
-================================ */
 
 .scroll-doc{
   width:100%;
@@ -1587,9 +1516,7 @@ html, body{
   justify-content:center;
 }
 \n
-/* ===============================
    SECTION THEMING
-================================ */
 
 .zy-section{
   background: radial-gradient(
@@ -1616,9 +1543,7 @@ html, body{
 }
 
 
-/* ===============================
    FULL-BLEED SCROLL SECTIONS
-================================ */
 
 .scroll-doc{
   width:100%;
@@ -1647,9 +1572,7 @@ html, body{
 }
 
 
-/* ===============================
    CINEMATIC SECTION BACKDROP
-================================ */
 
 .zy-section::before{
   content:"";
@@ -1668,9 +1591,7 @@ html, body{
   position:relative;
 }
 \n
-/* ===============================
    SCROLL SMOOTHING (SAFE)
-================================ */
 
 .zypher-os{
   scroll-behavior:smooth;
@@ -1685,9 +1606,7 @@ html, body{
   contain:layout paint;
 }
 \n
-/* ===============================
    SECTION TYPOGRAPHY
-================================ */
 
 .zy-title{
   font-size:clamp(2.4rem, 5vw, 3.6rem);
@@ -1706,9 +1625,7 @@ html, body{
   max-width:1200px;
 }
 \n
-/* ===============================
    ARCHITECTURE SECTION
-================================ */
 
 .zy-section:nth-of-type(2) .zy-lead{
   font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -1723,9 +1640,7 @@ html, body{
   background:linear-gradient(90deg, transparent, #7ffcff, transparent);
 }
 \n
-/* ===============================
    USE CASES
-================================ */
 
 .zy-list{
   display:grid;
@@ -1748,9 +1663,7 @@ html, body{
   box-shadow:0 0 25px rgba(127,255,255,0.15);
 }
 \n
-/* ===============================
    FINAL CTA
-================================ */
 
 .zy-end{
   align-items:center;
@@ -1772,9 +1685,7 @@ html, body{
   );
 }
 \n
-/* ===============================
    TYPE REVEAL (GPU SAFE)
-================================ */
 
 .zy-type-inner{
   display:inline-block;
@@ -1783,9 +1694,7 @@ html, body{
   transition:none;
 }
 \n
-/* ===============================
    ARCH GRID
-================================ */
 
 .zy-arch-grid{
   display:grid;
@@ -1810,9 +1719,7 @@ html, body{
   box-shadow:0 0 30px rgba(127,255,255,0.18);
 }
 \n
-/* ===============================
    TECH STACK
-================================ */
 
 .zy-section:nth-of-type(4) p{
   font-family:ui-monospace, monospace;
@@ -1820,10 +1727,8 @@ html, body{
 }
 
 
-/* ===============================
    ZYPHER VOICE DEMO
    Subtle, cinematic, GPU-only
-================================ */
 
 .zy-voice-demo{
   margin: 4vh auto 6vh;
@@ -1911,14 +1816,12 @@ html, body{
 
 
 /* FIX: ensure action buttons are on top of all OS layers */
-<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }
-=======
 .zypher-os 
 
 
@@ -1937,7 +1840,6 @@ html, body{
 
 
 
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 /* FIX: prevent scroll container from stealing clicks */
 .scroll-doc {
   pointer-events: none;
@@ -2029,19 +1931,15 @@ html, body{
   pointer-events: none;
 }
 
-/* ===============================
    FINAL FIX: DEV BUTTON INTERACTION
-   =============================== */
 
 /* Ensure buttons are interactive across full box */
-<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }.zypher-os .os-btn {
-=======
 .zypher-os 
 
 
@@ -2060,7 +1958,6 @@ html, body{
 
 
 .zypher-os .os-btn {
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   pointer-events: auto;
   cursor: pointer;
 }
@@ -2081,19 +1978,15 @@ html, body{
   cursor: pointer;
 }
 
-/* ===============================
    FINAL FIX: Z-INDEX STACKING
-   =============================== */
 
 /* Ensure action buttons sit above all cinematic layers */
-<<<<<<< HEAD
 .os-actions {
   margin-top: 6.5rem;
   display: flex;
   gap: 3rem;
   justify-content: center;
 }/* Explicitly lift buttons */
-=======
 .zypher-os 
 
 
@@ -2112,7 +2005,6 @@ html, body{
 
 
 /* Explicitly lift buttons */
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
 .zypher-os .os-btn {
   position: relative;
   z-index: 60;
@@ -2131,10 +2023,8 @@ html, body{
 .zypher-os .os-btn { cursor: pointer; }
 .zypher-os .os-btn span { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
 
-/* ================================
    FINAL HITBOX OVERRIDE (AUTHORITATIVE)
    This MUST be last in file
-================================ */
 .zypher-os .os-btn.dev,
 .zypher-os .os-btn.dev *,
 .zypher-os .os-btn.dev::before,
@@ -2146,7 +2036,6 @@ html, body{
   cursor: pointer !important;
 }
 
-<<<<<<< HEAD
 /* === CINEMATIC BUTTON ENTRANCE === */
 .os-actions {
   animation: actions-rise 1.2s ease-out both;
@@ -2184,12 +2073,9 @@ html, body{
   }
   50% {
     box-shadow: 0 0 18px currentColor;
-=======
 
 
-/* ===============================
    CINEMATIC BUTTON GLOW (SAFE)
-================================ */
 
 @keyframes os-btn-glow {
   0%, 100% {
@@ -2220,10 +2106,8 @@ html, body{
 
 
 
-/* ===============================
    ZYPHER BUTTON FLICKER + GLOW
    Logo-synced, device-safe
-================================ */
 
 @keyframes os-btn-neon-glow {
   0%, 100% {
@@ -2264,9 +2148,7 @@ html, body{
 
 
 
-/* ===============================
    RESPONSIVE BUTTON SAFETY
-================================ */
 
 @media (max-width: 640px) {
   
@@ -2282,14 +2164,11 @@ html, body{
 
   .os-btn {
     width: min(88vw, 360px);
->>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   }
 }
 \n
-/* ===============================
    DEV MODAL POSITION LOCK
    Prevents close button escaping
-================================ */
 
 .dev-modal,
 .developer-modal,
