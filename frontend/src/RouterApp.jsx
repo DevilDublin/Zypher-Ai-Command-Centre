@@ -1,14 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import App from "./App";
+import ZypherOS from "./pages/ZypherOS";
 import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
 
 export default function RouterApp() {
   return (
     <Routes>
-      {/* Public root */}
-      <Route path="/" element={<div />} />
+      {/* Main landing */}
+      <Route path="/" element={<ZypherOS />} />
 
-      {/* Dev command centre (auth handled INSIDE App) */}
+      {/* Dev command centre */}
       <Route path="/developer" element={<App />} />
       <Route path="/dev" element={<App />} />
 
