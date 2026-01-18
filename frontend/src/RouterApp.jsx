@@ -1,36 +1,22 @@
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-
-import ZypherOS from "./pages/ZypherOS";
-import DeveloperLogin from "./pages/DeveloperLogin";
-import ClientLogin from "./pages/ClientLogin";
-import ClientShell from "./client/ClientShell";
-import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
+import { Routes, Route, Navigate } from "react-router-dom";
 import App from "./App";
-
+import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
 
 export default function RouterApp() {
-  const location = useLocation();
-  const [veil, setVeil] = useState(false);
-
-  useEffect(() => {
-    setVeil(true);
-    const t = setTimeout(() => setVeil(false), 550);
-    return () => clearTimeout(t);
-  }, [location.pathname]);
-
   return (
-    <>
+    <Routes>
+      {/* Public root */}
+      <Route path="/" element={<div />} />
 
-      <Routes>
-        <Route path="/" element={<Navigate to="/developer" replace />} />} />
-        <Route path="/client" element={<ClientLogin />} />
-          <Route path="/dashboard" element={<ClientShell />} />
-          <Route path="/client-dashboard" element={<ClientDashboardShell />} />
-        <Route path="/dev" element={<App />} />
-        <Route path="/developer" element={<DeveloperLogin />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </>
+      {/* Dev command centre (auth handled INSIDE App) */}
+      <Route path="/developer" element={<App />} />
+      <Route path="/dev" element={<App />} />
+
+      {/* Client dashboard */}
+      <Route path="/dashboard/*" element={<ClientDashboardShell />} />
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
