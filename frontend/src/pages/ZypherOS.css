@@ -2285,3 +2285,23 @@ html, body{
 >>>>>>> fc903ac (Adjust hero button spacing and hard-center Zypher logo)
   }
 }
+\n
+/* ===============================
+   DEV MODAL POSITION LOCK
+   Prevents close button escaping
+================================ */
+
+.dev-modal,
+.developer-modal,
+.dev-login-modal {
+  position: relative !important;
+}
+
+.dev-modal .close-x,
+.developer-modal .close-x,
+.dev-login-modal .close-x {
+  position: absolute !important;
+  top: 14px;
+  right: 14px;
+  z-index: 50;
+}
