@@ -36,3 +36,19 @@ frontend/public/audio/
 backend/demo.mp3
 backend/public/
 .DS_Store
+
+# --- Zypher: generated backups / scratch ---
+frontend/src/clientDashboard/*.BAK_*
+frontend/src/clientDashboard/*.BACKUP_*
+frontend/src/clientDashboard/*.BROKEN_*
+frontend/src/clientDashboard/*.DEBUG_*
+frontend/src/clientDashboard/*.bak*
+frontend/src/clientDashboard/*.bak.*
+
+# --- Zypher: generated backups / scratch ---
+frontend/src/clientDashboard/*.BAK_*
+frontend/src/clientDashboard/*.BACKUP_*
+frontend/src/clientDashboard/*.BROKEN_*
+frontend/src/clientDashboard/*.DEBUG_*
+frontend/src/clientDashboard/*.bak*
+frontend/src/clientDashboard/*.bak.*
