@@ -62,7 +62,7 @@ export default function DeveloperLogin() {
     setError(false);
 
     if (window.location.port === "5173") {
-      navigate("/developer");
+      navigate("/dev");
       return;
     }
 
@@ -73,7 +73,7 @@ export default function DeveloperLogin() {
         body: JSON.stringify({ passkey })
       });
       const data = await res.json();
-      if (data.ok) navigate("/developer");
+      if (data.ok) navigate("/dev");
       else setError(true);
     } catch {
       setError(true);

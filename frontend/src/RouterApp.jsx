@@ -27,7 +27,7 @@ export default function RouterApp() {
         <Route path="/client" element={<ClientLogin />} />
           <Route path="/dashboard" element={<ClientShell />} />
           <Route path="/client-dashboard" element={<ClientDashboardShell />} />
-        <Route path="/dev" element={<DeveloperLogin />} />
+        <Route path="/dev" element={<App />} />
         <Route path="/developer" element={<DeveloperLogin />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
