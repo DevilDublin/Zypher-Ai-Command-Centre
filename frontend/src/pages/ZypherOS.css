@@ -1,4 +1,4 @@
-.zypher-os {
+.zypher-os{
   position: fixed;
   inset: 0;
   background: #000;
@@ -342,6 +342,8 @@ END DISABLED */
 
 /* === CINEMATIC CAMERA BREATH === */
 .zypher-os {
+  min-height: 100vh;
+  overflow: visible;
   animation: camera-breath 12s ease-in-out infinite;
 }
 
@@ -354,6 +356,8 @@ END DISABLED */
    CINEMATIC CAMERA BREATH
    =============================== */
 .zypher-os {
+  min-height: 100vh;
+  overflow: visible;
   animation: camera-breath 14s ease-in-out infinite;
   transform-origin: center;
 }
@@ -704,6 +708,8 @@ END DISABLED */
 
 /* === HARD CLEAN BACKGROUND (NO NOISE, NO PATTERNS) === */
 .zypher-os {
+  min-height: 100vh;
+  overflow: visible;
   background: #000 !important;
 }
 
@@ -976,4 +982,814 @@ END DISABLED */
   94% { opacity:.55; clip-path: inset(60% 0 0 0); transform: translateX(1px); }
   95% { opacity:.28; clip-path: inset(25% 0 45% 0); transform: translateX(-1px); }
   96% { opacity:0; clip-path: inset(0 0 100% 0); transform:none; }
+}
+
+
+/* ===============================
+   Zypher Text Animations (Cinematic)
+================================ */
+
+.zy-anim:not([data-zy-type]){
+  opacity: 0;
+  transform: translateY(28px);
+  letter-spacing: 0.08em;
+  animation: zyTextIn 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.zy-title{
+  animation-delay: 0.1s;
+}
+
+.zy-lead{
+  animation-delay: 0.3s;
+}
+
+.zy-item:nth-of-type(1){
+  animation-delay: 0.6s;
+}
+.zy-item:nth-of-type(2){
+  animation-delay: 0.8s;
+}
+.zy-item:nth-of-type(3){
+  animation-delay: 1s;
+}
+
+@keyframes zyTextIn{
+  from{
+    opacity: 0;
+    transform: translateY(28px);
+    letter-spacing: 0.08em;
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 0.02em;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce){
+  .zy-anim:not([data-zy-type]){
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ===============================
+   ZY_CINEMATIC_ANIMS
+   High-Impact Section Motion
+================================ */
+
+/* SECTION ENTRY */
+.zy-explain{
+  opacity: 0;
+  transform: translateY(60px);
+  animation: zySectionIn 900ms cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+@keyframes zySectionIn{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TITLE — subtle glitch settle */
+.zy-title{
+  opacity: 0;
+  letter-spacing: 0.25em;
+  animation: zyTitleIn 800ms ease-out forwards;
+  animation-delay: 120ms;
+}
+
+@keyframes zyTitleIn{
+  to{
+    opacity: 1;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* LEAD TEXT */
+.zy-lead{
+  opacity: 0;
+  transform: translateY(24px);
+  animation: zyLeadIn 700ms ease-out forwards;
+  animation-delay: 260ms;
+}
+
+@keyframes zyLeadIn{
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TIMELINE CONTAINER */
+.zy-timeline{
+  margin-top: 48px;
+}
+
+/* INDIVIDUAL NODES */
+.zy-node{
+  opacity: 0;
+  transform: translateX(-40px);
+  position: relative;
+  animation: zyNodeIn 700ms cubic-bezier(0.16,1,0.3,1) forwards;
+}
+
+.zy-node:nth-child(1){ animation-delay: 420ms; }
+.zy-node:nth-child(2){ animation-delay: 580ms; }
+.zy-node:nth-child(3){ animation-delay: 740ms; }
+
+@keyframes zyNodeIn{
+  to{
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* NEON DOT PULSE */
+.zy-dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ffff;
+  box-shadow: 0 0 12px #00ffff;
+  position: absolute;
+  left: -28px;
+  top: 0.6em;
+  animation: zyPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes zyPulse{
+  0%,100%{ box-shadow: 0 0 12px #00ffff; }
+  50%{ box-shadow: 0 0 26px #00ffff; }
+}
+
+/* ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce){
+  .zy-explain,
+  .zy-title,
+  .zy-lead,
+  .zy-node{
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+/* ===============================
+   ZY_EXPLAIN_LAYOUT
+   Centered / Cinematic Formatting
+================================ */
+
+.zy-explain{
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 120px 32px 140px;
+  text-align: center;
+}
+
+/* TITLE */
+.zy-title{
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin-bottom: 24px;
+}
+
+/* LEAD PARAGRAPH */
+.zy-lead{
+  max-width: 760px;
+  margin: 0 auto 72px;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  color: #8ffcff;
+}
+
+/* TIMELINE */
+.zy-timeline{
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  align-items: flex-start;
+  margin: 0 auto;
+  max-width: 680px;
+  text-align: left;
+}
+
+/* INDIVIDUAL NODES */
+.zy-node{
+  padding-left: 32px;
+}
+
+.zy-node h3{
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+
+.zy-node p{
+  margin: 0;
+  color: #9feeff;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+
+/* ===============================
+   ZY_SCROLL_ANIMS
+   Smooth / Staggered / Cinematic
+================================ */
+
+.zy-anim:not([data-zy-type]){
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s cubic-bezier(.2,.8,.2,1);
+  will-change: transform, opacity;
+}
+
+.zy-anim:not([data-zy-type]).zy-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger timeline nodes */
+.zy-node:nth-child(1){ transition-delay: 0.1s; }
+.zy-node:nth-child(2){ transition-delay: 0.25s; }
+.zy-node:nth-child(3){ transition-delay: 0.4s; }
+
+/* Subtle life */
+.zy-node:hover{
+  transform: translateY(-2px);
+}
+
+.zy-node:hover h3{
+  text-shadow: 0 0 12px rgba(120,255,255,0.35);
+}
+
+
+
+
+[data-zy-type]{
+  position: relative;
+  overflow: hidden;
+}
+
+.zy-type-inner{
+  display: inline-block;
+  white-space: pre-wrap;
+  --chars: var(--zy-chars, 1);
+  --p: var(--zy-progress, 0);
+  --shown: calc(var(--chars) * var(--p));
+
+  mask-image: linear-gradient(
+    90deg,
+    #fff calc(var(--shown) * 1ch),
+    transparent calc(var(--shown) * 1ch + 1ch)
+  );
+
+  opacity: calc(0.3 + var(--p));
+  transition: opacity 0.1s linear;
+}
+
+/* Caret effect */
+.zy-type-inner::after{
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0.2em;
+  width: 2px;
+  height: 1em;
+  background: rgba(120,255,255,0.8);
+  opacity: var(--p);
+  animation: zy-caret 1s steps(1) infinite;
+}
+
+@keyframes zy-caret{
+  50%{ opacity: 0; }
+}
+
+
+/* ===============================
+   ZY_TYPE_ENGINE
+   Scroll-scrubbed typing
+================================ */
+
+[data-zy-type]{
+  overflow: hidden;
+}
+
+.zy-type-inner{
+  display: inline-block;
+  white-space: pre-wrap;
+  width: calc(var(--zy-progress, 0) * 100%);
+  overflow: hidden;
+  border-right: 2px solid rgba(120,255,255,0.8);
+  animation: zy-cursor 1s steps(1) infinite;
+}
+
+@keyframes zy-cursor{
+  50% { border-color: transparent; }
+}
+
+/* Glow when typing */
+.zy-type-inner{
+  text-shadow:
+    0 0 12px rgba(120,255,255,0.25),
+    0 0 24px rgba(120,255,255,0.15);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){
+  .zy-type-inner{
+    width: 100%;
+    border-right: none;
+    animation: none;
+  }
+}
+
+
+/* ===============================
+   ZY_SCROLL_TYPE_ENGINE (FIXED)
+   True scroll-scrubbed typing
+================================ */
+
+[data-zy-type]{
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+[data-zy-type] .zy-type-inner{
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(var(--zy-progress) * var(--zy-chars) * 1ch);
+  will-change: width;
+}
+
+/* Blinking cursor */
+[data-zy-type]::after{
+  content: "";
+  display: inline-block;
+  width: 0.6ch;
+  height: 1em;
+  margin-left: 0.15ch;
+  background: currentColor;
+  animation: zy-cursor-blink 1.1s steps(1) infinite;
+  vertical-align: bottom;
+}
+
+@keyframes zy-cursor-blink{
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Kill cursor when fully typed */
+[data-zy-type][data-zy-done]::after{
+  display: none;
+}
+
+
+/* ===============================
+   ZY_TYPE_VISIBILITY_GUARD
+   typed elements must remain visible
+================================ */
+[data-zy-type]{
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+/* ===============================
+   SCROLL-OWNED OVERRIDES
+   Disable time-based anims inside scroll-doc
+================================ */
+
+.scroll-doc .zy-explain,
+.scroll-doc .zy-title,
+.scroll-doc .zy-anim:not([data-zy-type]){
+  animation: none !important;
+  opacity: max(0.001, var(--zy-progress, 0));
+  transform: translateY(calc(28px * (1 - var(--zy-progress, 0))));
+}
+
+
+/* ===============================
+   SCROLL SPACE (REQUIRED)
+   Enables scroll-driven animation
+================================ */
+
+.scroll-doc{
+  min-height: 200vh;
+
+  min-height: 200vh;
+  padding-top: 20vh;
+  padding-bottom: 60vh;
+}
+
+
+html, body{
+  height: auto;
+  overflow-x: hidden;
+}
+
+
+/* ===============================
+   SCROLL CONTAINER FIX
+   Prevent ghost scroll space
+================================ */
+
+.zypher-os{
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scroll-doc{
+  min-height: auto;
+  padding-bottom: 12vh;
+}
+
+.zy-section {
+  min-height: 80vh;
+  padding: 10vh 10vw;
+}
+\n
+/* ===============================
+   SCROLL DOCUMENT (FULL WIDTH)
+================================ */
+
+.scroll-doc{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  background:none;
+}
+
+/* Each section = cinematic panel */
+.scroll-doc section{
+  min-height:100vh;
+  padding:120px 10vw;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+\n
+/* ===============================
+   SECTION THEMING
+================================ */
+
+.zy-section{
+  background: radial-gradient(
+    1200px 600px at center,
+    rgba(0,255,255,0.05),
+    transparent 70%
+  );
+}
+
+.zy-architecture{ background:none; }
+.zy-usecases{ background:none; }
+.zy-demo{ background:none; }
+
+.zy-list{
+  margin-top:32px;
+  list-style:none;
+  padding:0;
+}
+
+.zy-list li{
+  color:#7ffcff;
+  margin:10px 0;
+  font-size:1.05rem;
+}
+
+
+/* ===============================
+   FULL-BLEED SCROLL SECTIONS
+================================ */
+
+.scroll-doc{
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:0;
+  background:none;
+}
+
+.scroll-doc section{
+  width:100%;
+  max-width:none;
+  min-height:100vh;
+  margin:0;
+  padding:140px 12vw;
+  box-sizing:border-box;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  background:none;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+}
+
+
+/* ===============================
+   CINEMATIC SECTION BACKDROP
+================================ */
+
+.zy-section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(
+      1200px 600px at 50% 40%,
+      rgba(0,255,255,0.04),
+      transparent 70%
+    );
+  pointer-events:none;
+}
+
+.zy-section{
+  position:relative;
+}
+\n
+/* ===============================
+   SCROLL SMOOTHING (SAFE)
+================================ */
+
+.zypher-os{
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+
+.scroll-doc{
+  will-change:transform;
+}
+
+.zy-section{
+  contain:layout paint;
+}
+\n
+/* ===============================
+   SECTION TYPOGRAPHY
+================================ */
+
+.zy-title{
+  font-size:clamp(2.4rem, 5vw, 3.6rem);
+  letter-spacing:0.08em;
+  margin-bottom:24px;
+}
+
+.zy-lead{
+  max-width:720px;
+  font-size:1.05rem;
+  line-height:1.7;
+  color:rgba(180,255,255,0.85);
+}
+
+.zy-section > *{
+  max-width:1200px;
+}
+\n
+/* ===============================
+   ARCHITECTURE SECTION
+================================ */
+
+.zy-section:nth-of-type(2) .zy-lead{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  color:#7ffcff;
+}
+
+.zy-section:nth-of-type(2)::after{
+  content:"";
+  margin-top:40px;
+  width:120px;
+  height:1px;
+  background:linear-gradient(90deg, transparent, #7ffcff, transparent);
+}
+\n
+/* ===============================
+   USE CASES
+================================ */
+
+.zy-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:28px;
+  margin-top:40px;
+}
+
+.zy-list li{
+  padding:22px 26px;
+  border:1px solid rgba(127,255,255,0.15);
+  background:rgba(0,255,255,0.03);
+  border-radius:10px;
+  font-size:0.95rem;
+  transition:0.3s;
+}
+
+.zy-list li:hover{
+  border-color:#7ffcff;
+  box-shadow:0 0 25px rgba(127,255,255,0.15);
+}
+\n
+/* ===============================
+   FINAL CTA
+================================ */
+
+.zy-end{
+  align-items:center;
+  text-align:center;
+}
+
+.zy-end .zy-title{
+  font-size:clamp(2.8rem, 6vw, 4.2rem);
+}
+
+.zy-end::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(
+    600px 300px at center,
+    rgba(127,255,255,0.12),
+    transparent 70%
+  );
+}
+\n
+/* ===============================
+   TYPE REVEAL (GPU SAFE)
+================================ */
+
+.zy-type-inner{
+  display:inline-block;
+  white-space:nowrap;
+  clip-path:inset(0 100% 0 0);
+  transition:none;
+}
+\n
+/* ===============================
+   ARCH GRID
+================================ */
+
+.zy-arch-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:40px;
+  margin-top:48px;
+}
+
+.zy-arch-grid h3{
+  color:#7ffcff;
+  margin-bottom:10px;
+}
+
+.zy-arch-grid div{
+  padding:24px;
+  border:1px solid rgba(127,255,255,0.15);
+  border-radius:12px;
+  transition:0.3s;
+}
+
+.zy-arch-grid div:hover{
+  box-shadow:0 0 30px rgba(127,255,255,0.18);
+}
+\n
+/* ===============================
+   TECH STACK
+================================ */
+
+.zy-section:nth-of-type(4) p{
+  font-family:ui-monospace, monospace;
+  color:#9ff;
+}
+
+
+/* ===============================
+   ZYPHER VOICE DEMO
+   Subtle, cinematic, GPU-only
+================================ */
+
+.zy-voice-demo{
+  margin: 4vh auto 6vh;
+  display: flex;
+  justify-content: center;
+}
+
+.zy-voice-btn{
+  position: relative;
+  background: transparent;
+  border: 1px solid rgba(0,255,255,0.45);
+  color: #0ff;
+  padding: 18px 34px;
+  letter-spacing: .18em;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.zy-voice-btn .pulse{
+  position: absolute;
+  inset: -40%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,255,255,.25), transparent 60%);
+  opacity: 0;
+  animation: voice-pulse 4s infinite;
+}
+
+.zy-voice-btn.playing .pulse{
+  opacity: 1;
+}
+
+@keyframes voice-pulse{
+  0% { transform: scale(.4); opacity:.15 }
+  50% { transform: scale(1); opacity:.35 }
+  100% { transform: scale(1.4); opacity:0 }
+}
+
+.zy-voice-btn .label{
+  position: relative;
+  z-index: 1;
+}
+
+
+/* === SCROLL-DOC VISIBILITY OVERRIDE === */
+/* Voice demo must not be opacity-gated */
+.scroll-doc .zy-voice-demo{
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ================================
+   SCROLL-DOC OWNERSHIP FIX
+   Scroll-driven content must not
+   be opacity / transform gated
+================================ */
+.scroll-doc .zy-anim{
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+\n
+/* ===============================
+   ZY_SCROLL_ENGINE_AUTHORITY
+   JS owns text reveal timing
+================================ */
+.scroll-doc [data-zy-type]{
+  opacity: 1 !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+.scroll-doc [data-zy-type]::before,
+.scroll-doc [data-zy-type]::after{
+  display: none !important;
+}
+
+
+/* === SCROLL STRUCTURE GUARANTEE === */
+.scroll-doc section{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+/* === SCROLL LAYER FIX === */
+.scroll-doc{
+  z-index: 2;
+}
+
+.os-core{
+  z-index: 1;
+  pointer-events: none;
+}
+
+
+/* === SECTION VISIBILITY GUARANTEE === */
+.scroll-doc section{
+  min-height: 100vh;
+  padding: 12vh 8vw;
+  box-sizing: border-box;
+}
+\n
+/* ===============================
+   FINAL VISIBILITY AUTHORITY
+   Scroll-doc content must never
+   be opacity-gated globally
+================================ */
+.scroll-doc,
+.scroll-doc *{
+  opacity: 1 !important;
 }
