@@ -1793,3 +1793,11 @@ html, body{
 .scroll-doc *{
   opacity: 1 !important;
 }
+
+
+/* === INTERACTION FIX === */
+.zypher-os button,
+.zypher-os a {
+  pointer-events: auto !important;
+  cursor: pointer;
+}
