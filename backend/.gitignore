@@ -33,3 +33,4 @@ _snap_*
 *.ulaw
 *.pcm
 
+.DS_Store
