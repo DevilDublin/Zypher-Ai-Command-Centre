@@ -1,7 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import "./developerLogin.css";
 
 export default function DeveloperLogin() {
+
+  useEffect(() => {
+    document.body.classList.add("zy-auth-enter");
+    return () => document.body.classList.remove("zy-auth-enter");
+  }, []);
+
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const location = useLocation();
