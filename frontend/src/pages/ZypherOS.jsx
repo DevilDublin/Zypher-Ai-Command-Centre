@@ -4,6 +4,7 @@ import DeveloperLogin from "./DeveloperLogin";
 import "./ZypherOS.css";
 
 export default function ZypherOS() {
+  const navigate = useNavigate();
   
   // ===============================
     // ===============================

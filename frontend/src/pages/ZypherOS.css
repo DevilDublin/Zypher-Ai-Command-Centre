@@ -1801,3 +1801,14 @@ html, body{
   pointer-events: auto !important;
   cursor: pointer;
 }
+
+
+/* ================================
+   ZY_FORCE_INTERACTION
+   Kill all cinematic click blockers
+================================ */
+.zypher-os,
+.zypher-os * {
+  pointer-events: auto !important;
+}
+
