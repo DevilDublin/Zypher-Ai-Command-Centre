@@ -29,32 +29,29 @@
 .os-core {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
-
 .os-logo {
   font-size: 64px;
   letter-spacing: .4em;
   opacity: .15;
-  animation: pulse 4s infinite;
+  animation: pulse 4s infinite, ambient-glow 9s ease-in-out infinite;
 }
-
 @keyframes pulse {
   0%,100% { opacity: .12 }
   50% { opacity: .22 }
 }
 
 .os-actions {
-  margin-top: 72px;
-  margin-top: 2.2rem !important;
+  margin-top: 6.5rem;
   display: flex;
-  gap: 2.2rem;
+  gap: 3rem;
   justify-content: center;
-}
-
-.os-btn {
+}.os-btn {
   padding: 18px 40px;
   background: transparent;
   border: 1px solid currentColor;
@@ -67,9 +64,9 @@
 
 .os-btn:hover {
   opacity: 1;
-  box-shadow: 0 0 30px currentColor;
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px currentColor;
 }
-
 .os-btn.dev {
   color: #ff3b3b;
 }
@@ -216,18 +213,20 @@ END DISABLED */
 
 /* === LAYOUT TIGHTENING === */
 .os-core {
-  padding-top: 28vh;
-}
-
-.os-actions {
-  margin-top: 72px;
-  margin-top: 2.2rem !important;
+  position: absolute;
+  inset: 0;
   display: flex;
-  gap: 2.2rem;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
 }
-
-/* === GOTHAM NEON FLICKER === */
+.os-actions {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}/* === GOTHAM NEON FLICKER === */
 /* DISABLED OLD RULE
 .zypher-title {
   position: relative;
@@ -257,14 +256,11 @@ END DISABLED */
 
 /* === BUTTON CINEMATIC ENTRANCE === */
 .os-actions {
-  margin-top: 72px;
-  margin-top: 2.2rem !important;
+  margin-top: 6.5rem;
   display: flex;
-  gap: 2.2rem;
+  gap: 3rem;
   justify-content: center;
-}
-
-@keyframes actions-rise {
+}@keyframes actions-rise {
   from {
     opacity: 0;
     transform: translateY(18px);
@@ -317,18 +313,20 @@ END DISABLED */
 
 /* === LAYOUT TIGHTEN === */
 .os-core {
-  transform: translateY(-40px);
-}
-
-.os-actions {
-  margin-top: 72px;
-  margin-top: 2.2rem !important;
+  position: absolute;
+  inset: 0;
   display: flex;
-  gap: 2.2rem;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
 }
-
-/* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
+.os-actions {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}/* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
 body {
     45deg,
     red,
@@ -424,14 +422,11 @@ END DISABLED */
    CINEMATIC BUTTON ENTRANCE
    =============================== */
 .os-actions {
-  margin-top: 72px;
-  margin-top: 2.2rem !important;
+  margin-top: 6.5rem;
   display: flex;
-  gap: 2.2rem;
+  gap: 3rem;
   justify-content: center;
-}
-
-@keyframes buttons-rise {
+}@keyframes buttons-rise {
   0% {
     opacity: 0;
     transform: translateY(80px);
@@ -616,11 +611,11 @@ END DISABLED */
 }
 
 .os-actions {
-  margin-top: 72px;
-  animation: action-float 6s ease-in-out infinite;
-}
-
-@keyframes action-float {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}@keyframes action-float {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
@@ -637,9 +632,10 @@ END DISABLED */
 }
 
 .os-btn:hover {
-  transform: scale(1.08);
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px currentColor;
 }
-
 .os-btn.client:hover {
   box-shadow:
     inset 0 0 35px rgba(0,255,255,.55),
@@ -685,13 +681,11 @@ END DISABLED */
 }
 
 /* hover stays intentional */
-.zypher-os .os-btn:hover {
+.os-btn:hover {
   opacity: 1;
-  box-shadow:
-    0 0 32px currentColor,
-    inset 0 0 10px currentColor;
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px currentColor;
 }
-
 /* slow breathing power */
 @keyframes btn-breathe {
   0%, 100% {
@@ -779,14 +773,11 @@ END DISABLED */
   transition: opacity .25s ease;
 }
 
-.zypher-os .os-btn:hover {
+.os-btn:hover {
   opacity: 1;
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 36px currentColor,
-    inset 0 0 12px currentColor;
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px currentColor;
 }
-
 .zypher-os .os-btn:hover::before {
   opacity: .55;
 }
@@ -890,10 +881,11 @@ END DISABLED */
 }
 
 /* energy charge on hover */
-.zypher-os .os-btn:hover {
-  animation-play-state: running;
+.os-btn:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px currentColor;
 }
-
 .zypher-os .os-btn:hover::after {
   opacity: .35;
   animation-duration: 2.2s;
@@ -1764,12 +1756,12 @@ html, body{
 
 
 /* FIX: ensure action buttons are on top of all OS layers */
-.zypher-os .os-actions {
-  position: relative;
-  z-index: 10;
+.os-actions {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
 }
-
-
 /* FIX: prevent scroll container from stealing clicks */
 .scroll-doc {
   pointer-events: none;
@@ -1798,11 +1790,14 @@ html, body{
 }
 
 .os-core {
-  pointer-events: auto !important;
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-
 
 /* FINAL FIX: ensure action buttons are interactive */
 .os-actions,
@@ -1863,11 +1858,12 @@ html, body{
    =============================== */
 
 /* Ensure buttons are interactive across full box */
-.zypher-os .os-actions {
-  pointer-events: auto;
-}
-
-.zypher-os .os-btn {
+.os-actions {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}.zypher-os .os-btn {
   pointer-events: auto;
   cursor: pointer;
 }
@@ -1893,12 +1889,12 @@ html, body{
    =============================== */
 
 /* Ensure action buttons sit above all cinematic layers */
-.zypher-os .os-actions {
-  position: relative;
-  z-index: 50;
-}
-
-/* Explicitly lift buttons */
+.os-actions {
+  margin-top: 6.5rem;
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}/* Explicitly lift buttons */
 .zypher-os .os-btn {
   position: relative;
   z-index: 60;
@@ -1930,4 +1926,44 @@ html, body{
 .zypher-os .os-btn.dev span::after {
   pointer-events: auto !important;
   cursor: pointer !important;
+}
+
+/* === CINEMATIC BUTTON ENTRANCE === */
+.os-actions {
+  animation: actions-rise 1.2s ease-out both;
+}
+
+@keyframes actions-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === AMBIENT CORE GLOW === */
+@keyframes ambient-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 18px rgba(0,255,255,0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(0,255,255,0.55));
+  }
+}
+
+/* === IDLE BUTTON GLOW (SUBTLE) === */
+.os-btn {
+  animation: btn-glow 10s ease-in-out infinite;
+}
+
+@keyframes btn-glow {
+  0%, 100% {
+    box-shadow: 0 0 12px transparent;
+  }
+  50% {
+    box-shadow: 0 0 18px currentColor;
+  }
 }
