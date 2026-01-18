@@ -626,7 +626,9 @@ const total = analytics?.total ?? 0;
     return;
   }
   
-fetch("http://localhost:3000/provision", {
+if (!BACKEND_URL) return;
+
+fetch(`${BACKEND_URL}/provision`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
