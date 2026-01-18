@@ -16,6 +16,7 @@ export default function ClientLogin() {
 
   const [passkey, setPasskey] = useState("");
   const [error, setError] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   /* ===== MATRIX BACKGROUND ===== */
   useEffect(() => {
@@ -73,14 +74,18 @@ export default function ClientLogin() {
           <h1>ZYPHER</h1>
           <span className="subtitle">Client Access</span>
 
-          <input
-            type="password"
-            placeholder="ENTER PASSKEY"
-            value={passkey}
-            onChange={(e) => setPasskey(e.target.value)}
+          <div className="pass-wrapper">
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="ENTER PASSKEY"
+              value={passkey}
+              onChange={(e) => setPasskey(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
-          />
-
+            />
+            <span className="pass-eye" onClick={() => setShowPass(v => !v)}>
+              {showPass ? "◉" : "◎"}
+            </span>
+          </div>
           {error && <div className="error">ACCESS DENIED</div>}
 
           <button className="enter-btn" onClick={submit}>

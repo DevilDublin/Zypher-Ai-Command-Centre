@@ -194,3 +194,35 @@ body.zy-auth-enter .dev-login-card h1{
   2%{ text-shadow:-1px 0 cyan, 1px 0 red }
   4%{ text-shadow:none }
 }
+
+/* ===== PASSWORD EYE TOGGLE ===== */
+.pass-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.pass-eye {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: rgba(0, 255, 255, 0.65);
+  user-select: none;
+  transition: opacity .2s, text-shadow .2s;
+}
+
+.pass-eye:hover {
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(0,255,255,0.8);
+}
+
+/* ===== DEV TERMINAL PASSWORD EYE (RED) ===== */
+.dev-login-card .pass-eye {
+  color: rgba(255, 60, 60, 0.75);
+}
+
+.dev-login-card .pass-eye:hover {
+  text-shadow: 0 0 10px rgba(255, 60, 60, 0.9);
+}
