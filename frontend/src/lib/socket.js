@@ -1,14 +1,11 @@
 import { io } from "socket.io-client";
 
 const BACKEND_URL =
-  import.meta.env.VITE_BACKEND_URL ||
-  null;
+  import.meta.env.PROD
+    ? "https://zypher-ai-command-centre.up.railway.app"
+    : "http://localhost:3000";
 
-export let socket = null;
-
-if (BACKEND_URL) {
-  socket = io(BACKEND_URL, {
-  transports: ["polling", "websocket"],
-  autoConnect: true,
+export const socket = io(BACKEND_URL, {
+  transports: ["websocket"],
+  withCredentials: true
 });
-}
