@@ -1878,6 +1878,76 @@ html, body{
 
 
 /* === INTENTIONAL BUTTON DROP (ONE BUTTON HEIGHT) === */
-.os-actions{
-  margin-top: 144px;
+
+
+
+/* === CURSOR FIX: Developer Terminal === */
+.os-btn.dev{
+  cursor: pointer !important;
 }
+
+
+/* === CURSOR FIX: FULL Developer Button === */
+.os-btn.dev{
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.os-btn.dev *{
+  pointer-events: none !important;
+}
+\n
+
+
+/* === DEV BUTTON CURSOR + CLICK FIX === */
+.os-btn.dev{
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.os-btn.dev *,
+.os-btn.dev:hover,
+.os-btn.dev:hover *{
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+
+
+
+
+/* === DEV BUTTON INTERACTION FIX === */
+.os-btn{
+  position: relative;
+  cursor: pointer;
+}
+
+.os-btn *{
+  pointer-events: none;
+}
+
+.os-btn{
+  pointer-events: auto;
+}
+
+
+/* === OS BUTTONS: HARD POSITION LOCK === */
+.os-actions{
+  position: relative;
+  top: 72px; /* LOCKED vertical offset from logo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px; /* horizontal spacing only */
+}
+
+
+.os-btn{
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.os-btn *{
+  pointer-events: none;
+}
+
