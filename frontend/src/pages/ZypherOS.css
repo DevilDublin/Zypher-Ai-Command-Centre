@@ -1952,3 +1952,56 @@ html, body{
   padding: 18px 40px;
   box-sizing: border-box;
 }
+
+/* ===============================
+   ZY_DEV_BUTTON_FINAL_FIX
+   Force full hit-area + cursor + glow
+================================ */
+
+.zypher-os .os-actions .os-btn.dev{
+  cursor: pointer !important;
+  border: 1px solid rgba(255, 60, 60, 0.85) !important;
+  box-shadow:
+    0 0 18px rgba(255, 60, 60, 0.35),
+    inset 0 0 14px rgba(255, 60, 60, 0.25) !important;
+}
+
+.zypher-os .os-actions .os-btn.dev:hover{
+  box-shadow:
+    0 0 34px rgba(255, 60, 60, 0.75),
+    inset 0 0 20px rgba(255, 60, 60, 0.45) !important;
+}
+
+/* ensure ANY child does not steal hover */
+.zypher-os .os-actions .os-btn.dev,
+.zypher-os .os-actions .os-btn.dev *,
+.zypher-os .os-actions .os-btn.dev::before,
+.zypher-os .os-actions .os-btn.dev::after{
+  cursor: pointer !important;
+}
+
+
+/* ===============================
+   ZY_DEV_BUTTON_HITBOX_OVERRIDE
+   Absolute authority over overlays
+================================ */
+
+/* force button above ALL cinematic layers */
+.zypher-os .os-actions .os-btn.dev{
+  position: relative !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+/* ensure nothing inside steals the hover */
+.zypher-os .os-actions .os-btn.dev *,
+.zypher-os .os-actions .os-btn.dev::before,
+.zypher-os .os-actions .os-btn.dev::after{
+  pointer-events: none !important;
+}
+
+/* restore interaction on the button itself */
+.zypher-os .os-actions .os-btn.dev{
+  pointer-events: auto !important;
+}
