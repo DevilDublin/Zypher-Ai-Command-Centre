@@ -286,7 +286,11 @@ emitFlow("GPT response received");
                   continue;
                 }
 
-                fetch("http://localhost:3000/lead2", {
+                const BASE_URL =
+  process.env.INTERNAL_BACKEND_URL ||
+  `http://localhost:${process.env.PORT || 3000}`;
+
+fetch(`${BASE_URL}/lead2`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
