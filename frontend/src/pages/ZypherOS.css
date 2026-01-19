@@ -1812,3 +1812,75 @@ html, body{
   pointer-events: auto !important;
 }
 
+
+.os-btn { pointer-events: auto; cursor: pointer; }
+
+
+/* ===============================
+   CLIENT AUTH CYAN FORCE
+================================ */
+.client-auth *{
+  border-color:#00ffff !important;
+}
+.client-auth h1,
+.client-auth .subtitle{
+  color:#00ffff !important;
+}
+.client-auth button{
+  background:#00ffff !important;
+  color:#000 !important;
+}
+.client-auth button:hover{
+  box-shadow:0 0 35px rgba(0,255,255,.95) !important;
+}
+
+
+/* ===============================
+   ZYPHER OS — CLICK SAFETY
+   Cinematic layers must not block UI
+   =============================== */
+.os-noise,
+.os-vignette,
+.zypher-os::before,
+.zypher-os::after {
+  pointer-events: none !important;
+}
+
+
+/* ===============================
+   ZY_OS_CLICK_FIX
+   Ensure OS buttons are clickable
+================================ */
+
+/* overlays must never eat clicks */
+.os-noise,
+.os-vignette{
+  pointer-events: none !important;
+}
+
+/* if any full-screen layer exists, it must not block clicks */
+.zypher-os::before,
+.zypher-os::after{
+  pointer-events: none !important;
+}
+
+/* put core (logo + buttons) above everything */
+.os-core{
+  position: relative !important;
+  z-index: 50 !important;
+  pointer-events: auto !important;
+}
+
+/* make actions/buttons explicitly clickable */
+.os-actions,
+.os-actions *{
+  pointer-events: auto !important;
+}
+
+/* scroll doc sits behind the core */
+.scroll-doc{
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+

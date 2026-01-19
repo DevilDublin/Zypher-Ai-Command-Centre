@@ -2442,7 +2442,7 @@ html, body{
 
   background: transparent;
   border: 1px solid rgba(0,255,255,0.35);
-  color: #00ffff;
+  color:#00ffff !important;
 
   font-size: 22px;
   line-height: 1;
@@ -2482,4 +2482,348 @@ html, body{
   opacity: 0.35;
   filter: grayscale(1);
   cursor: default;
+}
+
+
+/* ===============================
+   CLIENT AUTH CYAN OVERRIDES
+   =============================== */
+
+.client-auth .dev-login-card{
+  border-color: #00ffff;
+  box-shadow:
+    0 0 35px rgba(0,255,255,0.55),
+    inset 0 0 18px rgba(0,255,255,0.25);
+}
+
+.client-auth .dev-login-card h1{
+  color: #00ffff;
+  text-shadow: 0 0 18px rgba(0,255,255,0.9);
+}
+
+.client-auth .dev-login-card .subtitle{
+  color: rgba(200,255,255,0.85);
+}
+
+.client-auth .dev-login-card input{
+  border-color: #00ffff;
+  color: #00ffff;
+  box-shadow:
+    0 0 18px rgba(0,255,255,0.45),
+    inset 0 0 10px rgba(0,255,255,0.25);
+}
+
+.client-auth .dev-login-card input::placeholder{
+  color: rgba(0,255,255,0.55);
+}
+
+.client-auth .dev-login-card input:focus{
+  box-shadow:
+    0 0 28px rgba(0,255,255,0.9),
+    inset 0 0 14px rgba(0,255,255,0.45);
+}
+
+.client-auth .dev-login-card button:not(.dev-login-close){
+  background: transparent;
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  box-shadow:
+    0 0 22px rgba(0,255,255,0.6),
+    inset 0 0 12px rgba(0,255,255,0.25);
+}
+
+.client-auth .dev-login-card button:not(.dev-login-close):hover{
+  background: rgba(0,255,255,0.12);
+  box-shadow:
+    0 0 38px rgba(0,255,255,0.95),
+    inset 0 0 18px rgba(0,255,255,0.4);
+}
+
+.client-auth .dev-login-error{
+  color: #ff6b6b;
+}
+
+
+/* ===============================
+   DEV AUTH — ALLOW MATRIX CANVAS
+================================ */
+body.zy-dev-auth{
+  background: transparent !important;
+}
+
+
+
+
+/* ===============================
+   ZY_INPUT_NEUTRALISE
+   Prevent browser white inputs
+================================ */
+input{
+  background-color: transparent;
+}
+
+
+/* ===============================
+   ZY_CLIENT_CYAN_OVERRIDE
+   Force cyan-only client auth
+================================ */
+.client-auth *{
+  --accent: #00ffff;
+  --danger: #00ffff;
+}
+
+.client-auth .dev-login-card{
+  box-shadow:
+    0 0 40px rgba(0,255,255,0.35),
+    inset 0 0 30px rgba(0,255,255,0.12) !important;
+}
+
+.client-auth input,
+.client-auth .pass-wrapper{
+  border-color: #00ffff !important;
+  color: #00ffff !important;
+}
+
+.client-auth .enter-btn{
+  background: #00ffff !important;
+  color: #000 !important;
+  box-shadow: 0 0 35px rgba(0,255,255,0.55) !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_ENTER_ANIM
+================================ */
+.client-auth .dev-login-card{
+  animation: client-enter 0.8s cubic-bezier(.2,.9,.2,1) both;
+}
+
+@keyframes client-enter{
+  from{
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: blur(6px);
+  }
+  to{
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+
+/* ===============================
+   ZY_CLIENT_FORCE_CYAN
+   Remove all red from client auth
+================================ */
+.client-auth,
+.client-auth *{
+  --accent: #00ffff;
+  --danger: #00ffff;
+  color: #00ffff !important;
+  border-color: #00ffff !important;
+}
+
+.client-auth .enter-btn{
+  background: #00ffff !important;
+  color: #000 !important;
+  box-shadow: 0 0 35px rgba(0,255,255,0.6) !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_RED_ACCENTS
+   Red dots + Enter outline only
+================================ */
+
+/* password dots red */
+.client-auth input[type="password"]{
+  color: #ff3b3b !important;
+  caret-color: #ff3b3b !important;
+}
+
+/* ENTER button red outline only */
+.client-auth .enter-btn{
+  border: 1px solid #ff3b3b !important;
+}
+
+/* keep ENTER fill cyan */
+.client-auth .enter-btn{
+  background: #00ffff !important;
+  color: #000 !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_PASSWORD_RED
+   Force password dots + caret red
+================================ */
+.client-auth input[type="password"],
+.client-auth input[type="text"]{
+  color: #ff3b3b !important;
+  caret-color: #ff3b3b !important;
+  -webkit-text-fill-color: #ff3b3b !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_ENTER_OUTLINE_RED
+   Cyan fill, red outline only
+================================ */
+.client-auth .enter-btn{
+  background: #00ffff !important;
+  color: #000 !important;
+  border: 1px solid #ff3b3b !important;
+  box-shadow:
+    0 0 25px rgba(0,255,255,0.6),
+    inset 0 0 0 1px rgba(255,59,59,0.9) !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_PASSWORD_CYAN
+   Force password dots cyan
+================================ */
+.client-auth input[type="password"],
+.client-auth input[type="text"]{
+  color: #00ffff !important;
+  caret-color: #00ffff !important;
+  -webkit-text-fill-color: #00ffff !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_ENTER_CYAN_OUTLINE
+================================ */
+.client-auth .enter-btn{
+  border: 1px solid #00ffff !important;
+  background: #00ffff !important;
+  color: #000 !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_GLOW_FLICKER
+   High-end neon life
+================================ */
+@keyframes zy-client-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(0,255,255,0.45),
+      0 0 36px rgba(0,255,255,0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 26px rgba(0,255,255,0.75),
+      0 0 52px rgba(0,255,255,0.45);
+  }
+}
+
+@keyframes zy-client-flicker {
+  0%, 97%, 100% { opacity: 1; }
+  98% { opacity: 0.85; }
+  99% { opacity: 1; }
+}
+
+.client-auth .dev-login-card{
+  animation:
+    zy-client-glow 6s ease-in-out infinite,
+    zy-client-flicker 11s infinite;
+}
+
+.client-auth .enter-btn{
+  animation:
+    zy-client-glow 4.5s ease-in-out infinite,
+    zy-client-flicker 9s infinite;
+}
+
+
+/* ===============================
+   ZY_CLIENT_NO_RED_FINAL
+   Absolute red elimination
+================================ */
+.client-auth button,
+.client-auth input,
+.client-auth .enter-btn{
+  border-color: #00ffff !important;
+  outline-color: #00ffff !important;
+}
+
+/* kill any red box-shadow remnants */
+.client-auth button,
+.client-auth .enter-btn{
+  box-shadow:
+    0 0 28px rgba(0,255,255,0.55),
+    inset 0 0 12px rgba(0,255,255,0.25) !important;
+}
+
+
+/* ===============================
+   ZY_CLIENT_GOTHAM_GLOW
+   Vibrant but restrained
+================================ */
+@keyframes zy-gotham-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 14px rgba(0,255,255,0.25),
+      0 0 28px rgba(0,255,255,0.18),
+      inset 0 0 10px rgba(0,255,255,0.18);
+  }
+  45% {
+    box-shadow:
+      0 0 22px rgba(0,255,255,0.55),
+      0 0 44px rgba(0,255,255,0.35),
+      inset 0 0 14px rgba(0,255,255,0.25);
+  }
+  70% {
+    box-shadow:
+      0 0 18px rgba(0,255,255,0.38),
+      0 0 36px rgba(0,255,255,0.25),
+      inset 0 0 12px rgba(0,255,255,0.22);
+  }
+}
+
+.client-auth .dev-login-card{
+  animation: zy-gotham-glow 7.5s ease-in-out infinite;
+}
+
+
+/* ===============================
+   ZY_CLIENT_GOTHAM_FLICKER
+   Rare cinematic flicker
+================================ */
+@keyframes zy-gotham-flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: 0.82; }
+  98% { opacity: 1; }
+  99% { opacity: 0.9; }
+}
+
+.client-auth .dev-login-card,
+.client-auth .enter-btn{
+  animation:
+    zy-gotham-glow 7.5s ease-in-out infinite,
+    zy-gotham-flicker 13s infinite;
+}
+
+
+/* ===============================
+   ZY_DEV_OVERLAY_VISIBLE_GUARD
+   If Dev page shows only matrix, CSS is hiding the overlay.
+   This forces the dev card visible again.
+================================ */
+
+body.zy-dev-auth .dev-login-overlay,
+body.zy-auth-enter.zy-dev-auth .dev-login-overlay{
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+body.zy-dev-auth .dev-login-card,
+body.zy-auth-enter.zy-dev-auth .dev-login-card{
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
 }

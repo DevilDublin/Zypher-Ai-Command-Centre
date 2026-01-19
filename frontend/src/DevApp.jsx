@@ -54,7 +54,9 @@ const [notifications, setNotifications] = useState([]);
     try {
       setDeployResult(null);
 
-      const res = await fetch("http://localhost:3000/provision", {
+      const res = await if (!BACKEND_URL) return;
+
+fetch(`${BACKEND_URL}/provision", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

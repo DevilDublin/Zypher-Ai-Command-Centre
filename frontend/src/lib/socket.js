@@ -2,9 +2,13 @@ import { io } from "socket.io-client";
 
 const BACKEND_URL =
   import.meta.env.VITE_BACKEND_URL ||
-  "http://localhost:3000";
+  null;
 
-export const socket = io(BACKEND_URL, {
+export let socket = null;
+
+if (BACKEND_URL) {
+  socket = io(BACKEND_URL, {
   transports: ["polling", "websocket"],
   autoConnect: true,
 });
+}

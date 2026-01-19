@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./developerLogin.css";
 
 export default function DeveloperLogin() {
+  window.__ZYPHER_THEME__ = "dev";
 
   useEffect(() => {
     document.body.classList.add("zy-auth-enter", "zy-dev-auth");
@@ -37,13 +38,14 @@ export default function DeveloperLogin() {
     const drops = Array(columns).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(0,0,0,0.08)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "rgba(0,0,0,0.15)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
-      ctx.fillStyle = "#ff3c3c";
-        ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
+      ctx.fillStyle = "rgba(255,0,0,0.35)";
+        ctx.fillStyle = "rgba(255,0,0,0.9)";
+          ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
         }
@@ -89,7 +91,7 @@ export default function DeveloperLogin() {
         <button className="dev-login-close" aria-label="Close" onClick={() => navigate("/")}>×</button>
 <div className="dev-login-card">
           <h1>ZYPHER</h1>
-          <span className="subtitle">Developer Terminal</span>
+          <span className="subtitle">DEV TERMINAL</span>
 
           <div className="pass-wrapper">
             <input

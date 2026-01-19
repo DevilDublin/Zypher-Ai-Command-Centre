@@ -137,7 +137,7 @@ useEffect(() => {
           <div className="os-logo zypher-title">ZYPHER</div>
 
           <div className="os-actions">
-            <button className="os-btn client" disabled>
+            <button className="os-btn client" onClick={() => nav("/client-login")}>
               <span data-text="CLIENT ACCESS">CLIENT ACCESS</span>
             </button>
 

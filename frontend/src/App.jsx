@@ -8,11 +8,6 @@ import { socketState } from "./lib/socketStore";
 
 export default function App() {
 
-  const path = window.location.pathname;
-
-  if (path !== "/developer") {
-    return <div />;
-  }
 
 
   const [authOpen, setAuthOpen] = useState(false);

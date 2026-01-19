@@ -1,3 +1,5 @@
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
+
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
@@ -11,7 +13,9 @@ export default function ClientDashboardView() {
     const clientId = localStorage.getItem("clientId");
     if (!clientId) return;
 
-    fetch("http://localhost:3000/client/state", {
+    if (!BACKEND_URL) return;
+
+fetch(`${BACKEND_URL}/client/state`, {
       headers: { "x-client-id": clientId }
     })
       .then(r => r.json())

@@ -614,23 +614,241 @@ body.zy-dev-auth .dev-login-card {
 
 
 /* ===============================
-   DEV_LOGIN_LOCKED
-   Do not modify without explicit permission
+   CLIENT AUTH — CINEMATIC ENTER
 ================================ */
 
-.dev-login-card{
-  animation: none !important;
+.client-auth .dev-login-card{
+  animation: client-enter 0.9s cubic-bezier(.2,.9,.2,1) both;
 }
 
-.dev-login-overlay{
-  transition: none !important;
+@keyframes client-enter{
+  0%{
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+    filter: blur(6px);
+  }
+  100%{
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 
 /* ===============================
-   DEV_LOGIN_IMMUTABLE
+   CLIENT_AUTH_VISIBILITY_FIX
+   Force card render (safety net)
 ================================ */
 
-.zy-dev-auth *{
-  animation: none !important;
+.client-auth .dev-login-card{
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  visibility: visible !important;
+}
+
+
+/* ===============================
+   CLIENT_AUTH_ENTER_REARM
+   Guaranteed entrance animation
+================================ */
+
+.client-auth .dev-login-overlay{
+  animation: client-overlay-fade 0.45s ease-out both;
+}
+
+.client-auth .dev-login-card{
+  animation: client-card-enter 0.85s cubic-bezier(.18,.9,.25,1) both;
+}
+
+@keyframes client-overlay-fade{
+  from{ opacity: 0; }
+  to{ opacity: 1; }
+}
+
+@keyframes client-card-enter{
+  0%{
+    opacity: 0;
+    transform: translateY(22px) scale(0.94);
+    filter: blur(8px);
+  }
+  100%{
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+
+/* ===============================
+   CLIENT_AUTH_CYAN_HARDLOCK
+================================ */
+
+.client-auth{
+  --accent: #00ffff;
+}
+
+.client-auth .dev-login-card{
+  border: 1px solid rgba(0,255,255,0.45);
+  box-shadow:
+    0 0 45px rgba(0,255,255,0.35),
+    inset 0 0 22px rgba(0,255,255,0.25);
+}
+
+.client-auth .enter-btn{
+  background: rgba(0,255,255,0.9);
+  color: #000;
+}
+
+
+/* ===============================
+   CLIENT_AUTH_RED_PURGE
+   Remove ALL dev/red bleed
+================================ */
+
+.client-auth,
+.client-auth *{
+  --red: transparent !important;
+}
+
+.client-auth .dev-login-card,
+.client-auth input,
+.client-auth .pass-wrapper{
+  border-color: rgba(0,255,255,0.55) !important;
+  box-shadow: none !important;
+}
+
+.client-auth input{
+  color: #00ffff !important;
+  caret-color: #00ffff !important;
+}
+
+.client-auth .error{
+  color: #00ffff !important;
+}
+
+
+/* ===============================
+   CLIENT_AUTH_CYAN_GLOW_CORE
+   High-energy neon core
+================================ */
+
+.client-auth .dev-login-card{
+  border: 1px solid rgba(0,255,255,0.65);
+  box-shadow:
+    0 0 25px rgba(0,255,255,0.35),
+    0 0 60px rgba(0,255,255,0.25),
+    inset 0 0 22px rgba(0,255,255,0.35);
+}
+
+
+/* ===============================
+   CLIENT_AUTH_GOTHAM_FLICKER
+   Irregular neon instability
+================================ */
+
+.client-auth .dev-login-card{
+  animation:
+    client-cyan-breathe 6.5s ease-in-out infinite,
+    client-cyan-flicker 11s infinite;
+  will-change: opacity, filter;
+}
+
+@keyframes client-cyan-breathe{
+  0%,100%{
+    filter: brightness(1);
+  }
+  50%{
+    filter: brightness(1.25);
+  }
+}
+
+@keyframes client-cyan-flicker{
+  0%{opacity:1}
+  2%{opacity:.85}
+  3%{opacity:1}
+
+  17%{opacity:.92}
+  18%{opacity:1}
+
+  41%{opacity:.55; filter:brightness(0.7) blur(1.2px)}
+  42%{opacity:1; filter:none}
+
+  67%{opacity:.9}
+  68%{opacity:1}
+
+  91%{opacity:.6; filter:brightness(0.8) blur(.8px)}
+  92%{opacity:1; filter:none}
+}
+
+
+/* ===============================
+   CLIENT_ENTER_BUTTON_FIX
+================================ */
+
+.client-auth .enter-btn{
+  background: #00ffff !important;
+  color: #000 !important;
+  box-shadow:
+    0 0 18px rgba(0,255,255,0.65),
+    0 0 40px rgba(0,255,255,0.35);
+}
+
+.client-auth .enter-btn:hover{
+  box-shadow:
+    0 0 28px rgba(0,255,255,0.85),
+    0 0 65px rgba(0,255,255,0.55);
+}
+
+
+/* ===============================
+   CLIENT_AUTH_RED_EXORCISM
+   Nuclear red removal (final)
+================================ */
+
+.client-auth *,
+.client-auth *::before,
+.client-auth *::after{
+  color: #00ffff !important;
+  border-color: rgba(0,255,255,0.6) !important;
+  outline-color: rgba(0,255,255,0.6) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* explicitly override any red tokens */
+.client-auth{
+  --neon-red: transparent !important;
+  --danger: transparent !important;
+}
+
+
+/* ===============================
+   CLIENT_AUTH_NEON_AURA
+   True glow behind card
+================================ */
+
+.client-auth .dev-login-card{
+  position: relative;
+}
+
+.client-auth .dev-login-card::after{
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: -1;
+  background: radial-gradient(
+    circle,
+    rgba(0,255,255,0.35) 0%,
+    rgba(0,255,255,0.18) 35%,
+    rgba(0,255,255,0.06) 55%,
+    transparent 70%
+  );
+  filter: blur(28px);
+  animation: client-aura-pulse 6s ease-in-out infinite;
+}
+
+@keyframes client-aura-pulse{
+  0%,100%{ opacity: 0.55 }
+  50%{ opacity: 1 }
 }

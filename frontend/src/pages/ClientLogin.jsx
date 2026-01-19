@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./developerLogin.css";
+import "./clientLogin.css";
 
 export default function ClientLogin() {
+  window.__ZYPHER_THEME__ = "client";
 
   useEffect(() => {
     document.body.classList.add("zy-auth-enter", "zy-client-auth");
@@ -37,12 +38,12 @@ export default function ClientLogin() {
     const drops = Array(columns).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = "rgba(0,0,0,0.08)";
+      ctx.fillStyle = "rgba(0,0,0,0.15)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = fontSize + "px monospace";
 
       for (let i = 0; i < drops.length; i++) {
-      ctx.fillStyle = "#00ffff";
+      ctx.fillStyle = "rgba(0,255,255,0.35)";
         ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
@@ -59,16 +60,26 @@ export default function ClientLogin() {
   }, []);
 
   /* ===== SUBMIT ===== */
-  const submit = () => {
-      setError(false);
-      navigate("/client-dashboard");
-    };
+  
+  const submit = async () => {
+    setError(false);
+
+    // DEV MODE — force client auth
+    if (window.location.hostname === "localhost") {
+      localStorage.setItem("zy_client_authed", "1");
+      navigate("/dashboard");
+      return;
+    }
+
+    setError(true);
+  };
+
 
   return (
     <>
       <canvas ref={canvasRef} style={{ position: "fixed", inset: 0, zIndex: 0 }} className="matrix-canvas" />
 
-      <div className="dev-login-overlay">
+      <div className="dev-login-overlay client-auth">
         <button className="dev-login-close" aria-label="Close" onClick={() => navigate("/")}>×</button>
 <div className="dev-login-card">
           <h1>ZYPHER</h1>
@@ -80,7 +91,6 @@ export default function ClientLogin() {
               placeholder="ENTER PASSKEY"
               value={passkey}
               onChange={(e) => setPasskey(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
             />
             <span className="pass-eye" onClick={() => setShowPass(v => !v)}>
               {showPass ? "◉" : "◎"}
