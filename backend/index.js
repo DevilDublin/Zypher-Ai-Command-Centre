@@ -103,7 +103,7 @@ app.post("/voice", (req, res) => {
   const twiml = `
 <Response>
   <Connect>
-    <Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" />
+    <Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" />
   </Connect>
 </Response>
 `; 
@@ -317,7 +317,7 @@ io.on("connection", socket => {
         const call = await twilioClient.calls.create({
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
+          twiml: `<Response><Connect><Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" /></Connect></Response>`
         });
 
         activeCallSid = call.sid;
@@ -351,7 +351,7 @@ io.on("connection", socket => {
           const call = await twilioClient.calls.create({
             to: phone,
             from: process.env.TWILIO_PHONE_NUMBER,
-            twiml: `<Response><Connect><Stream url="wss://immunological-unmaliciously-lavette.ngrok-free.dev/twilio-media" /></Connect></Response>`
+            twiml: `<Response><Connect><Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" /></Connect></Response>`
           });
 
           activeCallSid = call.sid;
