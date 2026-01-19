@@ -163,6 +163,8 @@ END DISABLED */
 
 /* short, sharp flicker bursts */
 @keyframes neon-flicker {
+/* DISABLED ORPHAN KEYFRAMES
+
   0%, 92%, 100% {
     opacity: 1;
     filter: brightness(1);
@@ -180,6 +182,8 @@ END DISABLED */
   96% {
     opacity: 1;
   }
+END DISABLED */
+
 }
 
 /* ultra-slow horizontal instability */
@@ -303,7 +307,7 @@ END DISABLED */
 
 /* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
 body {
-    45deg,
+  linear-gradient(45deg,
     red,
     red 10px,
     black 10px,
