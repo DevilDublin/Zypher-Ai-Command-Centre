@@ -2929,3 +2929,8 @@ html, body {
   overflow-y: auto !important;
   overscroll-behavior: none;
 }
+
+/* === PROD CSS CLAMP (NO LOGIC) === */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass, .inner-glass { background: rgba(20,0,40,.85); }
+}
