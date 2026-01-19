@@ -3,7 +3,6 @@ import { socket } from "../lib/socket";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 
 import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 
 export default function ClientDashboardView() {
   const [clientState, setClientState] = useState(null);
@@ -30,10 +29,7 @@ fetch(`${BACKEND_URL}/client/state`, {
     const clientId = localStorage.getItem("clientId");
     if (!clientId) return;
 
-    const socket = io("http://localhost:3000", {
-      extraHeaders: { "x-client-id": clientId }
-    });
-
+    
     socket.on("connect", () => setConnected(true));
     socket.on("disconnect", () => setConnected(false));
 
