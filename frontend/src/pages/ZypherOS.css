@@ -44,12 +44,7 @@
   50% { opacity: .22 }
 }
 
-.os-actions {
-  margin-top: 2.2rem !important;
-  display: flex;
-  gap: 2.2rem;
-  justify-content: center;
-}
+
 
 .os-btn {
   padding: 18px 40px;
@@ -216,12 +211,7 @@ END DISABLED */
   padding-top: 28vh;
 }
 
-.os-actions {
-  margin-top: 2.2rem !important;
-  display: flex;
-  gap: 2.2rem;
-  justify-content: center;
-}
+
 
 /* === GOTHAM NEON FLICKER === */
 /* DISABLED OLD RULE
@@ -252,12 +242,7 @@ END DISABLED */
 }
 
 /* === BUTTON CINEMATIC ENTRANCE === */
-.os-actions {
-  margin-top: 2.2rem !important;
-  display: flex;
-  gap: 2.2rem;
-  justify-content: center;
-}
+
 
 @keyframes actions-rise {
   from {
@@ -315,12 +300,7 @@ END DISABLED */
   transform: translateY(-40px);
 }
 
-.os-actions {
-  margin-top: 2.2rem !important;
-  display: flex;
-  gap: 2.2rem;
-  justify-content: center;
-}
+
 
 /* 🔥 NUCLEAR TEST — THIS MUST BE VISIBLE */
 body {
@@ -417,12 +397,7 @@ END DISABLED */
 /* ===============================
    CINEMATIC BUTTON ENTRANCE
    =============================== */
-.os-actions {
-  margin-top: 2.2rem !important;
-  display: flex;
-  gap: 2.2rem;
-  justify-content: center;
-}
+
 
 @keyframes buttons-rise {
   0% {
@@ -608,9 +583,7 @@ END DISABLED */
   box-shadow:
 }
 
-.os-actions {
-  animation: action-float 6s ease-in-out infinite;
-}
+
 
 @keyframes action-float {
   0%,100% { transform: translateY(0); }
@@ -1884,3 +1857,27 @@ html, body{
 }
 
 
+
+
+
+
+/* === BUTTON POSITION TWEAK (MAJOR SHIFT) === */
+
+
+
+/* === BUTTON POSITION: FORCE DOWNWARD SHIFT === */
+
+
+
+
+
+/* === SAFE BUTTON SEPARATION (NO VERTICAL SHIFT) === */
+.os-btn.dev{
+  margin-left: 32px;
+}
+
+
+/* === INTENTIONAL BUTTON DROP (ONE BUTTON HEIGHT) === */
+.os-actions{
+  margin-top: 144px;
+}
