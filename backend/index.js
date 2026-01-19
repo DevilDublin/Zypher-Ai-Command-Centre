@@ -118,7 +118,7 @@ const io = new Server(server, {
     origin: [
       "https://zypheragents.com",
       "https://www.zypheragents.com",
-      "http://localhost:5173"
+      process.env.PUBLIC_BASE_URL || "https://www.zypheragents.com"
     ],
     methods: ["GET", "POST"],
     credentials: true
