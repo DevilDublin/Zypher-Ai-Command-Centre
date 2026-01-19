@@ -2827,3 +2827,100 @@ body.zy-auth-enter.zy-dev-auth .dev-login-card{
   visibility: visible !important;
   transform: none !important;
 }
+
+
+/* ===============================
+   NEON NAV BAR
+================================ */
+
+.neon-nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,255,255,0.2);
+  z-index: 500;
+}
+
+/* ===============================
+   NEON NAV — ENHANCED EFFECTS
+   hover-only glow + scan
+================================ */
+
+.nav-links a{
+  position: relative;
+  letter-spacing: .18em;
+  transition:
+    color .25s ease,
+    text-shadow .25s ease,
+    transform .25s ease;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-6px;
+  width:0%;
+  height:2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #00ffff,
+    transparent
+  );
+  box-shadow: 0 0 14px #00ffff;
+  transition: width .35s ease;
+}
+
+.nav-links a:hover{
+  color:#00ffff;
+  text-shadow:
+    0 0 6px #00ffff,
+    0 0 14px rgba(0,255,255,.8);
+  transform: translateY(-1px);
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+@keyframes navFlicker {
+  0% { opacity:1 }
+  45% { opacity:.85 }
+  50% { opacity:1 }
+  55% { opacity:.9 }
+  100% { opacity:1 }
+}
+
+.nav-links a:hover{
+  animation: navFlicker .18s linear 1;
+}
+
+
+.nav-logo{
+  color: #00ffff;
+  font-weight: 600;
+  letter-spacing: .25em;
+  text-shadow: 0 0 14px rgba(0,255,255,0.9);
+}
+
+.nav-links a{
+  margin-left: 28px;
+  color: #9ff;
+  text-decoration: none;
+  font-size: .8rem;
+  letter-spacing: .15em;
+}
+
+.nav-links a:hover{
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0,255,255,0.8);
+}
