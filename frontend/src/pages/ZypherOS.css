@@ -1061,7 +1061,7 @@ END DISABLED */
 
 /* TIMELINE CONTAINER */
 .zy-timeline{
-  margin-top: 48px;
+  margin-top: 120px;
 }
 
 /* INDIVIDUAL NODES */
@@ -1933,6 +1933,7 @@ html, body{
 
 /* === OS BUTTONS: HARD POSITION LOCK === */
 .os-actions{
+  transform: translateY(72px);
   position: relative;
   top: 72px; /* LOCKED vertical offset from logo */
   display: flex;
