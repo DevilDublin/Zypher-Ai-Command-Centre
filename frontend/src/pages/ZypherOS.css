@@ -83,7 +83,6 @@
 /* ================================
    GOTHAM NEON FLICKER — ZYPHER CORE
    GPU-only, zero layout impact
-================================ */
 
 /* DISABLED OLD RULE
 .zypher-title {
@@ -620,7 +619,6 @@ END DISABLED */
    ZYPHER OS — BUTTON LIFE SYSTEM
    Subtle idle glow + rare flicker
    Scoped. GPU-only. No layout impact.
-========================================================== */
 
 /* base enhancement */
 .zypher-os .os-btn {
@@ -689,7 +687,6 @@ END DISABLED */
 
 /* ==========================================================
    ZYPHER OS — BUTTON NEON SYSTEM (FINAL)
-========================================================== */
 
 .zypher-os .os-btn {
   position: relative;
@@ -778,7 +775,6 @@ END DISABLED */
 /* ==========================================================
    ZYPHER OS — GOTHAM BUTTON FLICKER (HIGH END)
    Irregular, electrical, premium
-========================================================== */
 
 /* --- shared electrical flicker --- */
 .zypher-os .os-btn {
@@ -825,7 +821,6 @@ END DISABLED */
 
 /* ==========================================================
    BUTTON ENERGY LAYER — SCI-FI TERMINAL STYLE
-========================================================== */
 
 .zypher-os .os-btn {
   overflow: hidden;
@@ -881,7 +876,6 @@ END DISABLED */
 
 /* ==========================================================
    BUTTON GLITCH — BLUE/RED (GOTHAM FILTERED)
-========================================================== */
 
 .zypher-os .os-btn{
   isolation:isolate;
@@ -960,7 +954,6 @@ END DISABLED */
 
 /* ===============================
    Zypher Text Animations (Cinematic)
-================================ */
 
 .zy-anim:not([data-zy-type]){
   opacity: 0;
@@ -1013,7 +1006,6 @@ END DISABLED */
 /* ===============================
    ZY_CINEMATIC_ANIMS
    High-Impact Section Motion
-================================ */
 
 /* SECTION ENTRY */
 .zy-explain{
@@ -1117,7 +1109,6 @@ END DISABLED */
 /* ===============================
    ZY_EXPLAIN_LAYOUT
    Centered / Cinematic Formatting
-================================ */
 
 .zy-explain{
   max-width: 980px;
@@ -1174,7 +1165,6 @@ END DISABLED */
 /* ===============================
    ZY_SCROLL_ANIMS
    Smooth / Staggered / Cinematic
-================================ */
 
 .zy-anim:not([data-zy-type]){
   opacity: 0;
@@ -1250,7 +1240,6 @@ END DISABLED */
 /* ===============================
    ZY_TYPE_ENGINE
    Scroll-scrubbed typing
-================================ */
 
 [data-zy-type]{
   overflow: hidden;
@@ -1289,7 +1278,6 @@ END DISABLED */
 /* ===============================
    ZY_SCROLL_TYPE_ENGINE (FIXED)
    True scroll-scrubbed typing
-================================ */
 
 [data-zy-type]{
   position: relative;
@@ -1333,7 +1321,6 @@ END DISABLED */
 /* ===============================
    ZY_TYPE_VISIBILITY_GUARD
    typed elements must remain visible
-================================ */
 [data-zy-type]{
   opacity: 1 !important;
   transform: none !important;
@@ -1343,7 +1330,6 @@ END DISABLED */
 /* ===============================
    SCROLL-OWNED OVERRIDES
    Disable time-based anims inside scroll-doc
-================================ */
 
 .scroll-doc .zy-explain,
 .scroll-doc .zy-title,
@@ -1357,7 +1343,6 @@ END DISABLED */
 /* ===============================
    SCROLL SPACE (REQUIRED)
    Enables scroll-driven animation
-================================ */
 
 .scroll-doc{
   min-height: 200vh;
@@ -1377,7 +1362,6 @@ html, body{
 /* ===============================
    SCROLL CONTAINER FIX
    Prevent ghost scroll space
-================================ */
 
 .zypher-os{
   height: 100vh;
@@ -1397,7 +1381,6 @@ html, body{
 \n
 /* ===============================
    SCROLL DOCUMENT (FULL WIDTH)
-================================ */
 
 .scroll-doc{
   width:100%;
@@ -1419,7 +1402,6 @@ html, body{
 \n
 /* ===============================
    SECTION THEMING
-================================ */
 
 .zy-section{
   background: radial-gradient(
@@ -1448,7 +1430,6 @@ html, body{
 
 /* ===============================
    FULL-BLEED SCROLL SECTIONS
-================================ */
 
 .scroll-doc{
   width:100%;
@@ -1479,7 +1460,6 @@ html, body{
 
 /* ===============================
    CINEMATIC SECTION BACKDROP
-================================ */
 
 .zy-section::before{
   content:"";
@@ -1500,7 +1480,6 @@ html, body{
 \n
 /* ===============================
    SCROLL SMOOTHING (SAFE)
-================================ */
 
 .zypher-os{
   scroll-behavior:smooth;
@@ -1517,7 +1496,6 @@ html, body{
 \n
 /* ===============================
    SECTION TYPOGRAPHY
-================================ */
 
 .zy-title{
   font-size:clamp(2.4rem, 5vw, 3.6rem);
@@ -1538,7 +1516,6 @@ html, body{
 \n
 /* ===============================
    ARCHITECTURE SECTION
-================================ */
 
 .zy-section:nth-of-type(2) .zy-lead{
   font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -1555,7 +1532,6 @@ html, body{
 \n
 /* ===============================
    USE CASES
-================================ */
 
 .zy-list{
   display:grid;
@@ -1580,7 +1556,6 @@ html, body{
 \n
 /* ===============================
    FINAL CTA
-================================ */
 
 .zy-end{
   align-items:center;
@@ -1604,7 +1579,6 @@ html, body{
 \n
 /* ===============================
    TYPE REVEAL (GPU SAFE)
-================================ */
 
 .zy-type-inner{
   display:inline-block;
@@ -1615,7 +1589,6 @@ html, body{
 \n
 /* ===============================
    ARCH GRID
-================================ */
 
 .zy-arch-grid{
   display:grid;
@@ -1642,7 +1615,6 @@ html, body{
 \n
 /* ===============================
    TECH STACK
-================================ */
 
 .zy-section:nth-of-type(4) p{
   font-family:ui-monospace, monospace;
@@ -1653,7 +1625,6 @@ html, body{
 /* ===============================
    ZYPHER VOICE DEMO
    Subtle, cinematic, GPU-only
-================================ */
 
 .zy-voice-demo{
   margin: 4vh auto 6vh;
@@ -1708,7 +1679,6 @@ html, body{
    SCROLL-DOC OWNERSHIP FIX
    Scroll-driven content must not
    be opacity / transform gated
-================================ */
 .scroll-doc .zy-anim{
   opacity: 1 !important;
   transform: none !important;
@@ -1718,7 +1688,6 @@ html, body{
 /* ===============================
    ZY_SCROLL_ENGINE_AUTHORITY
    JS owns text reveal timing
-================================ */
 .scroll-doc [data-zy-type]{
   opacity: 1 !important;
   clip-path: none !important;
@@ -1761,7 +1730,6 @@ html, body{
    FINAL VISIBILITY AUTHORITY
    Scroll-doc content must never
    be opacity-gated globally
-================================ */
 .scroll-doc,
 .scroll-doc *{
   opacity: 1 !important;
@@ -1779,7 +1747,6 @@ html, body{
 /* ================================
    ZY_FORCE_INTERACTION
    Kill all cinematic click blockers
-================================ */
 .zypher-os,
 .zypher-os * {
   pointer-events: auto !important;
@@ -1791,7 +1758,6 @@ html, body{
 
 /* ===============================
    CLIENT AUTH CYAN FORCE
-================================ */
 .client-auth *{
   border-color:#00ffff !important;
 }
@@ -1823,7 +1789,6 @@ html, body{
 /* ===============================
    ZY_OS_CLICK_FIX
    Ensure OS buttons are clickable
-================================ */
 
 /* overlays must never eat clicks */
 .os-noise,
@@ -1952,3 +1917,38 @@ html, body{
   pointer-events: none;
 }
 
+/* ===============================
+   ZY_OS_BUTTON_HOVER_FIX
+   Ensure button, not inner span,
+   receives hover + cursor
+.os-btn span{
+  pointer-events: none;
+}
+
+
+/* ===============================
+   ZY_OS_CURSOR_FIX
+   Force pointer cursor on buttons
+   AND their inner layers
+.os-btn,
+.os-btn *{
+  cursor: pointer !important;
+}
+
+
+/* ===============================
+   ZY_OS_BUTTON_HITAREA_FIX
+   Ensure full button hover area
+.os-btn{
+  padding: 0; /* padding moves to span */
+}
+
+.os-btn span{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 18px 40px;
+  box-sizing: border-box;
+}
