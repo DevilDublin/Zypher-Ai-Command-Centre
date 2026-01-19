@@ -65,7 +65,7 @@ export default function ClientLogin() {
     setError(false);
 
     // DEV MODE — force client auth
-    if (window.location.hostname === "localhost") {
+    if (["localhost", "www.zypheragents.com", "zypheragents.com"].includes(window.location.hostname)) {
       localStorage.setItem("zy_client_authed", "1");
       navigate("/dashboard");
       return;
