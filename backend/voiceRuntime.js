@@ -56,7 +56,8 @@ export function initVoiceRuntime(server, io) {
     }
   });
 
-  wss.on("connection", twilio => {
+  /*
+wss.on("connection", twilio => {const INTERNAL_BASE = `http://127.0.0.1:${process.env.PORT || 3000}`;
       let CALL_LEAD = null;
 
             
@@ -88,7 +89,9 @@ export function initVoiceRuntime(server, io) {
       } catch {}
     });
 
-    const ai = new WebSocket(
+    
+*/
+const ai = new WebSocket(
       "wss://api.openai.com/v1/realtime?model=gpt-realtime-mini",
       {
         headers: {
@@ -241,7 +244,8 @@ modalities: ["audio","text"],
       });
     });
 
-    ai.on("message", msg => {
+    /*
+ai.on("message", msg => {
       let data;
         try { data = JSON.parse(msg.toString()); } catch { return; }
 
@@ -274,6 +278,8 @@ modalities: ["audio","text"],
             const confidence = Math.min(1, score / 6);
             emitFlow({ event: "AI_PREDICTION", confidence });
 
+
+*/
 emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
@@ -320,162 +326,48 @@ continue;
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
 
-                fetch("/lead2", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-              }).then(async r => {
-                console.log("📧 Backend replied:", await r.text());
+                
+fetch(`${INTERNAL_BASE}/lead2`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload)
+})
+.then(async r => {
+  const body = await r.text();
+  console.log("📧 Backend replied:", body);
 
-                  emitFlow("Enquiry submitted");
+  emitFlow("Enquiry submitted");
 
-
-                // Ask model to speak confirmation
-                safe({
-                    type: "response.create",
-                    response: {
-                      modalities: ["audio","text"],
-                      instructions:
-                        "The meeting has just been booked. You must now follow this closing flow exactly. " +
-                        "First say: 'All set — I’ve sent the confirmation through to you and it should arrive in just a moment.' " +
-                        "Then ask: 'Before I let you go, is there anything else you’d like to ask me?' " +
-                        "If the caller asks a question, answer it briefly and professionally, then say: " +
-                        "'That’s exactly what we’ll go through on our call. I’m looking forward to speaking with you then. Have a great day.' " +
-                        "If the caller says no, say: 'No problem at all — have a great day and I’m looking forward to speaking with you.' " +
-                        "After you say the final goodbye line, you must not speak again under any circumstances."
-                    }
-                  });
-              });
-            }
-          }
-        }
-        // ---- END FUNCTION CALL HANDLER ----
-
-
-        if (data.type !== "response.audio.delta") {
-          const t = data.type || "";
-          if (
-            t.includes("tool") ||
-            t in {
-              "error": 1,
-              "response.done": 1,
-              "response.created": 1,
-              "session.created": 1,
-              "session.updated": 1,
-              "rate_limits.updated": 1
-            }
-          ) {
-          } else {
-          }
-        }
-
-      if (data.type === "response.audio.delta") {
-          audioBridge.push(Buffer.from(data.delta, "base64"));
-        }        if (data.type === "response.output_text.delta" && data.delta) emitAssistantDelta(data.delta);
-
-if (data.type === "response.created") responseActive = true;
-      if (data.type === "response.done") responseActive = false;
-        if (data.type === "response.done") {
-          const out = data.response?.output || [];
-          for (const item of out) {
-            // Shape A: { type:"output_text", text:"..." }
-            if (item?.type === "output_text" && item?.text) emitAssistantDelta(item.text);
-
-            // Shape B: { type:"message", content:[{type:"output_text", text:"..."}] }
-            const content = item?.content || [];
-            for (const c of content) {
-              if (c?.type === "output_text" && c?.text) emitAssistantDelta(c.text);
-              if (c?.type === "text" && c?.text) emitAssistantDelta(c.text);
-            }
-          }
-        }
-
-
-      if (data.type === "input_audio_buffer.transcription.delta") {
-          if (data.delta) emitUserDelta(data.delta);
-      }
-
-
-
-      if (data.type === "error") {
-      }
-    });
-
-    ai.on("close", () => {
-  aiOpen = false;
-  responseActive = false;
-
-  if (LEAD_SUBMITTED) {
-    console.log("ℹ️ AI closed after submit_lead — waiting for call end naturally");
-    return;
-  }
-
-  console.log("🧠 OpenAI Realtime closed");
+  // Ask model to speak confirmation
+  safe({
+    type: "response.create",
+    response: {
+      modalities: ["audio","text"],
+      instructions:
+        "The meeting has just been booked. You must now follow this closing flow exactly. " +
+        "First say: 'All set — I’ve sent the confirmation through to you and it should arrive in just a moment.' " +
+        "Then ask: 'Before I let you go, is there anything else you’d like to ask me?' " +
+        "If the caller asks a question, answer it briefly and professionally, then say: " +
+        "'That’s exactly what we’ll go through on our call. I’m looking forward to speaking with you then. Have a great day.' " +
+        "If the caller says no, say: 'No problem at all — have a great day and I’m looking forward to speaking with you.' " +
+        "After you say the final goodbye line, you must not speak again under any circumstances."
+    }
+  });
+})
+.catch(e => {
+  console.error("❌ lead2 fetch failed:", e?.message || String(e));
+  safe({
+    type: "response.create",
+    response: {
+      modalities: ["audio","text"],
+      instructions:
+        "Sorry — one second, my calendar system just glitched. Could you repeat the day and time you wanted, and I’ll lock it in?"
+    }
+  });
+  responseActive = true;
 });
 
-    // ================= Twilio =================
-
-    twilio.on("message", msg => {
-      let data;
-      try { data = JSON.parse(msg.toString()); } catch { return; }
-
-      if (data.event === "start") {
-          // FORCE campaign cold-calling intro BEFORE AI speaks
-          if (CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling") {
-            const intro = "Hi Dev, this is Zypher calling from Zypher Agents. I know you weren’t expecting my call, but I’ll be very quick.";
-            safe({
-              type: "response.create",
-              response: {
-                modalities: ["audio","text"],
-                instructions: intro,
-                voice: "marin"
-              }
-            });
-            responseActive = true;
-          }
-
-          CALL_LEAD = ACTIVE_LEAD;
-          console.log("📎 Call-bound lead:", CALL_LEAD?.name || "none");
-        streamSid = data.start.streamSid;
-        console.log("<0001f9e0> Twilio stream started:", streamSid);
-          emitFlow("Twilio stream started");
-          emitFlow("Call connected");
-        clearTurn();
-        return;
-      }
-
-      if (data.event === "media") {
-        const ulaw = Buffer.from(data.media.payload, "base64");
-        safe({ type: "input_audio_buffer.append", audio: ulaw.toString("base64") });
-
-        const pcm = mulaw.decode(ulaw);
-        let sum = 0;
-        for (let i = 0; i < pcm.length; i++) sum += pcm[i] * pcm[i];
-        const rms = Math.sqrt(sum / pcm.length);
-
-        if (rms > RMS_THRESHOLD) {
-          const now = Date.now();
-          if (lastSpeechAt) speechMs += Math.min(200, now - lastSpeechAt);
-          lastSpeechAt = now;
-
-          if (silenceTimer) clearTimeout(silenceTimer);
-          silenceTimer = setTimeout(commitAndRespond, SILENCE_MS);
-        } else {
-          if (!lastSpeechAt) speechMs = 0;
+}
         }
       }
 
-      if (data.event === "stop") {
-        console.log("<0001f9e0> Twilio stream stopped");
-          emitFlow("Twilio stream stopped");
-          emitFlow("Call ended");
-        try { ai.close(); } catch {}
-      
-  try {
-    emitInternal("call:ended", { reason: "twilio_hangup" });
-} catch {}
-}
-
-    });
-  });
-}
