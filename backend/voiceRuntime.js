@@ -384,6 +384,14 @@ if (data.type === "response.created") responseActive = true;
       try { data = JSON.parse(msg.toString()); } catch { return; }
 
       if (data.event === "start") {
+        console.log("🎙️ Twilio stream started — Zypher speaking first");
+
+        const greeting = "Hi, is this Devansh? I'm calling quickly about a business opportunity.";
+
+        // Reuse existing TTS pipeline by emitting an internal agent reply
+        onInternal("agent:say", { text: greeting });
+
+
           CALL_LEAD = ACTIVE_LEAD;
           console.log("📎 Call-bound lead:", CALL_LEAD?.name || "none");
         streamSid = data.start.streamSid;
