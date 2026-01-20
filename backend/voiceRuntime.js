@@ -286,11 +286,7 @@ emitFlow("GPT response received");
                   continue;
                 }
 
-                const BASE_URL =
-  process.env.INTERNAL_BACKEND_URL ||
-  `http://localhost:${process.env.PORT || 3000}`;
-
-fetch(`${BASE_URL}/lead2`, {
+                fetch("http://localhost:3000/lead2", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
@@ -384,24 +380,6 @@ if (data.type === "response.created") responseActive = true;
       try { data = JSON.parse(msg.toString()); } catch { return; }
 
       if (data.event === "start") {
-        console.log("🎧 TWILIO STREAM STARTED");
-        // DEBUG: send audible frame so Twilio plays sound
-        ws.send(JSON.stringify({
-          event: "media",
-          media: {
-            track: "outbound",
-            payload: "//////////8AAP//AAD//wAA//8AAP//AAD//wAA"
-          }
-        }));
-        console.log("🔊 DEBUG_AUDIO_SENT");
-        console.log("🎙️ Twilio stream started — Zypher speaking first");
-
-        const greeting = "Hi, is this Devansh? I'm calling quickly about a business opportunity.";
-
-        // Reuse existing TTS pipeline by emitting an internal agent reply
-        onInternal("agent:say", { text: greeting });
-
-
           CALL_LEAD = ACTIVE_LEAD;
           console.log("📎 Call-bound lead:", CALL_LEAD?.name || "none");
         streamSid = data.start.streamSid;
