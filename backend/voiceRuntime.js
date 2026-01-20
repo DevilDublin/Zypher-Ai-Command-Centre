@@ -284,7 +284,7 @@ if (item.type === "function_call" && item.name === "submit_lead") {
     sendAssistantMessage(
       "Just to double-check — could you confirm the exact date for that Thursday and whether 2 pm works for you?"
     );
-    return;
+    continue;
   }
 
               LEAD_SUBMITTED = true;
