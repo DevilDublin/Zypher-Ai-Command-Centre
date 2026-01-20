@@ -246,6 +246,7 @@ modalities: ["audio","text"],
 
     /*
 ai.on("message", msg => {
+        const data = JSON.parse(msg.toString());
       let data;
         try { data = JSON.parse(msg.toString()); } catch { return; }
 
