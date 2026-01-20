@@ -374,6 +374,10 @@ io.on("connection", socket => {
             phone = "+" + phone;
           }
 
+          if (!CALL_DIRECTION) {
+            console.log("⚠️ CALL_DIRECTION missing — defaulting to outbound");
+            setCallDirection("outbound");
+          }
           console.log("📞 Campaign dialing:", lead.name, phone);
           console.log("OUTBOUND GATE STATE", {
             CALL_DIRECTION,
