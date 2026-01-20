@@ -375,6 +375,12 @@ io.on("connection", socket => {
           }
 
           console.log("📞 Campaign dialing:", lead.name, phone);
+          console.log("OUTBOUND GATE STATE", {
+            CALL_DIRECTION,
+            ACTIVE_NICHE,
+            CALL_LEAD,
+            MODE: process.env.RAILWAY_ENVIRONMENT,
+          });
 
           const call = await twilioClient.calls.create({
             answerOnBridge: true,
