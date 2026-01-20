@@ -331,16 +331,6 @@ io.on("connection", socket => {
       }
 
       if (mode === "TEST") {
-        console.log("TWILIO CALL PARAMS", {
-
-          to,
-
-          from,
-
-          url,
-
-        });
-
         const call = await twilioClient.calls.create({
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
@@ -374,17 +364,7 @@ io.on("connection", socket => {
             phone = "+" + phone;
           }
 
-          if (!CALL_DIRECTION) {
-            console.log("⚠️ CALL_DIRECTION missing — defaulting to outbound");
-            setCallDirection("outbound");
-          }
           console.log("📞 Campaign dialing:", lead.name, phone);
-          console.log("OUTBOUND GATE STATE", {
-            CALL_DIRECTION,
-            ACTIVE_NICHE,
-            CALL_LEAD,
-            MODE: process.env.RAILWAY_ENVIRONMENT,
-          });
 
           const call = await twilioClient.calls.create({
             answerOnBridge: true,
