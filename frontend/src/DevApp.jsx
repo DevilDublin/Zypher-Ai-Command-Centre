@@ -32,6 +32,7 @@ export default function App() {
   });
 
 const handleStartCall = () => {
+console.log("📤 FRONTEND EMIT call_start", { mode });
     socket.emit("call_start", { mode });
     addNotification("Call started (" + mode + ")");
   };
