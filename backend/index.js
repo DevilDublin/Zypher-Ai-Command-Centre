@@ -409,7 +409,9 @@ server.listen(process.env.PORT || PORT, () => {
 app.post("/twilio-outbound", (req, res) => {
   const twiml = `
 <Response>
+  <Connect>
     <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+  </Connect>
 </Response>`;
   res.type("text/xml");
   res.send(twiml.trim());
