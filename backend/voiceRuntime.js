@@ -51,7 +51,9 @@ export function setActiveNiche(n) {
   const wss = new WebSocketServer({ noServer: true });
 
   server.on("upgrade", (req, socket, head) => {
-    if (req.url && req.url.startsWith("/twilio-media")) {
+  console.log("⚡ WS upgrade attempt:", req.url);
+
+    if (req.url && req.url.startsWith("/twilio-media")) { console.log("📞 Twilio Media WS accepted");
       wss.handleUpgrade(req, socket, head, ws => wss.emit("connection", ws));
     }
   });
