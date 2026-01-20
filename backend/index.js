@@ -332,10 +332,17 @@ io.on("connection", socket => {
 
       if (mode === "TEST") {
         const call = await twilioClient.calls.create({
+              statusCallback: "https://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-status",
+              statusCallbackEvent: ["initiated","ringing","answered","completed"],
+
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Start><Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" /></Start><Pause length="600"/></Response>`
+          twiml: `<Response><Say voice="alice">Connecting your call.</Say>
+<Start>
+  <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+</Start>
+<Pause length="600"/></Response>`
         });
 
         activeCallSid = call.sid;
@@ -367,10 +374,17 @@ io.on("connection", socket => {
           console.log("📞 Campaign dialing:", lead.name, phone);
 
           const call = await twilioClient.calls.create({
+              statusCallback: "https://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-status",
+              statusCallbackEvent: ["initiated","ringing","answered","completed"],
+
             answerOnBridge: true,
             to: phone,
             from: process.env.TWILIO_PHONE_NUMBER,
-            twiml: `<Response><Start><Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" /></Start><Pause length="600"/></Response>`
+            twiml: `<Response><Say voice="alice">Connecting your call.</Say>
+<Start>
+  <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+</Start>
+<Pause length="600"/></Response>`
           });
 
           activeCallSid = call.sid;
