@@ -26,6 +26,8 @@ let ACTIVE_NICHE = "default";
 
 let ACTIVE_LEAD = null;
 
+let LEAD_SUBMITTED = false;
+
 export function setActiveLead(lead) {
   ACTIVE_LEAD = lead;
   console.log("👤 Active lead:", lead?.name || "none");
@@ -276,6 +278,8 @@ emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
             if (item.type === "function_call" && item.name === "submit_lead") {
+              LEAD_SUBMITTED = true;
+              console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
 
               let payload;
@@ -368,10 +372,16 @@ if (data.type === "response.created") responseActive = true;
     });
 
     ai.on("close", () => {
-      aiOpen = false;
-      responseActive = false;
-      console.log("🧠 OpenAI Realtime closed");
-    });
+  aiOpen = false;
+  responseActive = false;
+
+  if (LEAD_SUBMITTED) {
+    console.log("ℹ️ AI closed after submit_lead — waiting for call end naturally");
+    return;
+  }
+
+  console.log("🧠 OpenAI Realtime closed");
+});
 
     // ================= Twilio =================
 

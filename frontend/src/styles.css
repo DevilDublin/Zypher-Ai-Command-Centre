@@ -2934,3 +2934,20 @@ html, body {
 @supports not (backdrop-filter: blur(1px)) {
   .glass, .inner-glass { background: rgba(20,0,40,.85); }
 }
+
+
+/* ===============================
+   ZY_SCROLL_FIX
+   restore scrolling everywhere
+================================ */
+html, body {
+  height: auto !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+#root {
+  height: auto !important;
+  min-height: 100vh;
+  overflow-y: auto !important;
+}

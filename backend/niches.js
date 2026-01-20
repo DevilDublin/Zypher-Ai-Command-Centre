@@ -244,7 +244,7 @@ export const NICHES = {
           "Then ask: 'Would tomorrow or the day after be better for a quick 10 minute walkthrough?' After you say this, you must stop speaking and wait for the caller to reply. Do not say anything else. " +
 
           "If they agree, collect first name, business name, email, and best time. " +
-          "When finished, call submit_lead. After that, say only: 'You are all set. You will get a confirmation shortly. Speak soon.' After you say this, you must not speak again under any circumstances. " +
+          "When finished, call submit_lead. After that, say only: 'You are all set. You will get a confirmation shortly. Speak soon.' After submit_lead completes, ask the caller if they have any further questions. If the caller says no or is silent, politely say goodbye and end the call. " +
 
           "Never sound robotic. Never rush. Never ask multiple questions at once. Never speak after a question."
 

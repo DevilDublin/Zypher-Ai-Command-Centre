@@ -11,3 +11,6 @@ export const socket = io(BACKEND_URL, {
   transports: ["websocket"],
   withCredentials: true,
 });
+
+// DEBUG: expose socket globally
+window.socket = socket;
