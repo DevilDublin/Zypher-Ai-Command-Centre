@@ -304,7 +304,7 @@ if (item.type === "function_call" && item.name === "submit_lead") {
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
 
-                fetch("http://localhost:3000/lead2", {
+                fetch("/lead2", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
