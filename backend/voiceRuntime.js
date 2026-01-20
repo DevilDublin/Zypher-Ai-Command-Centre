@@ -384,7 +384,7 @@ if (data.type === "response.created") responseActive = true;
       try { data = JSON.parse(msg.toString()); } catch { return; }
 
       if (data.event === "start") {
-        console.log("🎧 TWILIO STREAM STARTED"
+        console.log("🎧 TWILIO STREAM STARTED");
         // DEBUG: send audible frame so Twilio plays sound
         ws.send(JSON.stringify({
           event: "media",
@@ -394,7 +394,6 @@ if (data.type === "response.created") responseActive = true;
           }
         }));
         console.log("🔊 DEBUG_AUDIO_SENT");
-, data.start?.streamSid);
         console.log("🎙️ Twilio stream started — Zypher speaking first");
 
         const greeting = "Hi, is this Devansh? I'm calling quickly about a business opportunity.";
