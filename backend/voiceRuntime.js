@@ -45,8 +45,8 @@ export function setActiveNiche(n) {
   console.log("🧩 Active niche:", ACTIVE_NICHE);
 }
 
-export function initVoiceRuntime(server, io) {
-  FLOW_IO = io;
+  let CALL_LEAD = null;export function initVoiceRuntime(server, io) {
+  let aiOpen = false;  FLOW_IO = io;
   
   const wss = new WebSocketServer({ noServer: true });
 
@@ -244,9 +244,7 @@ modalities: ["audio","text"],
       });
     });
 
-    /*
 ai.on("message", msg => {
-        const data = JSON.parse(msg.toString());
       let data;
         try { data = JSON.parse(msg.toString()); } catch { return; }
 
@@ -280,7 +278,6 @@ ai.on("message", msg => {
             emitFlow({ event: "AI_PREDICTION", confidence });
 
 
-*/
 emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
@@ -372,3 +369,5 @@ fetch(`${INTERNAL_BASE}/lead2`, {
         }
       }
 
+});
+}
