@@ -53,7 +53,18 @@ export function setActiveNiche(n) {
   server.on("upgrade", (req, socket, head) => {
   console.log("⚡ WS upgrade attempt:", req.url);
 
-    if (req.url && req.url.startsWith("/twilio-media")) { console.log("📞 Twilio Media WS accepted");
+    if (req.url && req.url.startsWith("/twilio-media")) { console.log("📞 Twilio Media WS accepted")
+console.log("📞 Twilio Media WS accepted");
+
+// 🔊 FORCE TEST INTRO
+ai.send(JSON.stringify({
+  type: "response.create",
+  response: {
+    modalities: ["audio"],
+    instructions: "Hello! This is a test from Zypher. If you can hear this, audio is working."
+  }
+}));
+;
       wss.handleUpgrade(req, socket, head, ws => wss.emit("connection", ws));
     }
   });
