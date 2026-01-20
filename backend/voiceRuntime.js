@@ -277,7 +277,16 @@ modalities: ["audio","text"],
 emitFlow("GPT response received");
           const outputs = data.response?.output || [];
           for (const item of outputs) {
-            if (item.type === "function_call" && item.name === "submit_lead") {
+            
+if (item.type === "function_call" && item.name === "submit_lead") {
+  if (!item.arguments || !item.arguments.start || !item.arguments.end || !item.arguments.timezone) {
+    console.warn("⚠️ submit_lead rejected: missing or invalid time — asking for clarification");
+    sendAssistantMessage(
+      "Just to double-check — could you confirm the exact date for that Thursday and whether 2 pm works for you?"
+    );
+    return;
+  }
+
               LEAD_SUBMITTED = true;
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
