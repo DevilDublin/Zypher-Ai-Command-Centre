@@ -106,7 +106,6 @@ app.post("/lead2", leadHandler2);
 
 
 app.get("/voice", (req, res) => {
-  console.log("VOICE GET HIT — NEW HANDLER");
   const twiml = `
 <Response>
   <Start>
@@ -119,7 +118,6 @@ app.get("/voice", (req, res) => {
 });
 
 app.post("/voice", (req, res) => {
-  console.log("VOICE POST HIT — NEW HANDLER");
   const twiml = `
 <Response>
   <Start>
@@ -333,6 +331,16 @@ io.on("connection", socket => {
       }
 
       if (mode === "TEST") {
+        console.log("TWILIO CALL PARAMS", {
+
+          to,
+
+          from,
+
+          url,
+
+        });
+
         const call = await twilioClient.calls.create({
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
