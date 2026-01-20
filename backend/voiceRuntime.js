@@ -279,25 +279,30 @@ emitFlow("GPT response received");
           for (const item of outputs) {
             
 if (item.type === "function_call" && item.name === "submit_lead") {
-  if (!item.arguments || !item.arguments.start || !item.arguments.end || !item.arguments.timezone) {
-    console.warn("⚠️ submit_lead rejected: missing or invalid time — asking for clarification");
-    sendAssistantMessage(
-      "Just to double-check — could you confirm the exact date for that Thursday and whether 2 pm works for you?"
-    );
-    continue;
-  }
+  
+                let payload;
+                try {
+                    payload = JSON.parse(item.arguments);
+                } catch (e) {
+                    console.warn("⚠️ submit_lead malformed arguments — asking for clarification");
+                    sendAssistantMessage(
+                      "Just to double-check — could you confirm the exact date and time for the meeting?"
+                    );
+                    continue;
+                }
+
+                if (!payload.start || !payload.end || !payload.timezone) {
+                    console.warn("⚠️ submit_lead missing time fields — asking for clarification");
+                    sendAssistantMessage(
+                      "Just to double-check — could you confirm the exact date for that Tuesday and whether 2 pm works for you?"
+                    );
+                    continue;
+                }
+
 
               LEAD_SUBMITTED = true;
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
-
-              let payload;
-              try {
-                  payload = JSON.parse(item.arguments);
-                } catch (e) {
-                  console.log("❌ Failed to parse tool arguments:", item.arguments);
-                  continue;
-                }
 
                 fetch("http://localhost:3000/lead2", {
                 method: "POST",
