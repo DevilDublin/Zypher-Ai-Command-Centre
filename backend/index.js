@@ -70,6 +70,12 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
+
+
 app.get("/health", (req, res) => {
   res.json({ ok: true, service: "zypher-backend" });
 });
@@ -97,17 +103,30 @@ app.post("/provision", (req, res) => {
 app.post("/lead", leadHandler2);
 
 app.post("/lead2", leadHandler2);
-app.post("/voice", (req, res) => {
-  console.log("📞 [VOICE] Incoming call webhook");
 
+
+app.get("/voice", (req, res) => {
+  console.log("VOICE GET HIT — NEW HANDLER");
   const twiml = `
 <Response>
-  <Connect>
-    <Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" />
-  </Connect>
-</Response>
-`; 
+  <Start>
+    <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+  </Start>
+  <Pause length="600"/>
+</Response>`;
+  res.type("text/xml");
+  res.send(twiml.trim());
+});
 
+app.post("/voice", (req, res) => {
+  console.log("VOICE POST HIT — NEW HANDLER");
+  const twiml = `
+<Response>
+  <Start>
+    <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media"/>
+  </Start>
+  <Pause length="600"/>
+</Response>`;
   res.type("text/xml");
   res.send(twiml.trim());
 });
@@ -315,9 +334,10 @@ io.on("connection", socket => {
 
       if (mode === "TEST") {
         const call = await twilioClient.calls.create({
+            answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Connect><Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" /></Connect></Response>`
+          twiml: `<Response><Start><Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" /></Start><Pause length="600"/></Response>`
         });
 
         activeCallSid = call.sid;
@@ -349,9 +369,10 @@ io.on("connection", socket => {
           console.log("📞 Campaign dialing:", lead.name, phone);
 
           const call = await twilioClient.calls.create({
+            answerOnBridge: true,
             to: phone,
             from: process.env.TWILIO_PHONE_NUMBER,
-            twiml: `<Response><Connect><Stream url="${process.env.PUBLIC_BASE_URL}/twilio-media" /></Connect></Response>`
+            twiml: `<Response><Start><Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" /></Start><Pause length="600"/></Response>`
           });
 
           activeCallSid = call.sid;
@@ -389,6 +410,6 @@ function emitLines(socket, text) {
   });
 }
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT || PORT, () => {
   console.log(`Zypher backend running on http://localhost:${PORT}`);
 });
