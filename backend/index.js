@@ -338,10 +338,7 @@ io.on("connection", socket => {
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Start>
-  <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
-</Start>
-<Pause length="600"/></Response>`
+          twiml: `<Response><Say voice="alice">Hello, this is Zypher. Audio test successful.</Say></Response>`
         });
 
         activeCallSid = call.sid;
