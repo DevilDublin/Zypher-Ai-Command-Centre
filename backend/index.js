@@ -338,8 +338,7 @@ io.on("connection", socket => {
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          twiml: `<Response><Say voice="alice">Connecting your call.</Say>
-<Start>
+          twiml: `<Response><Start>
   <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
 </Start>
 <Pause length="600"/></Response>`
@@ -380,8 +379,7 @@ io.on("connection", socket => {
             answerOnBridge: true,
             to: phone,
             from: process.env.TWILIO_PHONE_NUMBER,
-            twiml: `<Response><Say voice="alice">Connecting your call.</Say>
-<Start>
+            twiml: `<Response><Start>
   <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
 </Start>
 <Pause length="600"/></Response>`
