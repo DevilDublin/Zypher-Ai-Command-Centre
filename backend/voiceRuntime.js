@@ -285,18 +285,34 @@ if (item.type === "function_call" && item.name === "submit_lead") {
                     payload = JSON.parse(item.arguments);
                 } catch (e) {
                     console.warn("⚠️ submit_lead malformed arguments — asking for clarification");
-                    sendAssistantMessage(
-                      "Just to double-check — could you confirm the exact date and time for the meeting?"
-                    );
-                    continue;
+                    
+safe({
+  type: "response.create",
+  response: {
+    modalities: ["audio","text"],
+    instructions:
+      "Just to double-check — could you confirm the exact date for that and whether 3 pm works for you?"
+  }
+});
+responseActive = true;
+continue;
+
                 }
 
                 if (!payload.start || !payload.end || !payload.timezone) {
                     console.warn("⚠️ submit_lead missing time fields — asking for clarification");
-                    sendAssistantMessage(
-                      "Just to double-check — could you confirm the exact date for that Tuesday and whether 2 pm works for you?"
-                    );
-                    continue;
+                    
+safe({
+  type: "response.create",
+  response: {
+    modalities: ["audio","text"],
+    instructions:
+      "Just to double-check — could you confirm the exact date for that and whether 3 pm works for you?"
+  }
+});
+responseActive = true;
+continue;
+
                 }
 
 
