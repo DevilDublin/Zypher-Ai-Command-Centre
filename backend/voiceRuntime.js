@@ -380,6 +380,20 @@ if (data.type === "response.created") responseActive = true;
       try { data = JSON.parse(msg.toString()); } catch { return; }
 
       if (data.event === "start") {
+          // FORCE campaign cold-calling intro BEFORE AI speaks
+          if (CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling") {
+            const intro = "Hi Dev, this is Zypher calling from Zypher Agents. I know you weren’t expecting my call, but I’ll be very quick.";
+            safe({
+              type: "response.create",
+              response: {
+                modalities: ["audio","text"],
+                instructions: intro,
+                voice: "marin"
+              }
+            });
+            responseActive = true;
+          }
+
           CALL_LEAD = ACTIVE_LEAD;
           console.log("📎 Call-bound lead:", CALL_LEAD?.name || "none");
         streamSid = data.start.streamSid;
