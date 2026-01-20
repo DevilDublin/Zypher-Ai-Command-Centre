@@ -338,7 +338,7 @@ io.on("connection", socket => {
             answerOnBridge: true,
           to: process.env.YOUR_PHONE_NUMBER,
           from: process.env.TWILIO_PHONE_NUMBER,
-          url: "https://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-outbound",
+          url: "https://zypher-ai-command-centre-production-7b26.up.railway.app/voice",
         });
 
         activeCallSid = call.sid;
@@ -376,7 +376,7 @@ io.on("connection", socket => {
             answerOnBridge: true,
             to: phone,
             from: process.env.TWILIO_PHONE_NUMBER,
-            url: "https://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-outbound",
+            url: "https://zypher-ai-command-centre-production-7b26.up.railway.app/voice",
           });
 
           activeCallSid = call.sid;
