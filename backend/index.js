@@ -105,18 +105,30 @@ app.post("/lead", leadHandler2);
 app.post("/lead2", leadHandler2);
 
 
+
 app.get("/voice", (req, res) => {
   const twiml = `
+<Response>
+  <Connect>
+    <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+  </Connect>
+</Response>
+`;
   res.type("text/xml");
   res.send(twiml.trim());
 });
 
 app.post("/voice", (req, res) => {
   const twiml = `
+<Response>
+  <Connect>
+    <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
+  </Connect>
+</Response>
+`;
   res.type("text/xml");
   res.send(twiml.trim());
 });
-
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
