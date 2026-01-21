@@ -1,3 +1,8 @@
+export function resolveRuntimeEnv(req) {
+  const raw = resolveRuntimeEnv(req);
+  if (!raw) return "TEST";
+  return raw.toString().toUpperCase();
+}
 
 // ===== FFMPEG SILENCER =====
 const origStdout = process.stdout.write.bind(process.stdout);
@@ -92,8 +97,8 @@ app.post("/auth/dev", (req, res) => {
 
 
 app.post("/provision", (req, res) => {
-  const env = req.headers["x-env"] || "CAMPAIGN";
-  const runtimeEnv = (req.headers["x-env"] || "TEST").toUpperCase();
+  const env = resolveRuntimeEnv(req);
+  const runtimeEnv = (resolveRuntimeEnv(req);
   const adapters = getAdapters({ environment: runtimeEnv });
   provisionClient(req, res, adapters);
 });

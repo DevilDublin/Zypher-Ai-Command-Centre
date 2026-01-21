@@ -1,3 +1,4 @@
+import { resolveRuntimeEnv } from "./index.js";
 import { buildICS } from './adapters/calendar/ics.js';
 import { getAdapters } from "./adapters/core/router.js";
 
@@ -5,12 +6,12 @@ export async function leadHandler2(req, res) {
   const lead = req.body;
 
   const clientId = req.headers["x-client-id"] || "default_client";
-  const environment = req.headers["x-env"] || "LIVE";
+  const env = environment;
 
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const env = (req.headers["x-env"] || "TEST").toUpperCase();
+  const env = environment;
   const adapters = getAdapters({ environment: env });
 
   try {

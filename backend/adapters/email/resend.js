@@ -1,24 +1,31 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let client = null;
 
-async function sendEmail(clientId, { to, subject, text, html, attachments }) {
+function getClient() {
   if (!process.env.RESEND_API_KEY) {
-    console.warn("📧 Resend disabled (no API key)");
-    return { disabled: true };
+    throw new Error("❌ RESEND_API_KEY missing in LIVE environment");
   }
 
-  const res = await resend.emails.send({
-    attachments,
-    from: process.env.EMAIL_FROM || "Zypher Agents <bookings@zypheragents.com>",
-    to,
-    subject,
-    text,
-    html
-  });
+  if (!client) {
+    console.log("📨 Resend client initialising");
+    client = new Resend(process.env.RESEND_API_KEY);
+  }
 
-  console.log("📧 Resend email sent:", res.id);
-  return res;
+  return client;
 }
 
-export { sendEmail };
+export async function sendEmail({ to, subject, html, text }) {
+  const resend = getClient();
+
+  const result = await resend.emails.send({
+    from: "Zypher Agents <no-reply@zypheragents.com>",
+    to,
+    subject,
+    html,
+    text,
+  });
+
+  console.log("📧 Resend sent:", result?.id || result);
+  return result;
+}
