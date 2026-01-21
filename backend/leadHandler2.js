@@ -6,6 +6,7 @@ export async function leadHandler2(req, res) {
   const lead = req.body;
 
   const clientId = req.headers["x-client-id"] || "default_client";
+  const environment = resolveRuntimeEnv(req);
 
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
