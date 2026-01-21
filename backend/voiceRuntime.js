@@ -68,6 +68,8 @@ export function initVoiceRuntime(server, io) {
     let aiOpen = false;
 let sessionReady = false; // 🔒 gate audio + responses until session locked
     let responseActive = false;
+  let BOOKING_LOCK = false; // 🔒 lock turn + speech during booking
+
 
     // === Turn detection ===
     const RMS_THRESHOLD = 200;
@@ -133,6 +135,8 @@ let sessionReady = false; // 🔒 gate audio + responses until session locked
     }
 
     function commitAndRespond() {
+        if (BOOKING_LOCK) return; // 🔒 booking owns flow
+
         if (responseActive) return; // 🔇 do not interrupt assistant
       if (!aiOpen) return;
       if (speechMs < SPEECH_ARM_MS) return;
@@ -343,6 +347,22 @@ continue;
 
 
               LEAD_SUBMITTED = true;
+                BOOKING_LOCK = true;
+                responseActive = true;
+                clearTurn();
+
+                console.log("✅ submit_lead called — booking flow locked");
+
+                // 🔊 IMMEDIATE acknowledgement (do NOT wait for adapters)
+                safe({
+                  type: "response.create",
+                  response: {
+                    modalities: ["audio","text"],
+                    instructions:
+                      "Perfect — let me just note that down. Give me one second."
+                  }
+                });
+
                 responseActive = true; // 🔒 assistant owns turn after booking
                 speechMs = 999999;     // 🔇 permanently disarm silence
                 if (silenceTimer) clearTimeout(silenceTimer);
@@ -360,7 +380,20 @@ continue;
                   responseActive = true;
 
 
+                  
                   emitFlow("Enquiry submitted");
+
+                  // 🔊 Forced closing after adapters
+                  safe({
+                    type: "response.create",
+                    response: {
+                      modalities: ["audio","text"],
+                      instructions:
+                        "All set — I’ve sent the confirmation through to you and it should arrive in just a moment. " +
+                        "Before I let you go, is there anything else you’d like to ask me?"
+                    }
+                  });
+
 
 
                 // Ask model to speak confirmation
