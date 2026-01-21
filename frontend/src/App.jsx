@@ -71,7 +71,11 @@ const [injector, setInjector] = useState({
 
 
 const handleStartCall = () => {
-    socket.emit("call_start", { mode });
+    socket.emit("call_start", {
+  mode,
+  niche: "campaign_calling",
+  direction: "outbound"
+});
     addNotification("Call started (" + mode + ")");
   };
 
