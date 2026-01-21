@@ -144,6 +144,7 @@ Email: ${email}`,
 
     let res;
     try {
+  console.log("GOOGLE_EVENT_PAYLOAD", JSON.stringify(event, null, 2));
       res = await calendar.events.insert({
         calendarId: CALENDAR_ID,
         conferenceDataVersion: 1,
