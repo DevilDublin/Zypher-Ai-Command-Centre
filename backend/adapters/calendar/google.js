@@ -49,6 +49,7 @@ if (process.env.GOOGLE_ENABLED === "true") {
 
     auth.setCredentials(TOKENS);
     calendar = google.calendar({ version: "v3", auth });
+      console.log("✅ Google calendar adapter initialised");
   } else {
     console.log("📅 Google adapter disabled (missing credentials)");
   }
@@ -123,7 +124,9 @@ async function createBooking(clientId, booking) {
     end: { dateTime: slot.end.toISOString(), timeZone: TZ }
   };
 
-  const res = await calendar.events.insert({
+  console.log("📅 inserting calendar event");
+
+    const res = await calendar.events.insert({
     calendarId: CALENDAR_ID,
     resource: event
   });
