@@ -66,6 +66,7 @@ export function initVoiceRuntime(server, io) {
       
     let streamSid = null;
     let aiOpen = false;
+let sessionReady = false; // 🔒 gate audio + responses until session locked
     let responseActive = false;
 
     // === Turn detection ===
@@ -136,7 +137,8 @@ export function initVoiceRuntime(server, io) {
       console.log("🛑 silence → commit + response.create");
         emitFlow("User finished speaking");
       safe({ type: "input_audio_buffer.commit" });
-      safe({
+      if (!sessionReady) return;
+safe({
         type: "response.create",
         response: {
           modalities: ["audio","text"],
@@ -231,7 +233,8 @@ modalities: ["audio","text"],
       console.log("✅ OpenAI session configured");
         emitFlow("OpenAI session configured");
 // Trigger first turn (no audio buffer needed)
-      safe({
+      if (!sessionReady) return;
+safe({
         type: "response.create",
         response: {
           modalities: ["audio","text"],
@@ -244,6 +247,11 @@ modalities: ["audio","text"],
     ai.on("message", msg => {
         let raw = msg.toString();
         if (raw.includes("session.created") || raw.includes("session.updated")) {
+          if (raw.includes("session.updated")) {
+            sessionReady = true;
+            console.log("🔒 OpenAI session locked");
+          }
+
           console.log("🧠 SESSION EVT:", raw);
         }
       let data;
@@ -290,6 +298,7 @@ if (item.type === "function_call" && item.name === "submit_lead") {
                 } catch (e) {
                     console.warn("⚠️ submit_lead malformed arguments — asking for clarification");
                     
+if (!sessionReady) return;
 safe({
   type: "response.create",
   response: {
@@ -306,6 +315,7 @@ continue;
                 if (!payload.start || !payload.end || !payload.timezone) {
                     console.warn("⚠️ submit_lead missing time fields — asking for clarification");
                     
+if (!sessionReady) return;
 safe({
   type: "response.create",
   response: {
@@ -335,7 +345,8 @@ continue;
 
 
                 // Ask model to speak confirmation
-                safe({
+                if (!sessionReady) return;
+safe({
                     type: "response.create",
                     response: {
                       modalities: ["audio","text"],
@@ -428,7 +439,8 @@ if (data.type === "response.created") responseActive = true;
           // FORCE campaign cold-calling intro BEFORE AI speaks
           if (CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling") {
             const intro = "Hi Dev, this is Zypher calling from Zypher Agents. I know you weren’t expecting my call, but I’ll be very quick.";
-            safe({
+            if (!sessionReady) return;
+safe({
               type: "response.create",
               response: {
                 modalities: ["audio","text"],
@@ -450,6 +462,7 @@ if (data.type === "response.created") responseActive = true;
       }
 
       if (data.event === "media") {
+          if (!sessionReady) return; // 🔒 block audio until session locked
         const ulaw = Buffer.from(data.media.payload, "base64");
         safe({ type: "input_audio_buffer.append", audio: ulaw.toString("base64") });
 
