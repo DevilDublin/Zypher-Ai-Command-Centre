@@ -10,8 +10,8 @@ export async function leadHandler2(req, res) {
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const runtimeEnv = req.headers["x-env"] || "TEST";
-  const adapters = getAdapters({ environment: runtimeEnv });
+  const env = (req.headers["x-env"] || "TEST").toUpperCase();
+  const adapters = getAdapters({ environment: env });
 
   try {
 
