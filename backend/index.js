@@ -427,7 +427,7 @@ function emitLines(socket, text) {
   });
 }
 
-server.listen(process.env.PORT || PORT, () => {
+server.listen(process.env.PORT || PORT, "0.0.0.0", () => {
   console.log(`Zypher backend running on http://localhost:${PORT}`);
 });
 
