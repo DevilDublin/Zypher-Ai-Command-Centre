@@ -70,7 +70,19 @@ ai.send(JSON.stringify({
   });
 
   /*
-wss.on("connection", twilio => {const INTERNAL_BASE = `http://127.0.0.1:${process.env.PORT || 3000}`;
+wss.on("connection", twilio => {
+
+  // 🔊 AUTO-INTRO FOR CAMPAIGN CALLING
+  try {
+    if (state?.niche === "campaign_calling") {
+      console.log("🔊 Sending campaign intro on WS connect");
+      sendIntroAudio();
+    }
+  } catch (e) {
+    console.error("❌ Failed to send campaign intro", e);
+  }
+
+const INTERNAL_BASE = `http://127.0.0.1:${process.env.PORT || 3000}`;
       let CALL_LEAD = null;
 
             
