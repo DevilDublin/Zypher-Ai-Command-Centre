@@ -27,6 +27,16 @@ export function createAudioBridge(sendUlaw) {
     push(pcmBytes) {
       ensureTicker();
 
+      // 🔊 FAST PATH: OpenAI already sends g711_ulaw (1 byte/sample @ 8kHz)
+      if (pcmBytes.length % 2 !== 0) {
+        const ulaw = new Uint8Array(pcmBytes);
+        const merged = new Int16Array(buffer.length + ulaw.length);
+        merged.set(buffer);
+        merged.set(ulaw, buffer.length);
+        buffer = merged;
+        return;
+      }
+
       const samples = Math.floor(pcmBytes.length / 2);
       if (samples <= 0) return;
 
