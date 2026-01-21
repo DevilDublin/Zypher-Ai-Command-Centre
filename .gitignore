@@ -63,3 +63,8 @@ test_runs/
 *.BROKEN_*
 *.DEAD_*
 *.bak
+
+# Local junk
+package-lock.json
+backend/scripts/
+backend/adapters/calendar/*.FULL_BAK
