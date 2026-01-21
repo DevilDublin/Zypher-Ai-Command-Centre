@@ -1,6 +1,13 @@
 import { writeVSC } from "../core/vsc.js";
 
-export async function sendEmail(clientId, email, config = {}) {
-  writeVSC(String(clientId), "email", email, config.baseDir || "test_runs");
-  return { status: "recorded" };
+export async function sendEmail(
+  { to, subject, html, text },
+  clientId = "default_client"
+) {
+  writeVSC(clientId, "email", {
+    to,
+    subject,
+    html,
+    text
+  });
 }
