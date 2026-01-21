@@ -93,7 +93,7 @@ app.post("/auth/dev", (req, res) => {
 
 app.post("/provision", (req, res) => {
   const env = req.headers["x-env"] || "CAMPAIGN";
-  const runtimeEnv = process.env.ACTIVE_MODE || process.env.ENVIRONMENT || "TEST";
+  const runtimeEnv = (req.headers["x-env"] || "TEST").toUpperCase();
   const adapters = getAdapters({ environment: runtimeEnv });
   provisionClient(req, res, adapters);
 });
