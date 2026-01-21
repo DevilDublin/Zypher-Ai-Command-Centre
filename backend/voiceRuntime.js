@@ -79,15 +79,16 @@ let sessionReady = false; // 🔒 gate audio + responses until session locked
     let silenceTimer = null;
 
     const audioBridge = createAudioBridge(ulaw => {
-      if (!streamSid) return;
-      try {
+        if (!streamSid || twilio.readyState !== 1) return;
+
         twilio.send(JSON.stringify({
           event: "media",
           streamSid,
-          media: { track: "outbound", payload: ulaw.toString("base64") }
+          media: {
+            payload: ulaw.toString("base64")
+          }
         }));
-      } catch {}
-    });
+      });
 
     const ai = new WebSocket(
       "wss://api.openai.com/v1/realtime?model=gpt-realtime-mini",
@@ -463,8 +464,7 @@ safe({
       }
 
       if (data.event === "media") {
-          if (!sessionReady) return; // 🔒 block audio until session locked
-        const ulaw = Buffer.from(data.media.payload, "base64");
+                  const ulaw = Buffer.from(data.media.payload, "base64");
         safe({ type: "input_audio_buffer.append", audio: ulaw.toString("base64") });
 
         const pcm = mulaw.decode(ulaw);
