@@ -128,8 +128,8 @@ async function createBooking(clientId, booking) {
 Name: ${name}
 Phone: ${phone}
 Email: ${email}`,
-    start: { dateTime: slot.start.toISOString(), timeZone: TZ },
-    end: { dateTime: slot.end.toISOString(), timeZone: TZ }
+    start: { dateTime: booking.start.replace("Z",""), timeZone: TZ },
+    end: { dateTime: booking.end.replace("Z",""), timeZone: TZ }
       ,conferenceData: {
         createRequest: {
           requestId: `meet-${Date.now()}`
