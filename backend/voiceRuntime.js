@@ -224,7 +224,7 @@ modalities: ["audio","text"],
               voice: "marin",
           turn_detection: null,
           input_audio_format: "g711_ulaw",
-          output_audio_format: "pcm16"
+          output_audio_format: "g711_ulaw"
         }
       });
 
