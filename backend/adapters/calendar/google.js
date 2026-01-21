@@ -18,15 +18,24 @@ function readJsonMaybe(url) {
 }
 
 if (process.env.GOOGLE_ENABLED === "true") {
-  const CREDENTIALS =
-    process.env.GOOGLE_CREDENTIALS_JSON
+  let CREDENTIALS = null;
+  let TOKENS = null;
+
+  try {
+    CREDENTIALS = process.env.GOOGLE_CREDENTIALS_JSON
       ? JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON)
       : readJsonMaybe(new URL("../../google_credentials.json", import.meta.url));
+  } catch (e) {
+    console.error("❌ Failed to parse GOOGLE_CREDENTIALS_JSON:", e.message);
+  }
 
-  const TOKENS =
-    process.env.GOOGLE_TOKEN_JSON
+  try {
+    TOKENS = process.env.GOOGLE_TOKEN_JSON
       ? JSON.parse(process.env.GOOGLE_TOKEN_JSON)
       : readJsonMaybe(new URL("../../google_token.json", import.meta.url));
+  } catch (e) {
+    console.error("❌ Failed to parse GOOGLE_TOKEN_JSON:", e.message);
+  }
 
   if (CREDENTIALS && TOKENS) {
     const { client_id, client_secret, redirect_uris } =
