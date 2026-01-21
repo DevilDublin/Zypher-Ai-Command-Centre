@@ -247,11 +247,12 @@ safe({
     ai.on("message", msg => {
         let raw = msg.toString();
         if (raw.includes("session.created") || raw.includes("session.updated")) {
-          if (raw.includes("session.updated")) {
+          if (raw.includes('"type":"session.updated"')) {
             sessionReady = true;
-            console.log("🔒 OpenAI session locked");
+            console.log("🔒 OpenAI session locked (after update)");
           }
 
+          
           console.log("🧠 SESSION EVT:", raw);
         }
       let data;
