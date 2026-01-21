@@ -53,3 +53,13 @@ frontend/src/clientDashboard/*.bak*
 frontend/src/clientDashboard/*.bak.*
 backend/clientState.js
 backend/.env
+backend/google_service_account.json
+
+# Local test runs
+test_runs/
+
+# Backup & debug files
+*.BACKUP_*
+*.BROKEN_*
+*.DEAD_*
+*.bak

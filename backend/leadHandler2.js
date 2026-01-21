@@ -10,7 +10,7 @@ export async function leadHandler2(req, res) {
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const runtimeEnv = process.env.ACTIVE_MODE || process.env.ENVIRONMENT || "TEST";
+  const runtimeEnv = req.headers["x-env"] || "TEST";
   const adapters = getAdapters({ environment: runtimeEnv });
 
   try {
@@ -33,6 +33,8 @@ export async function leadHandler2(req, res) {
         timezone: lead.timezone || "Europe/London"
       });
 
+        const calendarUrl = booking.htmlLink;
+
       const startPretty = new Date(lead.start).toLocaleString("en-GB", {
         weekday: "long", year: "numeric", month: "long", day: "numeric",
         hour: "2-digit", minute: "2-digit"
@@ -52,9 +54,6 @@ Niche: ${lead.niche}
 Time:
 ${startPretty}
 
-Google Meet:
-${booking.meetLink}
-
 Calendar:
 ${booking.htmlLink}`
     });
@@ -63,37 +62,24 @@ ${booking.htmlLink}`
       adapters.email.sendEmail(clientId, {
         from: `Zypher Agents <${process.env.EMAIL_USER}>`,
         to: lead.email,
-        subject: "Your Zypher consultation is confirmed",
-      text: `Hi ${lead.name},
+        
+subject: "Your Zypher consultation is confirmed",
+text: `Hi ${lead.name},
 
 Your meeting has been successfully scheduled.
 
 Add it to your calendar:
-${calendarUrl}
+${booking.htmlLink}
 
 The video meeting link will be shared with you before the meeting.
 
-If you need to make any changes, please reply to this email.
+If you need to make any changes, just reply to this email.
 
 Zypher
 `,
-      html: `
-        <p>Hi ${lead.name},</p>
+      });
 
-        <p>Your meeting has been successfully scheduled.</p>
 
-        <p>
-          <strong>Add it to your calendar:</strong><br/>
-          <a href="${calendarUrl}">${calendarUrl}</a>
-        </p>
-
-        <p style="color:#555;">
-          The video meeting link will be shared with you before the meeting.
-        </p>
-
-        <p>Zypher</p>
-      `,
-    });
 
 
 
