@@ -11,7 +11,7 @@ export async function leadHandler2(req, res) {
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const adapters = getAdapters({ environment: env });
+  const adapters = getAdapters({ environment: environment });
 
   try {
 
