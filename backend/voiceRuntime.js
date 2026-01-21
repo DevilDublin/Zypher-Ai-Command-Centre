@@ -351,6 +351,9 @@ continue;
                 body: JSON.stringify(payload)
               }).then(async r => {
                 console.log("📧 Backend replied:", await r.text());
+                  clearTurn();
+                  responseActive = true;
+
 
                   emitFlow("Enquiry submitted");
 
