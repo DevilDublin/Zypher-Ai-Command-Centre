@@ -36,7 +36,7 @@ export async function leadHandler2(req, res) {
         hour: "2-digit", minute: "2-digit"
       });
 
-    await adapters.email.sendEmail(clientId, {
+    adapters.email.sendEmail(clientId, {
       from: process.env.EMAIL_USER,
       to: process.env.EMAIL_USER,
       subject: `New Zypher booking — ${lead.name} (${lead.niche})`,
@@ -58,7 +58,7 @@ ${booking.htmlLink}`
     });
 
       // 3) Client confirmation email
-      await adapters.email.sendEmail(clientId, {
+      adapters.email.sendEmail(clientId, {
         from: `Zypher Agents <${process.env.EMAIL_USER}>`,
         to: lead.email,
         subject: "Your Zypher consultation is confirmed",
