@@ -107,9 +107,8 @@ export async function getNextFreeSlot(requestedStart) {
     );
   }
 }
-
-export async function createBooking(clientId, booking) {
-  console.log("📅 createBooking called", { clientId, booking });(clientId, booking) {
+async function createBooking(clientId, booking) {
+  console.log("📅 createBooking called", { clientId, booking });
   if (!calendar) return { disabled: true };
 
   const { start, name, email, phone, niche } = booking;
@@ -135,3 +134,5 @@ export async function createBooking(clientId, booking) {
     htmlLink: res.data.htmlLink
   };
 }
+
+export { createBooking };
