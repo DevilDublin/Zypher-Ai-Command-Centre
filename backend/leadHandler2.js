@@ -6,12 +6,10 @@ export async function leadHandler2(req, res) {
   const lead = req.body;
 
   const clientId = req.headers["x-client-id"] || "default_client";
-  const env = environment;
 
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const env = environment;
   const adapters = getAdapters({ environment: env });
 
   try {
