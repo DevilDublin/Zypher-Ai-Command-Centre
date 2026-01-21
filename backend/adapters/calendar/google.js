@@ -139,7 +139,8 @@ async function createBooking(clientId, booking) {
       res = await calendar.events.insert({
         calendarId: CALENDAR_ID,
         requestBody: event,
-        signal: controller.signal
+        signal: controller.signal,
+        conferenceDataVersion: 1
       });
     } finally {
       clearTimeout(timeout);
