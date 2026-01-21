@@ -242,6 +242,10 @@ modalities: ["audio","text"],
     });
 
     ai.on("message", msg => {
+        let raw = msg.toString();
+        if (raw.includes("session.created") || raw.includes("session.updated")) {
+          console.log("🧠 SESSION EVT:", raw);
+        }
       let data;
         try { data = JSON.parse(msg.toString()); } catch { return; }
 
@@ -370,6 +374,7 @@ continue;
         }
 
       if (data.type === "response.audio.delta") {
+            console.log("🔍 audio.delta bytes:", Buffer.from(data.delta, "base64").length);
           audioBridge.push(Buffer.from(data.delta, "base64"));
         }        if (data.type === "response.output_text.delta" && data.delta) emitAssistantDelta(data.delta);
 
