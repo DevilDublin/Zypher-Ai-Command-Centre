@@ -1,6 +1,6 @@
 import * as calendarGoogle from "../calendar/google.js";
 import * as calendarOffline from "../calendar/offline.js";
-import * as emailGoogle from "../email/gmail.js";
+import * as emailResend from "../email/resend.js";
 import * as emailOffline from "../email/offline.js";
 
 export function getAdapters(config) {
@@ -12,6 +12,6 @@ export function getAdapters(config) {
     environment: env,
     baseDir,
     calendar: env === "TEST" ? calendarOffline : calendarGoogle,
-    email: env === "TEST" ? emailOffline : emailGoogle
+    email: env === "TEST" ? emailOffline : emailResend
   };
 }
