@@ -95,7 +95,12 @@ export async function getNextFreeSlot(requestedStart) {
     roundToNextSlot(new Date(requestedStart))
   );
 
-  while (true) {
+  let attempts = 0;
+    const MAX_ATTEMPTS = 20; // 20 * 30min = 10 hours
+
+    while (attempts < MAX_ATTEMPTS) {
+      attempts++;
+
     const slotEnd = new Date(cursor.getTime() + SLOT_MINUTES * 60000);
     const busy = await getBusy(cursor, slotEnd);
 
