@@ -81,6 +81,7 @@ let sessionReady = false; // 🔒 gate audio + responses until session locked
     const audioBridge = createAudioBridge(ulaw => {
         if (!streamSid || twilio.readyState !== 1) return;
 
+        if (!streamSid) return;
         twilio.send(JSON.stringify({
           event: "media",
           streamSid,
