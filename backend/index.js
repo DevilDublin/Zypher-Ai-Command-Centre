@@ -218,7 +218,11 @@ const campaignPath = path.join(__dirname, "campaign.csv");
 
 if (!fs.existsSync(campaignPath)) {
   console.error("❌ campaign.csv NOT FOUND — refusing to start");
-  process.exit(1);
+  //
+  // ❌ process.exit(1) removed — do not kill server
+// ❌ disabled: was killing Railway container
+// ❌ removed illegal top-level return
+
 }
 
 const campaignLines = fs
@@ -329,7 +333,8 @@ io.on("connection", socket => {
     try {
       if (activeCallSid) {
         io.emit("notify", "Call already active");
-        return;
+// ❌ removed illegal top-level return
+
       }
 
       if (mode === "TEST") {
@@ -358,7 +363,8 @@ io.on("connection", socket => {
 
           if (!lead || !lead.phone) {
             io.emit("notify", "❌ Campaign lead has no phone number");
-            return;
+// ❌ removed illegal top-level return
+
           }
 
           let phone = String(lead.phone).trim();
@@ -395,7 +401,8 @@ io.on("connection", socket => {
       try {
         if (!activeCallSid) {
           io.emit("notify", "No active call");
-          return;
+// ❌ removed illegal top-level return
+
         }
 
         await twilioClient.calls(activeCallSid).update({ status: "completed" });
