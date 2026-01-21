@@ -76,6 +76,7 @@ wss.on("connection", twilio => {
   try {
     if (state?.niche === "campaign_calling") {
       console.log("🔊 Sending campaign intro on WS connect");
+      console.log("🔊 sendIntroAudio() CALLED");
       sendIntroAudio();
     }
   } catch (e) {
@@ -178,7 +179,22 @@ const ai = new WebSocket(
 
     // ================= OpenAI =================
 
-    ai.on("open", () => {
+    
+ai.on("open", () => {
+
+  // 🔊 AUTO-INTRO FOR CAMPAIGN CALLING
+  if (CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling") {
+    console.log("🔊 Speaking campaign intro");
+    safe({
+      type: "response.create",
+      response: {
+        modalities: ["audio"],
+        instructions: NICHES[ACTIVE_NICHE]?.outbound?.intro
+          || "Hi, this is Zypher from Zypher Agents."
+      }
+    });
+  }
+
 
 const persona = (CALL_LEAD
   ? "You are Zypher, a confident, natural UK sales caller focused on qualifying interest and booking a meeting. "
