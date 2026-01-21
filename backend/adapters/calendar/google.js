@@ -124,10 +124,18 @@ async function createBooking(clientId, booking) {
 
   const event = {
     summary: `Zypher Lead – ${name}`,
-    description: `Niche: ${niche}\nName: ${name}\nPhone: ${phone}\nEmail: ${email}`,
+    description: `Niche: ${niche}
+Name: ${name}
+Phone: ${phone}
+Email: ${email}`,
     start: { dateTime: slot.start.toISOString(), timeZone: TZ },
     end: { dateTime: slot.end.toISOString(), timeZone: TZ }
-  };
+      ,conferenceData: {
+        createRequest: {
+          requestId: `meet-${Date.now()}`
+        }
+      }
+    };
 
   console.log("📅 inserting calendar event");
 
@@ -138,6 +146,7 @@ async function createBooking(clientId, booking) {
     try {
       res = await calendar.events.insert({
         calendarId: CALENDAR_ID,
+        conferenceDataVersion: 1,
         requestBody: event,
         signal: controller.signal,
         conferenceDataVersion: 1
@@ -149,8 +158,9 @@ async function createBooking(clientId, booking) {
   return {
     start: slot.start.toISOString(),
     end: slot.end.toISOString(),
-    htmlLink: res.data.htmlLink
-  };
+    htmlLink: res.data.htmlLink,
+      meetLink: res.data.hangoutLink,
+      meetLink: res.data.hangoutLink};
 }
 
 export { createBooking };

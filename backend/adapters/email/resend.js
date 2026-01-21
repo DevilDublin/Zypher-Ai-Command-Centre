@@ -2,13 +2,14 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-async function sendEmail(clientId, { to, subject, text, html }) {
+async function sendEmail(clientId, { to, subject, text, html, attachments }) {
   if (!process.env.RESEND_API_KEY) {
     console.warn("📧 Resend disabled (no API key)");
     return { disabled: true };
   }
 
   const res = await resend.emails.send({
+    attachments,
     from: process.env.EMAIL_FROM || "Zypher Agents <bookings@zypheragents.com>",
     to,
     subject,

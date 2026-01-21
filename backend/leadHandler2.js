@@ -1,3 +1,4 @@
+import { buildICS } from './adapters/calendar/ics.js';
 import { getAdapters } from "./adapters/core/router.js";
 
 export async function leadHandler2(req, res) {
