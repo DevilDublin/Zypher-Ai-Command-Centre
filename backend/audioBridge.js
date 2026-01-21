@@ -1,15 +1,25 @@
 import mulaw from "mulaw-js";
 
 export function createAudioBridge(sendUlaw) {
-  let buffer = new Int16Array(0);
+  let buffer = new Int16Array(0);     // PCM path
+  let ulawBuffer = new Uint8Array(0); // μ-law path
   let wasSilent = true;
 
-  // Stable 20ms pacing: one 160-sample frame (8kHz) every 20ms
+  // Stable 20ms pacing: one 160-byte frame every 20ms
   let ticker = null;
 
   function ensureTicker() {
     if (ticker) return;
     ticker = setInterval(() => {
+      // μ-law fast path
+      if (ulawBuffer.length >= 160) {
+        const frame = ulawBuffer.subarray(0, 160);
+        ulawBuffer = ulawBuffer.subarray(160);
+        sendUlaw(Buffer.from(frame));
+        return;
+      }
+
+      // PCM fallback path
       if (buffer.length < 160) {
         if (buffer.length === 0) wasSilent = true;
         return;
@@ -27,13 +37,13 @@ export function createAudioBridge(sendUlaw) {
     push(pcmBytes) {
       ensureTicker();
 
-      // 🔊 FAST PATH: OpenAI already sends g711_ulaw (1 byte/sample @ 8kHz)
+      // 🔊 FAST PATH: OpenAI sends g711_ulaw (1 byte/sample @ 8kHz)
       if (pcmBytes.length % 2 !== 0) {
-        const ulaw = new Uint8Array(pcmBytes);
-        const merged = new Int16Array(buffer.length + ulaw.length);
-        merged.set(buffer);
-        merged.set(ulaw, buffer.length);
-        buffer = merged;
+        const incoming = new Uint8Array(pcmBytes);
+        const merged = new Uint8Array(ulawBuffer.length + incoming.length);
+        merged.set(ulawBuffer);
+        merged.set(incoming, ulawBuffer.length);
+        ulawBuffer = merged;
         return;
       }
 
