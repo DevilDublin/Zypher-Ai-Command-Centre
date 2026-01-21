@@ -10,7 +10,8 @@ export async function leadHandler2(req, res) {
   console.log("LEAD2:", JSON.stringify(lead, null, 2));
   console.log("CLIENT:", clientId, "ENV:", environment);
 
-  const adapters = getAdapters({ environment });
+  const runtimeEnv = process.env.ACTIVE_MODE || process.env.ENVIRONMENT || "TEST";
+  const adapters = getAdapters({ environment: runtimeEnv });
 
   try {
 
@@ -63,20 +64,38 @@ ${booking.htmlLink}`
         from: `Zypher Agents <${process.env.EMAIL_USER}>`,
         to: lead.email,
         subject: "Your Zypher consultation is confirmed",
-        text: `Hi ${lead.name},
+      text: `Hi ${lead.name},
 
-Your Zypher consultation is confirmed.
+Your meeting has been successfully scheduled.
 
-🗓  ${startPretty}
-📍  Google Meet:
-${booking.meetLink}
+Add it to your calendar:
+${calendarUrl}
 
-This is your dedicated session with Zypher to explore how we can help automate and grow your business.
+The video meeting link will be shared with you before the meeting.
 
-If you need to reschedule or have any questions, just reply to this email.
+If you need to make any changes, please reply to this email.
 
-— Zypher Agents`
-      });
+Zypher
+`,
+      html: `
+        <p>Hi ${lead.name},</p>
+
+        <p>Your meeting has been successfully scheduled.</p>
+
+        <p>
+          <strong>Add it to your calendar:</strong><br/>
+          <a href="${calendarUrl}">${calendarUrl}</a>
+        </p>
+
+        <p style="color:#555;">
+          The video meeting link will be shared with you before the meeting.
+        </p>
+
+        <p>Zypher</p>
+      `,
+    });
+
+
 
       console.log("✅ LEAD2 booked:", booking.htmlLink, booking.meetLink);
     console.log("LEAD2 routed via adapters");
