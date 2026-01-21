@@ -345,7 +345,7 @@ continue;
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
 
-                fetch("/lead2", {
+                fetch((process.env.PUBLIC_BASE_URL || "http://localhost:8080") + "/lead2", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
