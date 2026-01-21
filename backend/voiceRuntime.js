@@ -139,7 +139,9 @@ let sessionReady = false; // 🔒 gate audio + responses until session locked
       console.log("🛑 silence → commit + response.create");
         emitFlow("User finished speaking");
       safe({ type: "input_audio_buffer.commit" });
-      if (!sessionReady) return;
+      if (!sessionReady) {
+              console.log("⏳ session not ready — skipping intro only");
+            }
 safe({
         type: "response.create",
         response: {
