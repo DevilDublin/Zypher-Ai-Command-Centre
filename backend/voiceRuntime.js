@@ -133,6 +133,7 @@ let sessionReady = false; // 🔒 gate audio + responses until session locked
     }
 
     function commitAndRespond() {
+        if (responseActive) return; // 🔇 do not interrupt assistant
       if (!aiOpen) return;
       if (speechMs < SPEECH_ARM_MS) return;
 
