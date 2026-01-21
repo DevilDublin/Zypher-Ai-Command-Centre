@@ -131,10 +131,19 @@ async function createBooking(clientId, booking) {
 
   console.log("📅 inserting calendar event");
 
-    const res = await calendar.events.insert({
-    calendarId: CALENDAR_ID,
-    resource: event
-  });
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    let res;
+    try {
+      res = await calendar.events.insert({
+        calendarId: CALENDAR_ID,
+        requestBody: event,
+        signal: controller.signal
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
 
   return {
     start: slot.start.toISOString(),
