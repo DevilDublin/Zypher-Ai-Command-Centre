@@ -98,7 +98,7 @@ app.post("/auth/dev", (req, res) => {
 
 app.post("/provision", (req, res) => {
   const env = resolveRuntimeEnv(req);
-  const runtimeEnv = (resolveRuntimeEnv(req);
+  const runtimeEnv = resolveRuntimeEnv(req);
   const adapters = getAdapters({ environment: runtimeEnv });
   provisionClient(req, res, adapters);
 });
