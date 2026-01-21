@@ -343,6 +343,10 @@ continue;
 
 
               LEAD_SUBMITTED = true;
+                responseActive = true; // 🔒 assistant owns turn after booking
+                speechMs = 999999;     // 🔇 permanently disarm silence
+                if (silenceTimer) clearTimeout(silenceTimer);
+
               console.log("✅ submit_lead called — keeping call alive");
               console.log("📨 LEAD FUNCTION CALL:", item.arguments);
 
