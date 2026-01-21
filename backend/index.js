@@ -1,5 +1,5 @@
 export function resolveRuntimeEnv(req) {
-  const raw = resolveRuntimeEnv(req);
+  const raw = req.headers["x-env"];
   if (!raw) return "TEST";
   return raw.toString().toUpperCase();
 }
