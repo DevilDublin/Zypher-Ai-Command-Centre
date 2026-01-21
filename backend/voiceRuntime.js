@@ -237,7 +237,9 @@ modalities: ["audio","text"],
       console.log("✅ OpenAI session configured");
         emitFlow("OpenAI session configured");
 // Trigger first turn (no audio buffer needed)
-      if (!sessionReady) return;
+      if (!sessionReady) {
+            console.log("⏳ session not ready — allowing response anyway");
+          }
 safe({
         type: "response.create",
         response: {
@@ -303,7 +305,9 @@ if (item.type === "function_call" && item.name === "submit_lead") {
                 } catch (e) {
                     console.warn("⚠️ submit_lead malformed arguments — asking for clarification");
                     
-if (!sessionReady) return;
+if (!sessionReady) {
+            console.log("⏳ session not ready — allowing response anyway");
+          }
 safe({
   type: "response.create",
   response: {
@@ -320,7 +324,9 @@ continue;
                 if (!payload.start || !payload.end || !payload.timezone) {
                     console.warn("⚠️ submit_lead missing time fields — asking for clarification");
                     
-if (!sessionReady) return;
+if (!sessionReady) {
+            console.log("⏳ session not ready — allowing response anyway");
+          }
 safe({
   type: "response.create",
   response: {
@@ -350,7 +356,9 @@ continue;
 
 
                 // Ask model to speak confirmation
-                if (!sessionReady) return;
+                if (!sessionReady) {
+            console.log("⏳ session not ready — allowing response anyway");
+          }
 safe({
                     type: "response.create",
                     response: {
@@ -390,8 +398,15 @@ safe({
         }
 
       if (data.type === "response.audio.delta") {
-            console.log("🔍 audio.delta bytes:", Buffer.from(data.delta, "base64").length);
-          audioBridge.push(Buffer.from(data.delta, "base64"));
+          // OpenAI is already outputting g711_ulaw — send straight to Twilio
+          if (!streamSid || twilio.readyState !== 1) return;
+          try {
+            twilio.send(JSON.stringify({
+              event: "media",
+              streamSid,
+              media: { payload: data.delta }
+            }));
+          } catch {}
         }        if (data.type === "response.output_text.delta" && data.delta) emitAssistantDelta(data.delta);
 
 if (data.type === "response.created") responseActive = true;
@@ -444,7 +459,9 @@ if (data.type === "response.created") responseActive = true;
           // FORCE campaign cold-calling intro BEFORE AI speaks
           if (CALL_DIRECTION === "outbound" && ACTIVE_NICHE === "campaign_calling") {
             const intro = "Hi Dev, this is Zypher calling from Zypher Agents. I know you weren’t expecting my call, but I’ll be very quick.";
-            if (!sessionReady) return;
+            if (!sessionReady) {
+            console.log("⏳ session not ready — allowing response anyway");
+          }
 safe({
               type: "response.create",
               response: {
