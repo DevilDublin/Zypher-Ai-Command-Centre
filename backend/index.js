@@ -109,9 +109,10 @@ app.post("/lead2", leadHandler2);
 app.get("/voice", (req, res) => {
   const twiml = `
 <Response>
-  <Connect>
+  <Start>
     <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
-  </Connect>
+  </Start>
+  <Pause length="600"/>
 </Response>
 `;
   res.type("text/xml");
@@ -121,9 +122,10 @@ app.get("/voice", (req, res) => {
 app.post("/voice", (req, res) => {
   const twiml = `
 <Response>
-  <Connect>
+  <Start>
     <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
-  </Connect>
+  </Start>
+  <Pause length="600"/>
 </Response>
 `;
   res.type("text/xml");
@@ -421,9 +423,10 @@ server.listen(process.env.PORT || PORT, () => {
 app.post("/twilio-outbound", (req, res) => {
   const twiml = `
 <Response>
-  <Connect>
+  <Start>
     <Stream url="wss://zypher-ai-command-centre-production-7b26.up.railway.app/twilio-media" />
-  </Connect>
+  </Start>
+  <Pause length="600"/>
 </Response>`;
   res.type("text/xml");
   res.send(twiml.trim());
