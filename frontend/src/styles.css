@@ -3000,3 +3000,75 @@ html, body {
   scrollbar-width: thin;
   scrollbar-color: #a100ff rgba(10, 0, 20, 0.65);
 }
+
+/* === MEETING LINK CREATOR === */
+.meeting-link-panel{
+  padding: 14px;
+  overflow: hidden;       /* kill inner scrollbar */
+}
+
+.meeting-link-title{
+  opacity: 0.85;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.meeting-link-label{
+  opacity: 0.75;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.meeting-link-providers{
+  display: flex;
+  gap: 10px;
+}
+
+.meeting-provider{
+  flex: 1;
+  padding: 12px 10px;
+  font-size: 13px;
+  border-radius: 14px;
+}
+
+.meeting-link-box{
+  margin-top: 6px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.35);
+  font-size: 12px;
+  overflow: hidden;       /* prevent internal scroll */
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.meeting-link-copy{
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.meeting-link-hint{
+  margin-top: 8px;
+  opacity: 0.6;
+  font-size: 11px;
+}
+
+/* === MEETING LINK CREATOR: FORCE NO SCROLL === */
+.panel-small .meeting-link-panel{
+  overflow: hidden !important;
+  max-height: none !important;
+}
+
+.panel-small .meeting-link-content{
+  overflow: visible !important;
+}
+
+.meeting-link-panel{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

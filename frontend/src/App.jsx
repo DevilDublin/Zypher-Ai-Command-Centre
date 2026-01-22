@@ -184,6 +184,8 @@ const total = analytics?.total ?? 0;
     const countBooked = socketState.pipeline.booked;
 
   return (
+    <div className="app-root">
+
     <div className="app">
       <header className="header">
         <h1>ZYPHER COMMAND CENTRE</h1>
@@ -353,7 +355,6 @@ const total = analytics?.total ?? 0;
             ))
           )}
         </div>
-
           <div className="panel panel-small">
             <h2>Call Flow</h2>
             <div className="inner-glass callflow-console">
@@ -367,32 +368,37 @@ const total = analytics?.total ?? 0;
               </div>
           </div>
 
-          <div className="panel panel-small">
-            <h2>Lead Pipeline</h2>
-            
-<div className="inner-glass lead-pipeline">
-  <div className="pipeline-row">
-    <span>New <span className='pipeline-metric'>{countNew} (100.00%)</span></span>
-    <div className="bar"><div style={{ width: `${countNew ? (countNew / countNew) * 100 : 0}%` }}></div></div>
-  </div>
-  <div className="pipeline-row">
-    <span>Contacted <span className='pipeline-metric'>{countContacted} ({(countContacted / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
-    <div className="bar"><div style={{ width: `${countContacted / Math.max(countNew,1) * 100}%` }}></div></div>
-  </div>
-  <div className="pipeline-row">
-    <span>Qualified <span className='pipeline-metric'>{countQualified} ({(countQualified / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
-    <div className="bar"><div style={{ width: `${countQualified / Math.max(countNew,1) * 100}%` }}></div></div>
-  </div>
-  <div className="pipeline-row">
-    <span>Booked <span className='pipeline-metric'>{countBooked} ({(countBooked / Math.max(countNew,1) * 100).toFixed(2)}%)</span></span>
-    <div className="bar"><div style={{ width: `${countBooked / Math.max(countNew,1) * 100}%` }}></div></div>
-  </div>
-</div>
+            <div className="panel panel-small inner-glass meeting-link-panel">
+              <h2>Meeting Link Creator</h2>
 
-          </div>
-      </div>
+                <div className="zy-glowText" style={{ marginBottom: "10px" }}>
+                  Generate and share a booking link for this campaign
+                </div>
 
-        {/* === CLIENT INJECTOR === */}
+                <div className="zy-glowText" style={{ opacity: 0.85, fontSize: "13px" }}>
+                  Meeting link
+                </div>
+
+                <div style={{
+                  marginTop: "6px",
+                  padding: "10px",
+                  borderRadius: "8px",
+                  background: "rgba(0,0,0,0.35)",
+                  fontSize: "13px"
+                }}>
+                  https://zypher.ai/meet/________
+                </div>
+
+                <button className="btn primary" style={{ marginTop: "10px", width: "100%" }}>
+                  Copy link
+                </button>
+
+                <div className="zy-glowText" style={{ marginTop: "10px", opacity: 0.6 }}>
+                  Link will become active when campaign is live
+                </div>
+            </div>
+
+{/* === CLIENT INJECTOR === */}
         <div
           className={`injector-tab ${injectorOpen ? "open" : ""} ${injectorLocked ? "locked" : ""}`}
           onClick={() => {
@@ -695,6 +701,9 @@ fetch(`${BACKEND_URL}/provision`, {
           </div>
         </div>
 
+
+        </div>
+        </div>
 
   )
 }
