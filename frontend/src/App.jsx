@@ -463,7 +463,7 @@ const total = analytics?.total ?? 0;
                   />
                 </div>
 
-                <button className="btn primary" style={{ marginTop: "10px", width: "100%" }} disabled={!meetingProvider}>Copy link</button>
+                <button className="btn primary" style={{ marginTop: "10px", width: "100%" }} disabled={!meetingProvider} onClick={handleCopyMeetingLink}>Copy link</button>
 
                 <div className="zy-glowText" style={{ marginTop: "10px", opacity: 0.6 }}></div>
             </div>
