@@ -221,7 +221,10 @@ const total = analytics?.total ?? 0;
   const now = Date.now();
   const elapsedMs = campaignStartRef.current ? (now - campaignStartRef.current) : 0;
   const elapsedMinutes = elapsedMs > 0 ? (elapsedMs / 60000) : 0;
-  const burnRate = elapsedMinutes > 0 ? (processed / elapsedMinutes) : 0;
+  const burnRate =
+  elapsedMinutes > 0
+    ? (processed > 0 ? processed / elapsedMinutes : 1 / elapsedMinutes)
+    : 0;
   const etaMinutes = burnRate > 0 ? (remaining / burnRate) : 0;
   const leads = Object.values(leadPipeline);
     const countNew = socketState.pipeline.new;
@@ -259,6 +262,11 @@ const total = analytics?.total ?? 0;
   className={`btn toggle ${mode === "CAMPAIGN" ? "mode-campaign" : "mode-test"}`}
   onClick={() => {
     const next = mode === "TEST" ? "CAMPAIGN" : "TEST";
+    if (next === "CAMPAIGN") {
+      campaignStartRef.current = Date.now();
+    } else {
+      campaignStartRef.current = null;
+    }
     setMode(next);
     socket.emit("mode:update", next);
   }}
@@ -280,11 +288,11 @@ const total = analytics?.total ?? 0;
 
               <div className="autopilot-metric">
                 <span>ETA</span>
-                <strong>{etaMinutes > 0 ? Math.round(etaMinutes) : "—"} min</strong>
+                <strong>{flow.length === 0 && mode === "CAMPAIGN" ? "—" : (etaMinutes > 0 ? Math.round(etaMinutes) : "—")} min</strong>
               </div>
 
               <div className="autopilot-state">
-                {isOnline ? (flow.length > 0 ? "Campaign running" : "System idle") : "Backend offline"}
+                {isOnline ? (flow.length > 0 ? "Campaign running" : (mode === "CAMPAIGN" ? "Campaign armed" : "System idle")) : "Backend offline"}
               </div>
 
               <div className="autopilot-advice">

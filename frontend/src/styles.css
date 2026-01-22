@@ -3376,3 +3376,13 @@ button {
   box-shadow: none !important;
   backdrop-filter: none !important;
 }
+
+
+
+/* --- Button text color alignment (Calendly black) --- */
+/* Scope: OUTBOUND, MODE: CAMPAIGN, CALENDLY only */
+
+.btn.toggle.mode-campaign,
+.meeting-link-panel .meeting-provider.mode-campaign {
+  color: #0b0b0b;
+}
