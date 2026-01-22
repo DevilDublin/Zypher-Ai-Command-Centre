@@ -3004,12 +3004,7 @@ html, body {
 /* === MEETING LINK CREATOR === */
 .meeting-link-panel{
   padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 0;
-  max-height: 260px;
-  overflow-y: auto;
+  overflow: hidden;       /* kill inner scrollbar */
 }
 
 .meeting-link-title{
@@ -3062,6 +3057,12 @@ html, body {
   font-size: 11px;
 }
 
+/* === MEETING LINK CREATOR: FORCE NO SCROLL === */
+.panel-small .meeting-link-panel{
+  overflow: hidden !important;
+  max-height: none !important;
+}
+
 .panel-small .meeting-link-content{
   overflow: visible !important;
 }
@@ -3072,43 +3073,99 @@ html, body {
   gap: 10px;
 }
 
-
-/* --- Meeting Provider: locked state --- */
-.meeting-provider:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+/* Meeting Link Creator: internal scroll only (safe) */
+.meeting-link-panel .inner-glass {
+  max-height: 260px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 
-/* --- Meeting provider dimmed state --- */
-.btn.toggle.dimmed {
-  opacity: 0.45;
-  filter: saturate(0.7);
+/* Meeting Link Creator: enable internal scroll (final) */
+.meeting-link-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-link-panel .inner-glass {
+  flex: 1;
+  min-height: 0;        /* CRITICAL: allows flex child to scroll */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 
-/* --- Meeting Provider Button States --- */
-.btn.primary.dimmed {
-  opacity: 0.4;
-  filter: saturate(0.7);
+/* Meeting Link Creator: enable internal scroll (final) */
+.meeting-link-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.meeting-link-panel .inner-glass {
+  flex: 1;
+  min-height: 0;        /* CRITICAL: allows flex child to scroll */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 
-/* === Meeting Provider Buttons === */
-.meeting-provider-btn {
-  background: linear-gradient(180deg, #a100ff, #ff4dff);
-  color: white;
-  border-radius: 14px;
-  padding: 12px;
-  font-size: 14px;
-  transition: all 0.2s ease;
+
+
+/* === Meeting Link Panel height constraint (scroll enabler) === */
+.meeting-link-panel {
+  max-height: 320px;
 }
 
-.meeting-provider-btn.active {
-  background: linear-gradient(180deg, #00ffa6, #00d4ff);
-  color: #001a12;
+
+/* === Meeting Link Creator: panel-level scroll (correct) === */
+.meeting-link-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.meeting-provider-btn.dimmed {
-  opacity: 0.4;
+/* === Meeting Link Creator: panel-level scroll (correct) === */
+.meeting-link-panel {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* === Button font: Orbitron (scoped, safe) === */
+.btn,
+button {
+  font-family: 'Orbitron', system-ui, sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* === Zypher Purple Buttons === */
+.btn.primary {
+  background: linear-gradient(135deg, #a100ff, #c94bff);
+  color: #ffffff;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn:not(.primary) {
+  color: #d9b3ff;
+}
+
+/* === Zypher Purple Buttons === */
+.btn.primary {
+  background: linear-gradient(135deg, #a100ff, #c94bff);
+  color: #ffffff;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn:not(.primary) {
+  color: #d9b3ff;
 }
