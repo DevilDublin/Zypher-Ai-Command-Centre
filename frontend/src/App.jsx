@@ -30,6 +30,9 @@ export default function App() {
     const injectorLocked = mode !== "CAMPAIGN";
 const injectorCanOpen = mode === "CAMPAIGN";
 const [injectorOpen, setInjectorOpen] = useState(false);
+  const [meetingProvider, setMeetingProvider] = useState(null);
+
+
 
   
   const [provisionResult, setProvisionResult] = useState(null);
@@ -63,11 +66,18 @@ const [injector, setInjector] = useState({
     customPrompt: ""
   }
 });
-  const slugBase = injector.clientName
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "_")
-    .replace(/_+/g, "_")
-    .slice(0, 24);
+
+    const slugBase = (injector.clientName || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "_")
+      .replace(/_+/g, "_")
+      .slice(0, 24);
+
+
+    const meetingLink = meetingProvider
+      ? `https://zypher.ai/meet/${meetingProvider}/${slugBase || "preview"}`
+      : "";
+
 
 
 const handleStartCall = () => {
@@ -111,7 +121,18 @@ const [notifications, setNotifications] = useState([]);
     }, 3400);
   };
 
-    useEffect(() => {
+    
+  const handleCopyMeetingLink = async () => {
+    try {
+      await navigator.clipboard.writeText(meetingLink);
+      addNotification("Meeting link copied");
+    } catch {
+      addNotification("Failed to copy link");
+    }
+  };
+
+
+  useEffect(() => {
       const onConnect = () => setIsOnline(true);
       const onDisconnect = () => setIsOnline(false);
       const onNotify = (msg) => addNotification(msg);
@@ -371,9 +392,35 @@ const total = analytics?.total ?? 0;
             <div className="panel panel-small inner-glass meeting-link-panel">
               <h2>Meeting Link Creator</h2>
 
-                <div className="zy-glowText" style={{ marginBottom: "10px" }}>
-                  Generate and share a booking link for this campaign
-                </div>
+                  {/* Meeting Provider Selector */}
+                  <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+                      <button
+                        className={`btn toggle meeting-provider ${meetingProvider === "google" ? "mode-campaign" : ""}`}
+                        onClick={() => setMeetingProvider(meetingProvider === "google" ? null : "google")}
+                        disabled={meetingProvider && meetingProvider !== "google"}
+                      >
+                        Google Meet
+                      </button>
+                      <button
+                        className={`btn toggle meeting-provider ${meetingProvider === "calendly" ? "mode-campaign" : ""}`}
+                        onClick={() => setMeetingProvider(meetingProvider === "calendly" ? null : "calendly")}
+                        disabled={meetingProvider && meetingProvider !== "calendly"}
+                      >
+                        Calendly
+                      </button>
+                      <button
+                        className={`btn toggle meeting-provider ${meetingProvider === "manual" ? "mode-campaign" : ""}`}
+                        onClick={() => setMeetingProvider(meetingProvider === "manual" ? null : "manual")}
+                        disabled={meetingProvider && meetingProvider !== "manual"}
+                      >
+                        Manual
+                      </button>
+                  </div>
+
+                  <div className="zy-glowText" style={{ fontSize: "12px", opacity: 0.65, marginBottom: "8px" }}>
+                    Client: {slugBase || "—"} · Mode: {mode}
+                  </div>
+
 
                 <div className="zy-glowText" style={{ opacity: 0.85, fontSize: "13px" }}>
                   Meeting link
@@ -386,7 +433,7 @@ const total = analytics?.total ?? 0;
                   background: "rgba(0,0,0,0.35)",
                   fontSize: "13px"
                 }}>
-                  https://zypher.ai/meet/________
+                  {meetingLink}
                 </div>
 
                 <button className="btn primary" style={{ marginTop: "10px", width: "100%" }}>
@@ -545,7 +592,10 @@ const total = analytics?.total ?? 0;
       })}
     >
       <option value="google">Google Calendar</option>
-      <option value="calendly">Calendly</option>
+                    <button
+                      className={`meeting-provider-btn ${meetingProvider === "calendly" ? "active" : meetingProvider ? "dimmed" : ""}`}
+                      onClick={() => setMeetingProvider("calendly")}
+                    >Calendly</button>
       <option value="outlook">Outlook</option>
       <option value="none">Disabled</option>
     </select>

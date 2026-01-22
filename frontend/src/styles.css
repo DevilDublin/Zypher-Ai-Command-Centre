@@ -3004,7 +3004,12 @@ html, body {
 /* === MEETING LINK CREATOR === */
 .meeting-link-panel{
   padding: 14px;
-  overflow: hidden;       /* kill inner scrollbar */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  max-height: 260px;
+  overflow-y: auto;
 }
 
 .meeting-link-title{
@@ -3057,12 +3062,6 @@ html, body {
   font-size: 11px;
 }
 
-/* === MEETING LINK CREATOR: FORCE NO SCROLL === */
-.panel-small .meeting-link-panel{
-  overflow: hidden !important;
-  max-height: none !important;
-}
-
 .panel-small .meeting-link-content{
   overflow: visible !important;
 }
@@ -3071,4 +3070,45 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+
+/* --- Meeting Provider: locked state --- */
+.meeting-provider:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* --- Meeting provider dimmed state --- */
+.btn.toggle.dimmed {
+  opacity: 0.45;
+  filter: saturate(0.7);
+}
+
+
+/* --- Meeting Provider Button States --- */
+.btn.primary.dimmed {
+  opacity: 0.4;
+  filter: saturate(0.7);
+}
+
+
+/* === Meeting Provider Buttons === */
+.meeting-provider-btn {
+  background: linear-gradient(180deg, #a100ff, #ff4dff);
+  color: white;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.meeting-provider-btn.active {
+  background: linear-gradient(180deg, #00ffa6, #00d4ff);
+  color: #001a12;
+}
+
+.meeting-provider-btn.dimmed {
+  opacity: 0.4;
 }
