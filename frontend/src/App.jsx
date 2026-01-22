@@ -31,6 +31,27 @@ export default function App() {
 const injectorCanOpen = mode === "CAMPAIGN";
 const [injectorOpen, setInjectorOpen] = useState(false);
   const [meetingProvider, setMeetingProvider] = useState(null);
+  // Derived live meeting URL (simple + stable)
+  const meetingLink =
+  meetingProvider === "google"
+    ? "https://meet.google.com/new"
+    : meetingProvider === "zoom"
+    ? "https://zoom.us/start/videomeeting"
+    : meetingProvider === "calendly"
+    ? "https://calendly.com"
+    : "";
+
+
+  // Derived meeting URL (NO state, NO effects)
+  const liveMeetingUrl =
+    meetingProvider === "google"
+      ? "https://meet.google.com/new"
+      : meetingProvider === "calendly"
+      ? "https://calendly.com/your-org"
+      : meetingProvider === "zoom"
+      ? "https://zoom.us/start/videomeeting"
+      : "";
+
 
 
 
@@ -74,8 +95,12 @@ const [injector, setInjector] = useState({
       .slice(0, 24);
 
 
-    const meetingLink = meetingProvider
-      ? `https://zypher.ai/meet/${meetingProvider}/${slugBase || "preview"}`
+        meetingProvider === "google"
+      ? "https://meet.google.com/new"
+      : meetingProvider === "calendly"
+      ? "https://calendly.com"
+      : meetingProvider === "zoom"
+      ? "https://zoom.us/start/videomeeting"
       : "";
 
 
@@ -409,12 +434,10 @@ const total = analytics?.total ?? 0;
                         Calendly
                       </button>
                       <button
-                        className={`btn toggle meeting-provider ${meetingProvider === "manual" ? "mode-campaign" : ""}`}
-                        onClick={() => setMeetingProvider(meetingProvider === "manual" ? null : "manual")}
-                        disabled={meetingProvider && meetingProvider !== "manual"}
-                      >
-                        Manual
-                      </button>
+                        className={`btn toggle meeting-provider ${meetingProvider === "zoom" ? "mode-campaign" : ""}`}
+                        onClick={() => setMeetingProvider(meetingProvider === "zoom" ? null : "zoom")}
+                        disabled={meetingProvider && meetingProvider !== "zoom"}
+                      >ZOOM</button>
                   </div>
 
                   <div className="zy-glowText" style={{ fontSize: "12px", opacity: 0.65, marginBottom: "8px" }}>
@@ -433,16 +456,16 @@ const total = analytics?.total ?? 0;
                   background: "rgba(0,0,0,0.35)",
                   fontSize: "13px"
                 }}>
-                  {meetingLink}
+                  <input
+                    className="meeting-client-input"
+                    value={meetingProvider ? meetingLink : "Select a provider"}
+                    readOnly
+                  />
                 </div>
 
-                <button className="btn primary" style={{ marginTop: "10px", width: "100%" }}>
-                  Copy link
-                </button>
+                <button className="btn primary" style={{ marginTop: "10px", width: "100%" }} disabled={!meetingProvider}>Copy link</button>
 
-                <div className="zy-glowText" style={{ marginTop: "10px", opacity: 0.6 }}>
-                  Link will become active when campaign is live
-                </div>
+                <div className="zy-glowText" style={{ marginTop: "10px", opacity: 0.6 }}></div>
             </div>
 
 {/* === CLIENT INJECTOR === */}

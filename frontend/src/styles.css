@@ -3244,3 +3244,135 @@ button {
   filter: saturate(0.5) brightness(0.9) !important;
   box-shadow: none !important;
 }
+
+
+
+/* === Meeting Link Creator: meta labels (Orbitron) === */
+.meeting-link-panel .zy-glowText{
+  font-family: 'Orbitron', sans-serif;
+}
+
+
+
+/* === Meeting Link Creator: Client Search (future-ready) === */
+.meeting-link-panel .meeting-client-search{
+  margin: 8px 0 12px;
+}
+
+.meeting-link-panel .meeting-client-input{
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(201, 75, 255, 0.35);
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+}
+
+.meeting-link-panel .meeting-client-input::placeholder{
+  color: rgba(255,255,255,0.45);
+}
+
+.meeting-link-panel .meeting-client-status{
+  margin-top: 4px;
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+
+
+/* === Meeting Link Creator: Meeting link value visibility fix === */
+.meeting-link-panel div[style*="Meeting link"] + div,
+.meeting-link-panel div[style*="Meeting link"] ~ div{
+  margin-top: 6px;
+}
+
+/* Target the meeting link value box specifically */
+.meeting-link-panel > div > div[style*="rgba(0,0,0,0.35)"]{
+  border: 1px solid rgba(201, 75, 255, 0.25);
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.35);
+  color: #ffffff;
+}
+
+
+
+/* === Meeting Link Creator: remove double-glass shading === */
+.meeting-link-panel div[style*="rgba(0,0,0,0.35)"]{
+  background: transparent !important;
+}
+
+
+
+/* === Meeting Link Creator: fully flatten meeting link value (single glass) === */
+.meeting-link-panel div[style*="rgba(0,0,0,0.35)"]{
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+
+
+/* === Meeting Link Creator: remove inner dark value strip (structural target) === */
+.meeting-link-panel div[style*="padding: 10px"][style*="border-radius: 8px"]{
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+\n\n
+/* === Meeting Link Creator: meeting link value affordance (single-glass) === */
+.meeting-link-panel div[style*="padding: 10px"][style*="border-radius: 8px"]{
+  background: transparent !important;
+  box-shadow: inset 0 -1px 0 rgba(201, 75, 255, 0.35) !important;
+  border: none !important;
+}
+
+
+
+/* === Meeting Link Creator: FIX phantom shade + restore URL box === */
+
+/* 1) Restore the meeting link URL box */
+.meeting-link-panel > div[style*="padding: 10px"][style*="border-radius: 8px"]{
+  background: rgba(0,0,0,0.35) !important;
+  border: 1px solid rgba(201, 75, 255, 0.25) !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+}
+
+/* 2) Kill phantom empty child causing second shade */
+.meeting-link-panel > div:empty{
+  display: none !important;
+}
+
+
+
+/* === Meeting Link Creator: remove panel inset shadow (fix double-shade) === */
+.meeting-link-panel{
+  box-shadow: none !important;
+}
+
+
+
+/* === Meeting Link Creator: URL value (single-glass, visible) === */
+.meeting-link-panel .meeting-link-value{
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(201, 75, 255, 0.35);
+  font-size: 13px;
+  color: #ffffff;
+}
+\n\n
+/* === Meeting Link Creator: ensure URL sits above active glass overlay === */
+.meeting-link-panel .meeting-link-value{
+  position: relative;
+  z-index: 3;
+}
+\n\n
+/* === Meeting Link Creator: remove active-state double glass === */
+.meeting-link-panel:has(.meeting-provider.mode-campaign){
+  background: inherit !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
