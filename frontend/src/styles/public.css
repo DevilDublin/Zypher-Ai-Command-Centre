@@ -1,0 +1,214 @@
+/* ===============================
+   PUBLIC SITE STYLES
+   (About / Architecture / Agents / Contact)
+   Scoped & isolated on purpose
+   =============================== */
+
+
+/* ===============================
+   ABOUT PAGE
+   =============================== */
+
+.public-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 420px at 50% 0%, rgba(0,255,255,0.08), transparent 60%),
+    linear-gradient(to bottom, #050507, #000 70%);
+  color: #e8fefe;
+}
+
+.public-page-content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 64px 24px 140px;
+  text-align: center;
+}
+
+/* Hero title */
+.public-page-content h1 {
+  font-size: 64px;
+  letter-spacing: 0.18em;
+  margin-bottom: 24px;
+  color: #4ffcff;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 12px rgba(79,252,255,0.35),
+    0 0 28px rgba(79,252,255,0.25);
+}
+
+/* Body text (Orbitron) */
+.public-page-content p {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  opacity: 0.85;
+}
+
+/* Mission section */
+.about-section {
+  margin-top: 48px;
+}
+
+.about-section h2 {
+  font-size: 26px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #4ffcff;
+  margin-bottom: 16px;
+}
+
+/* Glow keywords */
+.about-section strong {
+  color: #4ffcff;
+  text-shadow:
+    0 0 10px rgba(79,252,255,0.45),
+    0 0 22px rgba(79,252,255,0.25);
+}
+
+/* Pillars */
+.about-pillars {
+  margin-top: 56px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 32px;
+}
+
+.about-pillars .pillar {
+  padding: 32px 26px;
+  border-radius: 14px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(79,252,255,0.08),
+    rgba(0,0,0,0.55)
+  );
+  border: 1px solid rgba(79,252,255,0.25);
+  box-shadow:
+    0 0 22px rgba(79,252,255,0.12),
+    inset 0 0 18px rgba(0,0,0,0.6);
+}
+
+
+/* ===============================
+   PUBLIC PAGE SCROLL SAFETY
+   =============================== */
+
+.public-page-content {
+  padding-bottom: 140px; /* prevents bottom cut-off */
+}
+
+
+/* ===============================
+   ABOUT PAGE LAYOUT FIX
+   =============================== */
+
+{
+  display: block; /* kill hero flex behaviour */
+}
+
+.public-page-content {
+  margin-top: 0;
+  padding-top: 56px; /* sits just under navbar */
+}
+
+/* Ensure mission + pillars flow naturally */
+.mission-section {
+  margin-top: 48px;
+}
+
+.pillars {
+  margin-top: 48px;
+}\n\n
+/* ===============================
+   ABOUT PAGE – PANEL POSITIONING
+   =============================== */
+
+.pillars {
+  margin-top: 28px; /* pull panels upward */
+}\n\n
+/* ===============================
+   ABOUT PAGE – PANEL TITLES
+   =============================== */
+
+.pillar h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: #4ffcff;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 10px rgba(79,252,255,0.45),
+    0 0 22px rgba(79,252,255,0.25);
+}\n\n
+/* ===============================
+   ABOUT PAGE – PANEL TEXT TUNING
+   =============================== */
+
+.pillar p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}\n\n
+/* ===============================
+   ABOUT PAGE – PANEL LAYOUT FIX
+   =============================== */
+
+.public-page-content .pillars {
+  margin-top: 12px;
+  padding-bottom: 64px;
+}\n\n
+/* ===============================
+   ABOUT PAGE – PANEL TEXT FIT
+   =============================== */
+
+.public-page-content .pillar p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+/* === ABOUT PAGE FIXES === */
+
+/* === ABOUT PAGE FIXES === */
+
+.about-page .public-page-content {
+  display: block;
+  padding-top: 32px;
+  padding-bottom: 120px;
+}
+
+/* OUR MISSION spacing */
+.about-page .mission-section {
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.about-page .mission-section p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+}
+
+/* PILLAR GRID – pull up */
+.about-page .pillars {
+  margin-top: 20px;
+  gap: 28px;
+}
+
+/* PILLAR CARD */
+.about-page .pillar {
+  padding: 26px 24px;
+}
+
+/* PILLAR TITLES */
+.about-page .pillar h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: #4ffcff;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+  text-shadow:
+    0 0 8px rgba(79,252,255,0.35),
+    0 0 18px rgba(79,252,255,0.2);
+}
+
+/* PILLAR TEXT */
+.about-page .pillar p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  opacity: 0.88;
+}
