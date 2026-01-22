@@ -3169,3 +3169,78 @@ button {
 .btn:not(.primary) {
   color: #d9b3ff;
 }
+
+  filter: saturate(0.55) brightness(0.9) !important;
+}
+
+
+/* === FINAL: Meeting Link Provider Buttons (MATCH .btn.primary EXACTLY) === */
+.meeting-link-panel .meeting-provider-btn{
+  font-family: 'Orbitron', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+
+  /* EXACT same purple as .btn.primary */
+  background: linear-gradient(135deg, #a100ff, #c94bff) !important;
+  color: #ffffff !important;
+
+  border: 1px solid rgba(201, 75, 255, 0.45) !important;
+  box-shadow: 0 0 18px rgba(161, 0, 255, 0.28) !important;
+
+  transition: all 0.2s ease;
+}
+
+.meeting-link-panel .meeting-provider-btn:hover{
+  filter: brightness(1.08);
+}
+
+/* ACTIVE = GREEN (keep existing behaviour, but locked in) */
+.meeting-link-panel .meeting-provider-btn.active{
+  background: linear-gradient(135deg, #00ffb2, #00d88f) !important;
+  border-color: rgba(0, 255, 190, 0.45) !important;
+  box-shadow: 0 0 18px rgba(0,255,170,0.28) !important;
+  color: rgba(0,0,0,0.85) !important;
+}
+
+/* WHEN ONE IS ACTIVE → OTHERS DIM */
+.meeting-link-panel .meeting-provider-btn.dimmed{
+  opacity: 0.35 !important;
+  filter: saturate(0.5) brightness(0.9) !important;
+  box-shadow: none !important;
+}
+
+
+
+
+/* === Meeting Link Creator (PANEL): Provider buttons (purple + dim others when active) === */
+.meeting-link-panel .meeting-provider{
+  font-family: 'Orbitron', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  background: linear-gradient(135deg, #a100ff, #c94bff) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(201, 75, 255, 0.45) !important;
+  box-shadow: 0 0 18px rgba(161, 0, 255, 0.28) !important;
+  transition: filter 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.meeting-link-panel .meeting-provider:hover{
+  filter: brightness(1.08);
+}
+
+
+/* ACTIVE provider = GREEN (restore existing behaviour) */
+.meeting-link-panel .meeting-provider.mode-campaign{
+  background: linear-gradient(135deg, #00ffb2, #00d88f) !important;
+  border-color: rgba(0, 255, 190, 0.45) !important;
+  box-shadow: 0 0 18px rgba(0,255,170,0.28) !important;
+  color: rgba(0,0,0,0.85) !important;
+}
+
+/* When one provider is active (green), dim the other two */
+.meeting-link-panel:has(.meeting-provider.mode-campaign) 
+.meeting-provider:not(.mode-campaign){
+  opacity: 0.35 !important;
+  filter: saturate(0.5) brightness(0.9) !important;
+  box-shadow: none !important;
+}
