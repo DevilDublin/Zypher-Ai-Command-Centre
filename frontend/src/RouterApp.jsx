@@ -4,6 +4,10 @@ import DeveloperLogin from "./pages/DeveloperLogin";
 import App from "./App";
 import ClientDashboardShell from "./clientDashboard/ClientDashboardShell";
 import ClientLogin from "./pages/ClientLogin";
+import About from "./pages/About";
+import Architecture from "./pages/Architecture";
+import Agents from "./pages/Agents";
+import Contact from "./pages/Contact";
 
 
 function RequireClientAuth({ children }) {
@@ -23,8 +27,13 @@ export default function RouterApp() {
       {/* Protected areas */}
       <Route path="/dev" element={<App />} />
       <Route path="/dashboard/*" element={<RequireClientAuth><ClientDashboardShell /></RequireClientAuth>} />
+        {/* Public pages */}
+        <Route path="/about" element={<About />} />
+        <Route path="/architecture" element={<Architecture />} />
+        <Route path="/agents" element={<Agents />} />
+        <Route path="/contact" element={<Contact />} />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
