@@ -248,7 +248,7 @@ const outboundRef = useRef(null);
     <audio ref={outboundRef} src="/src/assets/demos/outbound_sales_demo.mp3" />
   </div>
 
-  <img src={commandCentre} alt="Command Centre Demo" style={{ maxWidth: "520px", borderRadius: "14px" }} />
+  <img src={commandCentre} alt="Command Centre Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
 </div>
 
   {/* INBOUND */}
@@ -276,7 +276,7 @@ const outboundRef = useRef(null);
     <audio ref={inboundRef} src="/src/assets/demos/inbound_support_demo.mp3" />
   </div>
 
-  <img src={clientDashboard} alt="Client Dashboard Demo" style={{ maxWidth: "520px", borderRadius: "14px" }} />
+  <img src={clientDashboard} alt="Client Dashboard Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
 </div>
 
 </section>

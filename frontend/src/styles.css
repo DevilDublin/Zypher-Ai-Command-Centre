@@ -3406,3 +3406,214 @@ button {
       0 0 14px rgba(127,252,255,0.35);
   }
 }
+
+/* ===== ZYPHER DEMO IMAGE GLOW ===== */
+.demo-glow-frame {
+  position: relative;
+  display: inline-block;
+}
+
+.demo-glow-frame img {
+  display: block;
+  border-radius: 14px;
+  position: relative;
+  z-index: 2;
+}
+
+/* OUTER AURA */
+.demo-glow-frame::before {
+  content: "";
+  position: absolute;
+  inset: -26px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(120,255,255,0.55), transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(90,140,255,0.45), transparent 65%);
+  filter: blur(26px);
+  opacity: 0.85;
+  z-index: 0;
+  animation: glowDrift 14s linear infinite;
+}
+
+/* HARD LIGHTSABER EDGE */
+.demo-glow-frame::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 22px;
+  box-shadow:
+    0 0 22px rgba(140,255,255,0.85),
+    0 0 60px rgba(100,180,255,0.65),
+    0 0 140px rgba(80,120,255,0.45);
+  opacity: 0.9;
+  z-index: 1;
+  animation: glowPulse 6s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 18px rgba(140,255,255,0.6),
+      0 0 48px rgba(100,180,255,0.45),
+      0 0 110px rgba(80,120,255,0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 28px rgba(180,255,255,0.9),
+      0 0 78px rgba(120,200,255,0.7),
+      0 0 180px rgba(100,150,255,0.55);
+  }
+}
+
+@keyframes glowDrift {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(10px, -14px); }
+  100% { transform: translate(0, 0); }
+}
+/* ===== END GLOW ===== */
+
+
+
+
+/* ================================
+   AGENT DEMO IMAGE FRAME
+================================ */
+
+.agent-demo-frame {
+  position: relative;
+  display: inline-block;
+  border-radius: 18px;
+}
+
+/* tight lightsaber rim */
+.agent-demo-frame::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  box-shadow:
+    0 0 12px rgba(127,252,255,0.9),
+    0 0 24px rgba(127,252,255,0.6);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* soft vapor glow */
+.agent-demo-frame::after {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 36px;
+  background: radial-gradient(
+    closest-side,
+    rgba(127,252,255,0.35),
+    rgba(127,252,255,0.18) 45%,
+    transparent 70%
+  );
+  filter: blur(18px);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.agent-demo-image {
+  display: block;
+  max-width: 520px;
+  border-radius: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* ================================
+   EXPLANATION PANEL
+================================ */
+
+.agent-demo-explain {
+  max-width: 300px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.agent-demo-explain h4 {
+  font-family: Orbitron, sans-serif;
+  letter-spacing: 0.14em;
+  color: #7ffcff;
+  margin-bottom: 0.8rem;
+}
+
+.agent-demo-explain ul {
+  padding-left: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+
+.agent-demo-explain li {
+  margin-bottom: 0.45rem;
+  opacity: 0.9;
+}
+
+/* hidden details */
+.agent-demo-more {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.35s ease;
+}
+
+.agent-demo-explain:hover .agent-demo-more {
+  max-height: 200px;
+  opacity: 1;
+}
+
+.agent-demo-toggle {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7ffcff;
+  opacity: 0.7;
+  cursor: default;
+}
+/* ================================
+   EXPLANATION PANEL
+================================ */
+
+.agent-demo-explain {
+  max-width: 320px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.agent-demo-explain h4 {
+  font-family: Orbitron, sans-serif;
+  letter-spacing: 0.12em;
+  color: #7ffcff;
+  margin-bottom: 1rem;
+}
+
+.agent-demo-explain ul {
+  padding-left: 1.2rem;
+}
+
+.agent-demo-explain li {
+  margin-bottom: 0.6rem;
+}
+
+
+/* ================================
+   AGENT DEMO ROW LAYOUT
+================================ */
+
+.agent-demo-row {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+@media (max-width: 1024px) {
+  .agent-demo-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
