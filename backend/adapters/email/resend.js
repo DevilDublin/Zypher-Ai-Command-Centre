@@ -23,7 +23,7 @@ export async function sendEmail(email) {
   const resend = getClient();
 
   const result = await resend.emails.send({
-    from: "Zypher Agents <no-reply@zypheragents.com>",
+    from: "Zypher Agents <contact@zypheragents.com>",
     to,
     subject,
     html,
