@@ -43,7 +43,7 @@ const demoRowClean = {
   gap: "4rem",
   alignItems: "center",
   justifyContent: "space-between",
-  marginBottom: "1.8rem",
+  marginBottom: "1.1rem",
 };
 
 const demoMediaRow = {
@@ -51,8 +51,8 @@ const demoMediaRow = {
   alignItems: "center",
   gap: "2.6rem",
   width: "100vw",
-  marginRight: "-8vw",
-  paddingRight: "8vw"
+  marginRight: "-4vw",
+  paddingRight: "4vw"
 };
 
 const demoDesc = {
@@ -68,7 +68,7 @@ const demoDesc = {
 
 
 const demoOutro = {
-  margin: "6rem auto 4rem",
+  margin: "3.6rem auto 1.6rem",
   maxWidth: "920px",
   textAlign: "center",
   opacity: 0.95
@@ -94,7 +94,7 @@ const outroText = {
   color: "#cfdfe3",
   opacity: 0.85,
   maxWidth: "720px",
-  margin: "0 auto"
+  margin: "0 auto 0.6rem"
 };
 
 const demoText = {
@@ -185,7 +185,7 @@ const outboundRef = useRef(null);
 <p
   style={{
     maxWidth: "1020px",
-    margin: "2.8rem auto 5.8rem",
+    margin: "2.2rem auto 3.8rem",
     textAlign: "center",
     fontFamily: "Orbitron, sans-serif",
     fontSize: "1.05rem",
@@ -261,7 +261,7 @@ const outboundRef = useRef(null);
 
 <h2
   style={{
-    margin: "7rem 0 2.8rem",
+    margin: "4.8rem 0 2.2rem",
     textAlign: "center",
     fontFamily: "Orbitron, sans-serif",
     letterSpacing: "0.28em",
@@ -277,7 +277,7 @@ const outboundRef = useRef(null);
   style={{
     width: "140px",
     height: "2px",
-    margin: "0 auto 5rem",
+    margin: "0 auto 3.2rem",
     background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",  }}
 />
 
@@ -384,7 +384,7 @@ const outboundRef = useRef(null);
   display: "flex",
   gap: "2rem",
   justifyContent: "center",
-  marginTop: "2.5rem"
+  marginTop: "1.4rem"
 }}>
   <a href="/contact" className="neon-contact" style={{
     padding: "0.9rem 2.6rem",
