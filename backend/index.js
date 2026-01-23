@@ -56,6 +56,7 @@ import { createBooking } from "./googleCalendar.js";
 import { leadHandler2 } from "./leadHandler2.js";
 import { getAdapters } from "./adapters/core/router.js";
 import { provisionClient } from "./provisionClient.js";
+import { contactHandler } from "./routes/contact.js";
 import { spawn } from "child_process";
 
 dotenv.config();
@@ -85,7 +86,18 @@ app.get("/health", (req, res) => {
   res.json({ ok: true, service: "zypher-backend" });
 });
 
-app.use(cors());
+app.options("/contact", cors());
+app.post("/contact", cors(), contactHandler);
+
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://zypheragents.com",
+    "https://www.zypheragents.com"
+  ]
+}));
 app.use(express.json());
 app.post("/auth/dev", (req, res) => {
   if (req.body?.key === process.env.ADMIN_PASSWORD) {
