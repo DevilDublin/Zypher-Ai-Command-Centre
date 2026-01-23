@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function NeonNav() {
   return (
     <nav className="neon-nav">
-      <div className="nav-logo">ZYPHER</div>
+      <Link to="/" className="nav-logo">ZYPHER</Link>
 
       <div className="nav-links">
         <Link to="/about">ABOUT</Link>

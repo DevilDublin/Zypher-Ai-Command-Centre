@@ -940,3 +940,12 @@
   overflow-x: hidden;
 }
 
+
+/* NAV LOGO — REMOVE LINK UNDERLINE */
+.neon-nav .nav-logo {
+  text-decoration: none !important;
+}
+
+.neon-nav .nav-logo:hover {
+  text-decoration: none !important;
+}
