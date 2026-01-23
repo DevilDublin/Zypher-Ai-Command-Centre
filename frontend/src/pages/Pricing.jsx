@@ -241,36 +241,27 @@ export default function Pricing() {
               Or £1,750 billed monthly over 10 months
             </div>
           </div>
-        </section>
-          <div
-            className="pricing-cta"
-            style={{
-              marginTop: "3.5rem",
-              display: "flex",
-              justifyContent: "center"
-            }}
-          >
-            <button
-              onClick={() => window.location.href = "/contact"}
-              style={{
-                padding: "1rem 2.4rem",
-                borderRadius: "16px",
-                border: "1px solid rgba(0,255,255,0.7)",
-                background: "rgba(0,255,255,0.18)",
-                color: "#7ffcff",
-                fontFamily: "Orbitron, sans-serif",
-                letterSpacing: "0.22em",
-                fontSize: "0.8rem",
-                cursor: "pointer",
-                boxShadow:
-                  "0 0 18px rgba(0,255,255,0.45), inset 0 0 12px rgba(0,255,255,0.25)",
-              }}
-            >
-              CONTACT US
-            </button>
-          </div>
+        
 
-      </main>
+</section>
+
+        <div style={{ marginTop: "3.5rem", textAlign: "center" }}>
+          <a href="/contact" className="neon-contact" style={{
+            padding: "0.9rem 2.6rem",
+            border: "1px solid #7ffcff",
+            color: "#7ffcff",
+            textDecoration: "none",
+            fontFamily: "Orbitron, sans-serif",
+            letterSpacing: "0.14em",
+          }}>
+            CONTACT US
+          </a>
+        </div>
+
+
+        
+
+</main>
     </div>
   );
 }
