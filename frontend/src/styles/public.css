@@ -166,11 +166,7 @@
 
 /* === ABOUT PAGE FIXES === */
 
-.about-page .public-page-content {
-  display: block;
-  padding-top: 32px;
-  padding-bottom: 120px;
-}
+
 
 /* OUR MISSION spacing */
 .about-page .mission-section {
@@ -930,3 +926,17 @@
     rgba(80, 220, 255, 0.0) 70%
   );
 }
+
+/* === PUBLIC PAGES: FIXED CONTAINER UNDER NAV (match pricing/contact gap) === */
+.about-page,
+.architecture-page,
+.agents-page {
+  position: fixed;
+  top: 64px; /* navbar height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
