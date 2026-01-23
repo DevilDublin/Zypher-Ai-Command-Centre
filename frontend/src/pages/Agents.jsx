@@ -42,6 +42,26 @@ const demoRowClean = {
   marginBottom: "6rem",
 };
 
+const demoMediaRow = {
+  display: "flex",
+  alignItems: "center",
+  gap: "2.6rem",
+  width: "100vw",
+  marginRight: "-8vw",
+  paddingRight: "8vw"
+};
+
+const demoDesc = {
+  flex: 1,
+  width: "100%",
+  paddingRight: "4rem",
+  color: "#cfdfe3",
+  fontSize: "0.76rem",
+  lineHeight: "1.5",
+  display: "flex",
+  alignItems: "center"
+};
+
 const demoText = {
   opacity: 0.75,
   maxWidth: "420px",
@@ -248,7 +268,17 @@ const outboundRef = useRef(null);
     <audio ref={outboundRef} src="/src/assets/demos/outbound_sales_demo.mp3" />
   </div>
 
+  <div style={demoMediaRow}>
   <img src={commandCentre} alt="Command Centre Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
+  <div style={demoDesc}>
+    <p>
+        The <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Command Centre</span>{" "}
+        gives real-time control of{" "}
+        <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>outbound voice</span>,
+        exposing call state, flow, and outcomes in a single view.
+      </p>
+  </div>
+</div>
 </div>
 
   {/* INBOUND */}
@@ -276,7 +306,17 @@ const outboundRef = useRef(null);
     <audio ref={inboundRef} src="/src/assets/demos/inbound_support_demo.mp3" />
   </div>
 
+  <div style={demoMediaRow}>
   <img src={clientDashboard} alt="Client Dashboard Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
+  <div style={demoDesc}>
+    <p>
+      The <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Client Dashboard</span>{" "}
+      surfaces{" "}
+      <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>live reception</span>{" "}
+      activity, health, and bookings — keeping operations calm and observable.
+    </p>
+  </div>
+</div>
 </div>
 
 </section>
