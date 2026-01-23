@@ -611,7 +611,7 @@
   border-radius: 14px;
 
   background: rgba(0,0,0,0.65);
-  border: 1px solid rgba(255, 60, 60, 0.75);
+  border: 1px solid rgba(127,252,255,0.75);
 
   color: #eaffff;
   font-family: "Orbitron", sans-serif;
@@ -619,8 +619,8 @@
   letter-spacing: 0.04em;
 
   box-shadow:
-    0 0 12px rgba(255,60,60,0.35),
-    0 0 28px rgba(255,60,60,0.25);
+    0 0 12px rgba(127,252,255,0.35),
+    0 0 28px rgba(127,252,255,0.25);
 
   outline: none;
 }
@@ -653,7 +653,7 @@
   border-radius: 14px;
 
   background: rgba(0,0,0,0.65);
-  border: 1px solid rgba(255, 60, 60, 0.75);
+  border: 1px solid rgba(127,252,255,0.75);
 
   color: #eaffff;
   font-family: "Orbitron", sans-serif;
@@ -661,8 +661,8 @@
   letter-spacing: 0.04em;
 
   box-shadow:
-    0 0 12px rgba(255,60,60,0.35),
-    0 0 28px rgba(255,60,60,0.25);
+    0 0 12px rgba(127,252,255,0.35),
+    0 0 28px rgba(127,252,255,0.25);
 
   outline: none;
 }
@@ -759,21 +759,21 @@
    ===================================================== */
 
 /* RED IDLE HUM */
-@keyframes contact-red-hum {
+@keyframes contact-cyan-hum {
   0% {
     box-shadow:
-      0 0 10px rgba(255,60,60,0.35),
-      0 0 26px rgba(255,60,60,0.25);
+      0 0 10px rgba(127,252,255,0.35),
+      0 0 26px rgba(127,252,255,0.25);
   }
   50% {
     box-shadow:
-      0 0 18px rgba(255,60,60,0.6),
-      0 0 46px rgba(255,60,60,0.45);
+      0 0 18px rgba(127,252,255,0.6),
+      0 0 46px rgba(127,252,255,0.45);
   }
   100% {
     box-shadow:
-      0 0 10px rgba(255,60,60,0.35),
-      0 0 26px rgba(255,60,60,0.25);
+      0 0 10px rgba(127,252,255,0.35),
+      0 0 26px rgba(127,252,255,0.25);
   }
 }
 
@@ -831,7 +831,7 @@
 .contact-page input,
 .contact-page .contact-select,
 .contact-page textarea {
-  animation: contact-red-hum 3.2s ease-in-out infinite;
+  animation: contact-cyan-hum 3.2s ease-in-out infinite;
 }
 
 .contact-page input:focus,
@@ -858,8 +858,8 @@
 }
 
 .contact-page .contact-popup.error {
-  border-color: rgba(255, 80, 80, 0.7);
-  box-shadow: 0 0 18px rgba(255, 80, 80, 0.35);
+  border-color: rgba(127,252,255,0.7);
+  box-shadow: 0 0 18px rgba(127,252,255,0.35);
 }
 
 
@@ -888,9 +888,9 @@
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   box-shadow:
-    0 0 0 1px rgba(255, 80, 80, 0.35),
-    0 0 18px rgba(255, 80, 80, 0.35),
-    0 0 36px rgba(255, 80, 80, 0.25);
+    0 0 0 1px rgba(127,252,255,0.35),
+    0 0 18px rgba(127,252,255,0.35),
+    0 0 36px rgba(127,252,255,0.25);
 }
 
 .contact-page .contact-select-option {
@@ -901,8 +901,8 @@
 }
 
 .contact-page .contact-select-option:hover {
-  background: rgba(255, 80, 80, 0.12);
-  text-shadow: 0 0 6px rgba(255, 80, 80, 0.8);
+  background: rgba(127,252,255,0.12);
+  text-shadow: 0 0 6px rgba(127,252,255,0.8);
 }
 
 .contact-page .contact-select-option.active {
