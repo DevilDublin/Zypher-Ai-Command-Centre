@@ -226,13 +226,24 @@ const outboundRef = useRef(null);
 {/* OUTBOUND */}
 <div style={demoRowClean}>
   <div style={audioBox}>
+    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff", marginTop: "1.6rem" }}>Outbound Sales Voice</h3>
+
+      <div
+        style={{
+          width: "120px",
+          height: "2px",
+          marginBottom: "1.6rem",
+          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
+          boxShadow: "0 0 14px rgba(127,252,255,0.6)",
+        }}
+      />
+
     <button
       onClick={() => toggle("outbound", outboundRef)}
       style={{ ...audioButton, boxShadow: active === "outbound" ? "0 0 30px rgba(0,255,255,0.6)" : "none" }}
     >
       {active === "outbound" ? "■ STOP OUTBOUND DEMO" : "▶ PLAY OUTBOUND DEMO"}
     </button>
-    <h3 style={{ color: "#7ffcff", marginTop: "1.6rem" }}>Outbound Sales Voice</h3>
     <p style={demoText}>Confident outbound sales delivery.</p>
     <audio ref={outboundRef} src="/src/assets/demos/outbound_sales_demo.mp3" />
   </div>
@@ -243,13 +254,24 @@ const outboundRef = useRef(null);
   {/* INBOUND */}
 <div style={demoRowClean}>
   <div style={audioBox}>
+    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff", marginTop: "1.6rem" }}>Inbound Reception Voice</h3>
+
+      <div
+        style={{
+          width: "120px",
+          height: "2px",
+          marginBottom: "1.6rem",
+          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
+          boxShadow: "0 0 14px rgba(127,252,255,0.6)",
+        }}
+      />
+
     <button
       onClick={() => toggle("inbound", inboundRef)}
       style={{ ...audioButton, boxShadow: active === "inbound" ? "0 0 30px rgba(0,255,255,0.6)" : "none" }}
     >
       {active === "inbound" ? "■ STOP INBOUND DEMO" : "▶ PLAY INBOUND DEMO"}
     </button>
-    <h3 style={{ color: "#7ffcff", marginTop: "1.6rem" }}>Inbound Reception Voice</h3>
     <p style={demoText}>Calm, premium reception handling.</p>
     <audio ref={inboundRef} src="/src/assets/demos/inbound_support_demo.mp3" />
   </div>
