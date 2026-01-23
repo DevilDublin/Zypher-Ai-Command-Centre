@@ -949,3 +949,32 @@
 .neon-nav .nav-logo:hover {
   text-decoration: none !important;
 }
+
+
+/* =========================================
+   CONTACT PAGE — DROPDOWN ARROW
+   ========================================= */
+
+.contact-select {
+  position: relative;
+  cursor: pointer;
+}
+
+.contact-select-arrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform: translateY(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 7px solid rgba(127,252,255,0.85);
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  opacity: 0.9;
+}
+
+.contact-select.open .contact-select-arrow {
+  transform: translateY(-50%) rotate(180deg);
+}
