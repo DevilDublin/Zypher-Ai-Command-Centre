@@ -5,39 +5,40 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 
 export default function Contact() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [company, setCompany] = useState("");
+    const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
+
+  const [intent, setIntent] = useState("demo");
+  const [intentOpen, setIntentOpen] = useState(false);
   const [sending, setSending] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const INTENT_OPTIONS = [
+    { value: "demo", label: "Request demo / access" },
+    { value: "partnership", label: "Partnership enquiry" },
+    { value: "support", label: "Technical support" },
+    { value: "other", label: "Other" },
+  ];
+
+  async function sendContact() {
+    console.log("🔥 sendContact fired");
+    console.log("🌐 BACKEND_URL =", BACKEND_URL);
     if (sending) return;
-
     setSending(true);
-
     try {
       const res = await fetch(`${BACKEND_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, company, message }),
+        body: JSON.stringify({ name, company, message, intent }),
       });
-
-      if (!res.ok) {
-        throw new Error("Contact submit failed");
-      }
-
-      // silent success
-      setName("");
-      setEmail("");
-      setCompany("");
-      setMessage("");
+      if (!res.ok) throw new Error("contact failed");
     } catch (err) {
-      console.error("Contact submit error:", err);
+      console.error("Contact error:", err);
     } finally {
       setSending(false);
     }
   }
+
+
 
   return (
     <div className="public-page contact-page">
@@ -50,7 +51,7 @@ export default function Contact() {
           Get in touch to request access, partnerships, or technical onboarding.
         </p>
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <div className="contact-form">
           <div className="contact-field">
             <label>Name</label>
             <input
@@ -61,15 +62,35 @@ export default function Contact() {
             />
           </div>
 
-          <div className="contact-field">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
-          </div>
+            <div className="contact-field">
+              <label>What are you contacting us about?</label>
+
+              <div
+                className={`contact-select ${intentOpen ? "open" : ""}`}
+                onClick={() => setIntentOpen(o => !o)}
+              >
+                {INTENT_OPTIONS.find(o => o.value === intent)?.label}
+                <span className="contact-select-arrow" />
+              </div>
+
+              {intentOpen && (
+                <div className="contact-select-menu">
+                  {INTENT_OPTIONS.map(opt => (
+                    <div
+                      key={opt.value}
+                      className={`contact-select-option ${opt.value === intent ? "active" : ""}`}
+                      onClick={() => {
+                        setIntent(opt.value);
+                        setIntentOpen(false);
+                      }}
+                    >
+                      {opt.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
 
           <div className="contact-field">
             <label>Company (optional)</label>
@@ -89,10 +110,16 @@ export default function Contact() {
             />
           </div>
 
-          <button className="contact-send" type="submit" disabled={sending}>
-            {sending ? "SENDING..." : "SEND MESSAGE"}
-          </button>
-        </form>
+            <button
+              type="button"
+              className="contact-send"
+              onClick={sendContact}
+              disabled={sending}
+            >
+              {sending ? "SENDING..." : "SEND MESSAGE"}
+            </button>
+
+        </div>
       </main>
     </div>
   );

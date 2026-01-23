@@ -11,15 +11,14 @@ export async function contactHandler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
 
-  const { name, email, company, message } = req.body || {};
+  const { name, company, message } = req.body || {};
 
-  if (!name || !email || !message) {
+  if (!name || !message) {
     return res.status(400).json({ error: "missing_fields" });
   }
 
   const text = `
 Name: ${name}
-Email: ${email}
 Company: ${company || "-"}
 Message:
 ${message}
