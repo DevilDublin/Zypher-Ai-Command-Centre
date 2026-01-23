@@ -1,34 +1,38 @@
+import { useRef, useState, useEffect } from "react";
+import NeonNav from "../components/NeonNav";
+import commandCentre from "../assets/demos/command-centre-demo.png";
+import clientDashboard from "../assets/demos/client-dashboard-demo.png";
+
+
+
+const systemPulse = {};
+
+/* system ready pulse */
+
 
 const neonGlow = {
-  color: "#7ffcff",
-  textShadow: `
+  color: "#7ffcff",  textShadow: `
     0 0 6px rgba(127,252,255,0.55),
     0 0 14px rgba(127,252,255,0.45),
     0 0 28px rgba(127,252,255,0.35)
   `,
 };
 
-import { useRef, useState, useEffect } from "react";
-import NeonNav from "../components/NeonNav";
 
-import commandCentre from "../assets/demos/command-centre-demo.png";
-import clientDashboard from "../assets/demos/client-dashboard-demo.png";
+
 
 const audioBox = {
   width: "260px",
   padding: "0",
   borderRadius: "0",
   border: "none",
-  background: "transparent",
-  boxShadow: "none",
-};
+  background: "transparent",};
 
 const audioButton = {
   width: "100%",
   background: "transparent",
   border: "1px solid rgba(0,255,255,0.5)",
-  color: "#7ffcff",
-  padding: "1rem",
+  color: "#7ffcff",  padding: "1rem",
   letterSpacing: "0.18em",
   cursor: "pointer",
 };
@@ -39,7 +43,7 @@ const demoRowClean = {
   gap: "4rem",
   alignItems: "center",
   justifyContent: "space-between",
-  marginBottom: "6rem",
+  marginBottom: "1.8rem",
 };
 
 const demoMediaRow = {
@@ -60,6 +64,37 @@ const demoDesc = {
   lineHeight: "1.5",
   display: "flex",
   alignItems: "center"
+};
+
+
+const demoOutro = {
+  margin: "6rem auto 4rem",
+  maxWidth: "920px",
+  textAlign: "center",
+  opacity: 0.95
+};
+
+const outroLine = {
+  width: "160px",
+  height: "2px",
+  margin: "0 auto 2.4rem",
+  background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",};
+
+const outroTitle = {
+  fontFamily: "Orbitron, sans-serif",
+  letterSpacing: "0.28em",
+  fontSize: "0.85rem",
+  color: "#7ffcff",  marginBottom: "1.6rem",
+  textShadow: "0 0 12px rgba(127,252,255,0.6)"
+};
+
+const outroText = {
+  fontSize: "0.9rem",
+  lineHeight: "1.8",
+  color: "#cfdfe3",
+  opacity: 0.85,
+  maxWidth: "720px",
+  margin: "0 auto"
 };
 
 const demoText = {
@@ -113,7 +148,32 @@ const outboundRef = useRef(null);
  >
       <NeonNav />
 
+
         <main className="public-page-content">
+<style>{`
+/* NEON_BUTTON_ANIMS */
+
+@keyframes neonPulseCyan {
+  0%   { box-shadow: 0 0 10px rgba(127,252,255,0.55); filter: brightness(1.05); }
+  50%  { box-shadow: 0 0 22px rgba(127,252,255,1), 0 0 52px rgba(127,252,255,0.7); filter: brightness(1.2); }
+  100% { box-shadow: 0 0 6px rgba(127,252,255,0.35); }
+}
+
+@keyframes neonPulseRed {
+  0%   { box-shadow: 0 0 10px rgba(255,77,77,0.5); filter: brightness(1.05); }
+  50%  { box-shadow: 0 0 22px rgba(255,77,77,1), 0 0 52px rgba(255,77,77,0.7); filter: brightness(1.18); }
+  100% { box-shadow: 0 0 6px rgba(255,77,77,0.35); }
+}
+
+.neon-contact {
+  animation: neonPulseCyan 1.4s ease-in-out infinite;
+}
+
+.neon-pricing {
+  animation: neonPulseRed 1.4s ease-in-out infinite;
+}
+`}</style>
+
 
 
 <h1>ZYPHER AGENTS</h1>
@@ -138,19 +198,10 @@ const outboundRef = useRef(null);
     overflowWrap: "anywhere",
   }}
 >
-  <span style={{
-    color: "#7ffcff",
-    textShadow:
-      "0 0 10px rgba(127,252,255,0.6),\
-       0 0 22px rgba(127,252,255,0.45),\
-       0 0 42px rgba(127,252,255,0.25)"
-  }}>
-    Zypher Agents
-  </span>
+  <span style={{ color: "#7ffcff", textShadow: "none" }}>Zypher Agents</span>
   {" "}are built for teams who need{" "}
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 8px rgba(127,252,255,0.55),\
        0 0 18px rgba(127,252,255,0.35)"
   }}>
@@ -159,8 +210,7 @@ const outboundRef = useRef(null);
   {" "}that actually hold up in the real world — on real calls, with real customers, under real operational pressure.
   These live agents handle
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 8px rgba(127,252,255,0.55),\
        0 0 18px rgba(127,252,255,0.35)"
   }}>
@@ -168,8 +218,7 @@ const outboundRef = useRef(null);
   </span>
   and
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 8px rgba(127,252,255,0.55),\
        0 0 18px rgba(127,252,255,0.35)"
   }}>
@@ -179,8 +228,7 @@ const outboundRef = useRef(null);
   <br /><br />
   Under the hood, every interaction runs on Zypher’s
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 12px rgba(127,252,255,0.65),\
        0 0 26px rgba(127,252,255,0.45),\
        0 0 52px rgba(127,252,255,0.25)"
@@ -188,16 +236,14 @@ const outboundRef = useRef(null);
     {" "}deterministic AI core
   </span>,
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 12px rgba(127,252,255,0.65),\
        0 0 26px rgba(127,252,255,0.45)"
   }}>
     {" "}low-latency voice runtime
   </span>, and
   <span style={{
-    color: "#7ffcff",
-    textShadow:
+    color: "#7ffcff",    textShadow:
       "0 0 12px rgba(127,252,255,0.65),\
        0 0 26px rgba(127,252,255,0.45)"
   }}>
@@ -221,8 +267,7 @@ const outboundRef = useRef(null);
     letterSpacing: "0.28em",
     fontSize: "2.1rem",
     lineHeight: "1.35",
-    color: "#7ffcff",
-    textShadow: "0 0 18px rgba(127,252,255,0.65)",
+    color: "#7ffcff",    textShadow: "0 0 18px rgba(127,252,255,0.65)",
   }}
 >
   OUR WORK
@@ -233,9 +278,7 @@ const outboundRef = useRef(null);
     width: "140px",
     height: "2px",
     margin: "0 auto 5rem",
-    background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
-    boxShadow: "0 0 14px rgba(127,252,255,0.6)",
-  }}
+    background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",  }}
 />
 
 
@@ -246,16 +289,15 @@ const outboundRef = useRef(null);
 {/* OUTBOUND */}
 <div style={demoRowClean}>
   <div style={audioBox}>
-    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff", marginTop: "1.6rem" }}>Outbound Sales Voice</h3>
+    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff",
+        boxShadow: "none", marginTop: "1.6rem" }}>Outbound Sales Voice</h3>
 
       <div
         style={{
           width: "120px",
           height: "2px",
           marginBottom: "1.6rem",
-          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
-          boxShadow: "0 0 14px rgba(127,252,255,0.6)",
-        }}
+          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",        }}
       />
 
     <button
@@ -272,9 +314,11 @@ const outboundRef = useRef(null);
   <img src={commandCentre} alt="Command Centre Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
   <div style={demoDesc}>
     <p>
-        The <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Command Centre</span>{" "}
+        The <span style={{ color: "#7ffcff",
+        boxShadow: "none", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Command Centre</span>{" "}
         gives real-time control of{" "}
-        <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>outbound voice</span>,
+        <span style={{ color: "#7ffcff",
+        boxShadow: "none", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>outbound voice</span>,
         exposing call state, flow, and outcomes in a single view.
       </p>
   </div>
@@ -284,16 +328,15 @@ const outboundRef = useRef(null);
   {/* INBOUND */}
 <div style={demoRowClean}>
   <div style={audioBox}>
-    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff", marginTop: "1.6rem" }}>Inbound Reception Voice</h3>
+    <h3 style={{ fontFamily: "Orbitron, sans-serif", letterSpacing: "0.12em",  color: "#7ffcff",
+        boxShadow: "none", marginTop: "1.6rem" }}>Inbound Reception Voice</h3>
 
       <div
         style={{
           width: "120px",
           height: "2px",
           marginBottom: "1.6rem",
-          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
-          boxShadow: "0 0 14px rgba(127,252,255,0.6)",
-        }}
+          background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",        }}
       />
 
     <button
@@ -310,9 +353,11 @@ const outboundRef = useRef(null);
   <img src={clientDashboard} alt="Client Dashboard Demo" style={{ maxWidth: "520px", borderRadius: "14px", filter: "drop-shadow(0 0 8px rgba(127,252,255,0.45)) drop-shadow(0 0 18px rgba(127,252,255,0.30)) drop-shadow(0 0 36px rgba(127,252,255,0.18))" }} />
   <div style={demoDesc}>
     <p>
-      The <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Client Dashboard</span>{" "}
+      The <span style={{ color: "#7ffcff",
+        boxShadow: "none", textShadow: "0 0 8px rgba(127,252,255,0.6), 0 0 18px rgba(127,252,255,0.35)" }}>Client Dashboard</span>{" "}
       surfaces{" "}
-      <span style={{ color: "#7ffcff", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>live reception</span>{" "}
+      <span style={{ color: "#7ffcff",
+        boxShadow: "none", textShadow: "0 0 8px rgba(127,252,255,0.55), 0 0 18px rgba(127,252,255,0.30)" }}>live reception</span>{" "}
       activity, health, and bookings — keeping operations calm and observable.
     </p>
   </div>
@@ -320,7 +365,64 @@ const outboundRef = useRef(null);
 </div>
 
 </section>
-      </main>
+      
+
+  {/* DEMOS OUTRO */}
+  <div style={demoOutro}>
+    <div style={outroLine} />
+    <div style={outroTitle}>SYSTEM READY
+
+
+
+</div>
+    <p style={outroText}>
+      Zypher agents operate continuously with live state awareness,
+      deterministic execution, and full observability —
+      ready for real calls, real customers, and real production environments.
+
+<div style={{
+  display: "flex",
+  gap: "2rem",
+  justifyContent: "center",
+  marginTop: "2.5rem"
+}}>
+  <a href="/contact" className="neon-contact" style={{
+    padding: "0.9rem 2.6rem",
+    border: "1px solid #7ffcff",
+    color: "#7ffcff",
+    textDecoration: "none",
+    fontFamily: "Orbitron, sans-serif",
+    letterSpacing: "0.14em",  }}>
+    CONTACT
+  </a>
+
+  <a href="/pricing" className="neon-pricing" style={{
+    padding: "0.9rem 2.6rem",
+    border: "1px solid #ff4d4d",
+    color: "#ff4d4d",
+    textDecoration: "none",
+    fontFamily: "Orbitron, sans-serif",
+    letterSpacing: "0.14em",  }}>
+    PRICING
+  </a>
+</div>
+    </p>
+
+    {/* OUTRO ACTIONS */}
+    <div style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      gap: "3rem",
+      marginTop: "3.2rem"
+    }}>
+    </div>
+
+  </div>
+
+</main>
+
     </div>
   );
 }
+
