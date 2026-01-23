@@ -8,7 +8,7 @@ export default function Contact() {
     const [company, setCompany] = useState("");
   const [message, setMessage] = useState("");
 
-  const [intent, setIntent] = useState("demo");
+  const [intent, setIntent] = useState("");
   const [intentOpen, setIntentOpen] = useState(false);
   const [sending, setSending] = useState(false);
 
@@ -69,7 +69,7 @@ export default function Contact() {
                 className={`contact-select ${intentOpen ? "open" : ""}`}
                 onClick={() => setIntentOpen(o => !o)}
               >
-                {INTENT_OPTIONS.find(o => o.value === intent)?.label}
+                {intent ? INTENT_OPTIONS.find(o => o.value === intent)?.label : "Select your topic"}
                 <span className="contact-select-arrow" />
               </div>
 
