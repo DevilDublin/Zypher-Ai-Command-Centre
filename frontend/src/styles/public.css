@@ -558,3 +558,273 @@
       inset 0 0 24px rgba(0,0,0,0.6);
   }
 }
+
+
+/* =====================================================
+   CONTACT PAGE — SCROLLABLE CONTAINER (STATIC)
+   ===================================================== */
+
+.contact-page {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.contact-page .public-page-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 120px 24px 160px;
+}
+
+
+/* =====================================================
+   CONTACT PAGE — FORM LAYOUT (STATIC BOXES)
+   ===================================================== */
+
+.contact-page .contact-form {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 64px;
+}
+
+.contact-page .contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-page .contact-field label {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: #7ffcff;
+  opacity: 0.9;
+}
+
+
+/* =====================================================
+   CONTACT PAGE — INPUT BOXES (STATIC, NO ANIMATION)
+   ===================================================== */
+
+.contact-page input,
+.contact-page textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 14px;
+
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255, 60, 60, 0.75);
+
+  color: #eaffff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+
+  box-shadow:
+    0 0 12px rgba(255,60,60,0.35),
+    0 0 28px rgba(255,60,60,0.25);
+
+  outline: none;
+}
+
+.contact-page textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* Focus state — cyan, still static */
+.contact-page input:focus,
+.contact-page textarea:focus {
+  border-color: rgba(127,252,255,0.9);
+  box-shadow:
+    0 0 14px rgba(127,252,255,0.45),
+    0 0 36px rgba(127,252,255,0.35);
+}
+
+
+/* =====================================================
+   CONTACT PAGE — INPUT BOXES (STATIC, NO ANIMATION)
+   ===================================================== */
+
+.contact-page input,
+.contact-page textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 14px;
+
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255, 60, 60, 0.75);
+
+  color: #eaffff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+
+  box-shadow:
+    0 0 12px rgba(255,60,60,0.35),
+    0 0 28px rgba(255,60,60,0.25);
+
+  outline: none;
+}
+
+.contact-page textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* Focus state — cyan, still static */
+.contact-page input:focus,
+.contact-page textarea:focus {
+  border-color: rgba(127,252,255,0.9);
+  box-shadow:
+    0 0 14px rgba(127,252,255,0.45),
+    0 0 36px rgba(127,252,255,0.35);
+}
+
+
+/* =====================================================
+   CONTACT PAGE — SEND BUTTON (STATIC)
+   ===================================================== */
+
+.contact-page .contact-send {
+  align-self: center;
+  margin-top: 16px;
+  padding: 14px 28px;
+
+  background: transparent;
+  border-radius: 14px;
+  border: 1px solid rgba(127,252,255,0.6);
+
+  color: #7ffcff;
+  font-family: "Orbitron", sans-serif;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+
+  box-shadow:
+    0 0 12px rgba(127,252,255,0.35),
+    0 0 26px rgba(127,252,255,0.25);
+}
+
+.contact-page .contact-send:hover {
+  background: rgba(127,252,255,0.06);
+}
+
+
+/* =========================================
+   CONTACT PAGE — SCROLL CONTAINER ONLY
+   ========================================= */
+
+
+
+/* =========================================
+   CONTACT PAGE — FULL PAGE SCROLL (CORRECT)
+   ========================================= */
+
+.contact-page {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.contact-page .contact-page-content {
+  height: calc(100vh - 72px); /* nav height */
+  overflow-y: auto;
+  padding-bottom: 80px;
+}
+
+
+
+/* =====================================================
+   CONTACT PAGE — SINGLE SCROLL CONTAINER (FINAL)
+   ===================================================== */
+
+.contact-page {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* override global locks */
+  overscroll-behavior: contain;
+}
+
+.contact-page-content {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 96px 24px 160px;
+}
+
+
+/* =====================================================
+   CONTACT PAGE — INPUT HUM SYSTEM (VISIBLE + CLEAN)
+   ===================================================== */
+
+/* RED IDLE HUM */
+@keyframes contact-red-hum {
+  0% {
+    box-shadow:
+      0 0 10px rgba(255,60,60,0.35),
+      0 0 26px rgba(255,60,60,0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 18px rgba(255,60,60,0.6),
+      0 0 46px rgba(255,60,60,0.45);
+  }
+  100% {
+    box-shadow:
+      0 0 10px rgba(255,60,60,0.35),
+      0 0 26px rgba(255,60,60,0.25);
+  }
+}
+
+/* CYAN ACTIVE HUM */
+@keyframes contact-blue-hum {
+  0% {
+    box-shadow:
+      0 0 14px rgba(127,252,255,0.45),
+      0 0 36px rgba(127,252,255,0.35);
+  }
+  50% {
+    box-shadow:
+      0 0 22px rgba(127,252,255,0.75),
+      0 0 60px rgba(127,252,255,0.6);
+  }
+  100% {
+    box-shadow:
+      0 0 14px rgba(127,252,255,0.45),
+      0 0 36px rgba(127,252,255,0.35);
+  }
+}
+
+/* APPLY HUMS — CONTACT PAGE ONLY */
+.contact-page input,
+.contact-page textarea {
+  animation: contact-red-hum 3.2s ease-in-out infinite;
+}
+
+.contact-page input:focus,
+.contact-page textarea:focus {
+  animation: contact-blue-hum 1.9s ease-in-out infinite;
+}
+
+
+/* Contact success/error popup (local only) */
+.contact-page .contact-popup {
+  position: absolute;
+  top: -70px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 22px;
+  border-radius: 10px;
+  background: rgba(5, 10, 20, 0.9);
+  border: 1px solid rgba(0, 255, 255, 0.6);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.35);
+  text-align: center;
+  font-size: 14px;
+  z-index: 5;
+}
+
+.contact-page .contact-popup.error {
+  border-color: rgba(255, 80, 80, 0.7);
+  box-shadow: 0 0 18px rgba(255, 80, 80, 0.35);
+}
