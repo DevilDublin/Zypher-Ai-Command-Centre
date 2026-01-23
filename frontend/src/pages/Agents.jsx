@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import NeonNav from "../components/NeonNav";
 
 import commandCentre from "../assets/demos/command-centre-demo.png";
@@ -38,7 +38,20 @@ const demoText = {
 };
 
 export default function Agents() {
-  const outboundRef = useRef(null);
+  useEffect(() => {
+    const prevHtml = document.documentElement.style.overscrollBehaviorY;
+    const prevBody = document.body.style.overscrollBehaviorY;
+
+    document.documentElement.style.overscrollBehaviorY = "auto";
+    document.body.style.overscrollBehaviorY = "auto";
+
+    return () => {
+      document.documentElement.style.overscrollBehaviorY = prevHtml;
+      document.body.style.overscrollBehaviorY = prevBody;
+    };
+  }, []);
+
+const outboundRef = useRef(null);
   const inboundRef = useRef(null);
   const [active, setActive] = useState(null);
 
@@ -61,10 +74,16 @@ export default function Agents() {
   };
 
   return (
-    <div className="public-page agents-page">
+    <div
+  className="public-page agents-page"
+  
+  onWheel={(e) => {
+    e.currentTarget.scrollTop += e.deltaY;
+  }}
+ >
       <NeonNav />
 
-      <main className="public-page-content">
+      <main className="public-page-content" >
         <h1>ZYPHER AGENTS</h1>
 
         <section>
