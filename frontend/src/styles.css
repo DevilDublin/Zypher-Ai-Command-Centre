@@ -3386,3 +3386,23 @@ button {
 .meeting-link-panel .meeting-provider.mode-campaign {
   color: #0b0b0b;
 }
+
+
+@keyframes neonPulse {
+  0% {
+    text-shadow:
+      0 0 6px rgba(127,252,255,0.45),
+      0 0 14px rgba(127,252,255,0.35);
+  }
+  50% {
+    text-shadow:
+      0 0 10px rgba(127,252,255,0.75),
+      0 0 26px rgba(127,252,255,0.6),
+      0 0 44px rgba(127,252,255,0.35);
+  }
+  100% {
+    text-shadow:
+      0 0 6px rgba(127,252,255,0.45),
+      0 0 14px rgba(127,252,255,0.35);
+  }
+}

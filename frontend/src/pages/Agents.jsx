@@ -1,3 +1,13 @@
+
+const neonGlow = {
+  color: "#7ffcff",
+  textShadow: `
+    0 0 6px rgba(127,252,255,0.55),
+    0 0 14px rgba(127,252,255,0.45),
+    0 0 28px rgba(127,252,255,0.35)
+  `,
+};
+
 import { useRef, useState, useEffect } from "react";
 import NeonNav from "../components/NeonNav";
 
@@ -83,8 +93,133 @@ const outboundRef = useRef(null);
  >
       <NeonNav />
 
-      <main className="public-page-content" >
-        <h1>ZYPHER AGENTS</h1>
+        <main className="public-page-content">
+
+
+<h1>ZYPHER AGENTS</h1>
+
+
+
+
+
+<p
+  style={{
+    maxWidth: "1020px",
+    margin: "2.8rem auto 5.8rem",
+    textAlign: "center",
+    fontFamily: "Orbitron, sans-serif",
+    fontSize: "1.05rem",
+    lineHeight: "2",
+    letterSpacing: "0.04em",
+    wordSpacing: "0.12em",
+    opacity: 0.95,
+    wordBreak: "normal",
+    whiteSpace: "normal",
+    overflowWrap: "anywhere",
+  }}
+>
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 10px rgba(127,252,255,0.6),\
+       0 0 22px rgba(127,252,255,0.45),\
+       0 0 42px rgba(127,252,255,0.25)"
+  }}>
+    Zypher Agents
+  </span>
+  {" "}are built for teams who need{" "}
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 8px rgba(127,252,255,0.55),\
+       0 0 18px rgba(127,252,255,0.35)"
+  }}>
+    production-grade AI voice systems
+  </span>
+  {" "}that actually hold up in the real world — on real calls, with real customers, under real operational pressure.
+  These live agents handle
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 8px rgba(127,252,255,0.55),\
+       0 0 18px rgba(127,252,255,0.35)"
+  }}>
+    {" "}inbound reception{" "}
+  </span>
+  and
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 8px rgba(127,252,255,0.55),\
+       0 0 18px rgba(127,252,255,0.35)"
+  }}>
+    {" "}outbound sales conversations
+  </span>
+  {" "}end-to-end — from qualification and scheduling to decision-making and execution, without scripts or shortcuts.
+  <br /><br />
+  Under the hood, every interaction runs on Zypher’s
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 12px rgba(127,252,255,0.65),\
+       0 0 26px rgba(127,252,255,0.45),\
+       0 0 52px rgba(127,252,255,0.25)"
+  }}>
+    {" "}deterministic AI core
+  </span>,
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 12px rgba(127,252,255,0.65),\
+       0 0 26px rgba(127,252,255,0.45)"
+  }}>
+    {" "}low-latency voice runtime
+  </span>, and
+  <span style={{
+    color: "#7ffcff",
+    textShadow:
+      "0 0 12px rgba(127,252,255,0.65),\
+       0 0 26px rgba(127,252,255,0.45)"
+  }}>
+    {" "}adapter-driven system control
+  </span>
+  {" "}— giving businesses reliability, observability, and full control across every call.
+</p>
+
+
+
+
+
+
+
+
+<h2
+  style={{
+    margin: "7rem 0 2.8rem",
+    textAlign: "center",
+    fontFamily: "Orbitron, sans-serif",
+    letterSpacing: "0.28em",
+    fontSize: "2.1rem",
+    lineHeight: "1.35",
+    color: "#7ffcff",
+    textShadow: "0 0 18px rgba(127,252,255,0.65)",
+  }}
+>
+  OUR WORK
+</h2>
+
+<div
+  style={{
+    width: "140px",
+    height: "2px",
+    margin: "0 auto 5rem",
+    background: "linear-gradient(90deg, transparent, #7ffcff, transparent)",
+    boxShadow: "0 0 14px rgba(127,252,255,0.6)",
+  }}
+/>
+
+
+
 
         <section>
 
