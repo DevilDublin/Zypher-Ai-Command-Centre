@@ -10,7 +10,6 @@ export default function NeonNav() {
         <Link to="/architecture">ARCHITECTURE</Link>
         <Link to="/agents">AGENTS</Link>
         <Link to="/pricing">PRICING</Link>
-        <Link to="/demos">DEMOS</Link>
         <Link to="/contact">CONTACT</Link>
       </div>
     </nav>

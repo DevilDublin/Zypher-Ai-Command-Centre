@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Architecture from "./pages/Architecture";
 import Agents from "./pages/Agents";
 import Contact from "./pages/Contact";
+import Pricing from "./pages/Pricing";
 
 
 function RequireClientAuth({ children }) {
@@ -31,6 +32,7 @@ export default function RouterApp() {
         <Route path="/about" element={<About />} />
         <Route path="/architecture" element={<Architecture />} />
         <Route path="/agents" element={<Agents />} />
+          <Route path="/pricing" element={<Pricing />} />
         <Route path="/contact" element={<Contact />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

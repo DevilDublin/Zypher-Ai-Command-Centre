@@ -3617,3 +3617,19 @@ button {
     align-items: flex-start;
   }
 }
+
+
+/* === PUBLIC PAGE SCROLL RESTORE === */
+body:has(.public-page),
+html:has(.public-page),
+#root:has(.public-page) {
+  height: auto !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+}
+
+.app:has(+ .public-page),
+.app:has(.public-page) {
+  max-height: none !important;
+  overflow: visible !important;
+}
