@@ -1056,3 +1056,11 @@
     white-space: nowrap;
   }
 }
+
+/* === PUBLIC LAYOUT: LOCK SCROLL ON HOME ONLY === */
+.public-root.lock-scroll {
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* === PUBLIC LAYOUT: LOCK SCROLL ON HOME ONLY === */
