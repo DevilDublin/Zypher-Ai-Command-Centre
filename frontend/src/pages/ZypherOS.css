@@ -149,12 +149,15 @@
 
 /* === GOTHAM NEON FLICKER — FINAL === */
 .zypher-os .os-logo.zypher-title {
+  
+
   animation:
     neon-flicker 6s infinite,
     neon-drift 12s infinite;
   text-shadow:
     0 0 8px rgba(0,255,255,0.35),
     0 0 18px rgba(0,180,255,0.25);
+  padding-left: 0.2em;
 }
 */
 
@@ -1841,8 +1844,7 @@ html, body{
 
 /* === SAFE BUTTON SEPARATION (NO VERTICAL SHIFT) === */
 .os-btn.dev{
-  margin-left: 32px;
-}
+  }
 
 
 /* === INTENTIONAL BUTTON DROP (ONE BUTTON HEIGHT) === */
@@ -2012,4 +2014,306 @@ html, body{
 .panel,
 .panel * {
   pointer-events: auto;
+}
+
+/* ================================
+   ZYPHER OS — RESPONSIVE (MOBILE/TABLET)
+   Desktop remains pixel-identical
+   ================================ */
+@media (max-width: 1023px) {
+
+  .zypher-os {
+    min-height: auto;
+  }
+
+  /* Disable absolute centering for flow layout */
+  .os-core {
+    position: relative;
+    inset: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 120px 20px 80px;
+    gap: 48px;
+    text-align: center;
+  }
+
+  /* Logo: preserve glow, reduce spatial aggression */
+  .os-logo {
+    font-size: 40px;
+    letter-spacing: 0.25em;
+  }
+
+  /* Stack buttons vertically */
+  .os-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .os-actions .os-btn {
+    width: 100%;
+  }
+}
+
+/* --- MOBILE HEIGHT FIX: allow OS to grow --- */
+@media (max-width: 1023px) {
+
+  .zypher-os {
+    height: auto !important;
+    min-height: 100vh;
+  }
+
+  .zypher-os::before,
+  .zypher-os::after {
+    height: 100%;
+    min-height: 100%;
+  }
+}
+
+/* ================================
+   ZYPHER OS — VIEWPORT LOCK (MOBILE)
+   Prevent horizontal overflow
+   Mobile / Tablet ONLY
+   ================================ */
+@media (max-width: 1023px) {
+
+  html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .zypher-os {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+}
+
+/* ================================
+   ZYPHER OS — VERTICAL LOCK (MOBILE)
+   Prevent artificial tall canvas
+   ================================ */
+@media (max-width: 1023px) {
+
+  html, body {
+    overscroll-behavior-y: none;
+  }
+
+  .zypher-os {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  .zypher-os::before,
+  .zypher-os::after {
+    bottom: auto;
+    height: 100%;
+  }
+
+}
+
+/* ================================
+   ZYPHER OS — MOBILE HERO LOCK (FINAL)
+   No scroll, full viewport, OS-style
+   ================================ */
+@media (max-width: 1023px) {
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .zypher-os {
+    height: 100svh;
+    max-height: 100svh;
+    overflow: hidden;
+  }
+
+  /* Re-center core like a real hero */
+  .os-core {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    gap: 32px;
+  }
+
+  /* Buttons stay vertical but contained */
+  .os-actions {
+    width: 100%;
+    max-width: 360px;
+  }
+
+}
+
+/* ================================
+   ZYPHER OS — MOBILE HERO RESET (AUTHORITATIVE)
+   True full-viewport hero, no scroll
+   ================================ */
+@media (max-width: 1023px) {
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .zypher-os {
+    position: relative;
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  /* Force hero centering like desktop */
+  .os-core {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    gap: 32px;
+  }
+
+  .os-actions {
+    width: 100%;
+    max-width: 360px;
+  }
+
+}
+
+/* =========================================
+   ZYPHER OS — FIXED NAV OFFSET (MOBILE)
+   ========================================= */
+@media (max-width: 1023px) {
+  .zypher-os {
+    padding-top: 64px; /* nav height */
+  }
+
+  .os-core {
+    inset: auto 0 0 0;
+    min-height: calc(100vh - 64px);
+    display: grid;
+    place-items: center;
+}
+}
+
+/* === MOBILE OS CORE FINAL LOCK === */
+.zypher-os .os-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+
+  margin-top: -16px;
+}
+
+.zypher-os .os-logo {
+  transform: translateX(14px) !important;
+
+  margin-bottom: 24px;
+}
+
+
+/* MOBILE OPTICAL CENTER — ZYPHER LOGO */
+
+
+/* === OPTICAL CENTER FIX — ZYPHER LOGO (DO NOT TOUCH LAYOUT) === */
+.zypher-os .os-logo {
+  transform: translateX(14px) !important;
+
+  margin-bottom: 24px;
+}
+
+
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  .zypher-os .os-actions {
+    grid-row: 3;
+  }
+}
+
+
+  .zypher-os .os-actions {
+    grid-row: 3;
+    margin-top: -24px;
+  }
+}
+
+
+/* === FINAL MOBILE LOGO OFFSET (SAFE, LOGO ONLY) === */
+@media (max-width: 1023px) {
+  .zypher-os .os-logo {
+    margin-top: 12px;
+  }
+}
+
+
+/* === FINAL MOBILE LOGO POSITION OFFSET (POST-TRANSFORM SAFE) === */
+@media (max-width: 1023px) {
+  .zypher-os .os-logo {
+    position: relative;
+    top: 18px;
+  }
+}
+
+
+/* === FINAL MOBILE LOGO Y-AXIS LOCK (ALLOW TOP TO WORK) === */
+@media (max-width: 1023px) {
+  .zypher-os .os-logo {
+    transform: translateX(14px) translateY(0) !important;
+    position: relative;
+    top: 70px;
+  }
 }

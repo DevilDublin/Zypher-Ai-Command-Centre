@@ -978,3 +978,81 @@
 .contact-select.open .contact-select-arrow {
   transform: translateY(-50%) rotate(180deg);
 }
+
+/* =========================================
+   NEON NAV — FIXED + HORIZONTAL SCROLL (AUTHORITATIVE)
+   ========================================= */
+
+/* Base nav contract (ALL screens) */
+.neon-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+/* Keep logo stable */
+.neon-nav .nav-logo {
+  flex: 0 0 auto;
+}
+
+/* Nav links container */
+.neon-nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* =========================================
+   MOBILE / TABLET BEHAVIOUR
+   ========================================= */
+@media (max-width: 1023px) {
+
+  .neon-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .neon-nav .nav-links {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .neon-nav .nav-links > * {
+    flex: 0 0 auto;
+  }
+
+  /* Optional: hide scrollbar without disabling scroll */
+  .neon-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .neon-nav {
+    scrollbar-width: none;
+  }
+}
+
+/* =========================================
+   NEON NAV — MOBILE HORIZONTAL SCROLL ONLY
+   ========================================= */
+@media (max-width: 1023px) {
+  .neon-nav {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .neon-nav .nav-links {
+    display: flex;
+    gap: 24px;
+    white-space: nowrap;
+  }
+}
