@@ -2329,3 +2329,32 @@ html, body{
     transform: translateY(-70px);
   }
 }
+
+
+/* === MOBILE SCROLLBAR HARD KILL (IOS SAFARI) === */
+@media (max-width: 1023px) {
+  html, body {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+
+  #root {
+    overflow: hidden !important;
+  }
+
+  .zypher-os {
+    overflow: hidden !important;
+  }
+}
+
+
+/* === IOS SAFE-AREA BLEED FIX === */
+@media (max-width: 1023px) {
+  body {
+    background: #000 !important;
+  }
+
+  .zypher-os {
+    background: #000 !important;
+  }
+}
