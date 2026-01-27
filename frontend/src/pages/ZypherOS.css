@@ -2230,7 +2230,7 @@ html, body{
   align-items: center;
   gap: 32px;
 
-  margin-top: -16px;
+  margin-top: -70px;
 }
 
 .zypher-os .os-logo {
@@ -2286,9 +2286,12 @@ html, body{
 
 
   .zypher-os .os-actions {
-    grid-row: 3;
-    margin-top: -24px;
-  }
+  margin-top: -70px !important;
+  
+  align-self: center;
+  margin-top: -70px !important;
+
+}
 }
 
 
@@ -2315,5 +2318,14 @@ html, body{
     transform: translateX(14px) translateY(0) !important;
     position: relative;
     top: 70px;
+  }
+}
+
+
+
+/* === FINAL MOBILE BUTTON POSITION (LOGO IMMUNE) === */
+@media (max-width: 1023px) {
+  .zypher-os .os-actions {
+    transform: translateY(-70px);
   }
 }
