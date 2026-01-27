@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import NeonNav from "../components/NeonNav";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "";
 
@@ -42,7 +41,6 @@ export default function Contact() {
 
   return (
     <div className="public-page contact-page">
-      <NeonNav />
 
       <main className="public-page-content contact-container">
         <h1>CONTACT</h1>

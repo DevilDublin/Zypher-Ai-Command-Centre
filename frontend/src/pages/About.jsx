@@ -1,13 +1,11 @@
 // Public About page
 // Shell only — content and styling will be refined later
 
-import NeonNav from "../components/NeonNav";
 
 export default function About() {
   return (
     <div className="public-page about-page">
       {/* Persistent top navigation */}
-      <NeonNav />
 
       {/* Page content */}
       <main className="public-page-content">

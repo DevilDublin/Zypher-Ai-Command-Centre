@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import DeveloperLogin from "./DeveloperLogin";
 import "./ZypherOS.css";
-import NeonNav from "../components/NeonNav";
 
 export default function ZypherOS() {
   const nav = useNavigate();
@@ -14,7 +13,6 @@ return (
 
 
     <div className="zypher-os">
-        <NeonNav />
       <div className="os-noise" />
       <div className="os-vignette" />
 

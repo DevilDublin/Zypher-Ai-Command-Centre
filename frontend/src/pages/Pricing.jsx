@@ -1,4 +1,3 @@
-import NeonNav from "../components/NeonNav";
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -75,7 +74,6 @@ export default function Pricing() {
     className="public-page pricing-page"
     
   >
-      <NeonNav />
 
       <main className="public-page-content">
         <style>{`

@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import NeonNav from "../components/NeonNav";
 import commandCentre from "../assets/demos/command-centre-demo.png";
 import clientDashboard from "../assets/demos/client-dashboard-demo.png";
 
@@ -146,7 +145,6 @@ const outboundRef = useRef(null);
     e.currentTarget.scrollTop += e.deltaY;
   }}
  >
-      <NeonNav />
 
 
         <main className="public-page-content">

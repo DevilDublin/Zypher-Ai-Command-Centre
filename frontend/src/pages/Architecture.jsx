@@ -1,12 +1,10 @@
 // Public Architecture page
 // Architecture explained through a single interactive system diagram
 
-import NeonNav from "../components/NeonNav";
 
 export default function Architecture() {
   return (
     <div className="public-page architecture-page">
-      <NeonNav />
 
       <main className="public-page-content">
         <h1>System Architecture</h1>
