@@ -2358,3 +2358,31 @@ html, body{
     background: #000 !important;
   }
 }
+
+
+/* === ZYPHER OS — HARD MOBILE SCROLL LOCK (AUTHORITATIVE) === */
+@media (max-width: 1023px) {
+  html, body {
+    height: 100%;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+  }
+
+  #root {
+    position: fixed !important;
+    inset: 0 !important;
+    height: 100svh !important;
+    overflow: hidden !important;
+  }
+
+  .zypher-os {
+    position: fixed !important;
+    inset: 0 !important;
+    height: 100svh !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+    background: #000 !important;
+  }
+}
