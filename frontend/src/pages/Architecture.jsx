@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 // Public Architecture page
 // Architecture explained through a single interactive system diagram
 
@@ -7,7 +8,7 @@ export default function Architecture() {
     <div className="public-page architecture-page">
 
       <main className="public-page-content">
-        <h1>System Architecture</h1>
+        <h1>Apex</h1>
 
         <p>
           Zypher is engineered as a modular, deterministic AI system purpose-built
@@ -70,3 +71,6 @@ export default function Architecture() {
     </div>
   );
 }
+
+
+

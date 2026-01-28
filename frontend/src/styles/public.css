@@ -1064,3 +1064,209 @@
 }
 
 /* === PUBLIC LAYOUT: LOCK SCROLL ON HOME ONLY === */
+
+/* === ARCHITECTURE PIPELINE — MOBILE STACK === */
+@media (max-width: 1023px) {
+  .architecture-pipeline .pipeline-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .architecture-pipeline .pipeline-column {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+
+/* === ARCHITECTURE PIPELINE — MOBILE INTERACTION FIX === */
+@media (max-width: 1023px) {
+
+  /* Stop tap highlight / auto focus feel */
+  .architecture-pipeline .pipeline-column {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* Remove hover carryover from desktop */
+  .architecture-pipeline .pipeline-column:hover {
+    background: inherit;
+  }
+
+  /* Mobile vertical glow dividers */
+  .architecture-pipeline .pipeline-column:not(:last-child) {
+    position: relative;
+  }
+
+  .architecture-pipeline .pipeline-column:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    bottom: -12px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(0,255,255,0),
+      rgba(0,255,255,0.65),
+      rgba(0,255,255,0)
+    );
+    box-shadow: 0 0 12px rgba(0,255,255,0.55);
+  }
+}
+
+
+/* === ARCHITECTURE PIPELINE — DISABLE HOVER (MOBILE ONLY) === */
+@media (max-width: 1023px) {
+
+  /* FULLY NEUTRALISE ALL INTERACTION STATES */
+  .architecture-pipeline .pipeline-column,
+  .architecture-pipeline .pipeline-column:hover,
+  .architecture-pipeline .pipeline-column:active,
+  .architecture-pipeline .pipeline-column:focus,
+  .architecture-pipeline .pipeline-column:focus-visible,
+  .architecture-pipeline .pipeline-block:hover .pipeline-column {
+    background: inherit !important;
+    box-shadow: none !important;
+    outline: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Prevent mobile browsers from applying tap focus */
+  .architecture-pipeline .pipeline-column {
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: auto;
+  }
+}
+
+}
+
+
+/* === ARCHITECTURE PIPELINE — KILL PARENT HOVER (MOBILE ONLY) === */
+@media (max-width: 1023px) {
+  .pipeline-block:hover .pipeline-column {
+    background: inherit !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+  }
+}
+
+
+/* === ARCHITECTURE PIPELINE — MOBILE: FULLY STATIC COLUMNS === */
+@media (max-width: 1023px) {
+
+  .architecture-pipeline .pipeline-column {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .architecture-pipeline .pipeline-column * {
+    pointer-events: none;
+  }
+}
+
+
+/* === ARCHITECTURE PIPELINE — HARD DISABLE INTERACTION (MOBILE) === */
+@media (max-width: 1023px) {
+  .architecture-page .pipeline-column,
+  .architecture-page .pipeline-column:hover,
+  .architecture-page .pipeline-column:active,
+  .architecture-page .pipeline-column:focus,
+  .architecture-page .pipeline-column:focus-within {
+    background: inherit !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+
+  /* Kill scroll repaint highlight */
+  .architecture-page .pipeline-column {
+    will-change: auto !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+
+/* =========================================
+   ARCHITECTURE PIPELINE — SCROLL REPAINT KILL
+   Mobile / Tablet only (authoritative)
+   ========================================= */
+@media (max-width: 1023px) {
+  .architecture-page .pipeline-column {
+    transition: none !important;
+    background-image: none !important;
+  }
+
+  .architecture-page .pipeline-block {
+    background-image: none !important;
+  }
+}
+
+
+/* =========================================
+   ARCHITECTURE — SCROLL GLOW TEXT PANEL
+   ========================================= */
+.architecture-scroll-glow {
+  background:
+    linear-gradient(
+      to right bottom,
+      rgba(79, 252, 255, 0.06),
+      rgba(0, 0, 0, 0.7)
+    );
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+
+/* === ARCHITECTURE PIPELINE — SCROLL ACTIVATION === */
+.architecture-page .pipeline-column {
+  opacity: 0.35;
+  background: none;
+}
+
+.architecture-page .pipeline-column.is-active {
+  opacity: 1;
+  background:
+    linear-gradient(
+      to bottom right,
+      rgba(79,252,255,0.12),
+      rgba(0,0,0,0.75)
+    );
+  box-shadow:
+    0 0 22px rgba(79,252,255,0.35),
+    inset 0 0 18px rgba(0,0,0,0.65);
+}
+
+
+
+/* ===============================
+   ARCHITECTURE – PIPELINE STATIC OVERRIDE
+   =============================== */
+
+.architecture-page .pipeline-column,
+.architecture-page .pipeline-column:hover,
+.architecture-page .pipeline-column:active,
+.architecture-page .pipeline-column:focus,
+.architecture-page .pipeline-column.is-active {
+  opacity: 1 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  transition: none !important;
+}
+
+.architecture-page .pipeline-column ul {
+  opacity: 1 !important;
+}
+
+.architecture-page .pipeline-block:hover .pipeline-column {
+  opacity: 1 !important;
+}
