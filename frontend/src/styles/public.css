@@ -1015,6 +1015,108 @@
    MOBILE / TABLET BEHAVIOUR
    ========================================= */
 @media (max-width: 1023px) {
+  /* === AGENTS PAGE — MOBILE DEMO STACK LAYOUT === */
+  .agents-page section > div {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1.6rem !important;
+  }
+  /* === AGENTS PAGE — MOBILE AUDIO BOX CENTRING === */
+  .agents-page section > div > div:first-child {
+    text-align: center;
+  }
+  /* === AGENTS PAGE — MOBILE CENTER AUDIOBOX CONTAINER === */
+  .agents-page section > div > div:first-child {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+
+  .agents-page section > div > div:first-child h3 {
+    text-align: center;
+  }
+
+  .agents-page section > div > div:first-child p {
+    text-align: center;
+  }
+
+  /* Center the 120px glow divider under titles */
+  .agents-page section > div > div:first-child > div[style*="linear-gradient"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* === AGENTS PAGE — MOBILE DEMO TITLE CENTRING === */
+  .agents-page section > div > div:first-child {
+    text-align: center;
+  }
+
+  /* Center demo titles */
+  .agents-page section > div > div:first-child h3 {
+    text-align: center;
+  }
+
+  /* Center glow divider under titles */
+  .agents-page section > div > div:first-child div[style*="linear-gradient"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Center short descriptor text */
+  .agents-page section > div > div:first-child p {
+    text-align: center;
+  }
+
+  /* === AGENTS PAGE — MOBILE OUR WORK CENTRING === */
+  .agents-page section {
+    text-align: center;
+  }
+
+  .agents-page section h3,
+  .agents-page section p {
+    text-align: center;
+  }
+
+  /* Center glow dividers */
+  .agents-page section div[style*="linear-gradient"] {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Center buttons */
+  .agents-page section button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Center images */
+  .agents-page section img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+
+  /* Inner media row: stack text above image */
+  .agents-page section > div > div:nth-child(2) {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Text block: remove right padding that causes overflow */
+  .agents-page section > div > div:nth-child(2) > div {
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
+
+  /* === AGENTS PAGE — MOBILE DEMO IMAGE SIZE FIX === */
+  .agents-page img {
+    max-width: 360px !important;
+  }
+
 
   .neon-nav {
     overflow-x: auto;
