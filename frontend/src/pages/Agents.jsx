@@ -1,6 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import commandCentre from "../assets/demos/command-centre-demo.png";
 import clientDashboard from "../assets/demos/client-dashboard-demo.png";
+import outboundDemo from "../assets/demos/outbound_sales_demo.mp3";
+import inboundDemo from "../assets/demos/inbound_support_demo.mp3";
 
 
 
@@ -305,7 +307,7 @@ const outboundRef = useRef(null);
       {active === "outbound" ? "■ STOP OUTBOUND DEMO" : "▶ PLAY OUTBOUND DEMO"}
     </button>
     <p style={demoText}>Confident outbound sales delivery.</p>
-    <audio ref={outboundRef} src="/src/assets/demos/outbound_sales_demo.mp3" />
+    <audio ref={outboundRef} src={outboundDemo} />
   </div>
 
   <div style={demoMediaRow}>
@@ -344,7 +346,7 @@ const outboundRef = useRef(null);
       {active === "inbound" ? "■ STOP INBOUND DEMO" : "▶ PLAY INBOUND DEMO"}
     </button>
     <p style={demoText}>Calm, premium reception handling.</p>
-    <audio ref={inboundRef} src="/src/assets/demos/inbound_support_demo.mp3" />
+    <audio ref={inboundRef} src={inboundDemo} />
   </div>
 
   <div style={demoMediaRow}>
