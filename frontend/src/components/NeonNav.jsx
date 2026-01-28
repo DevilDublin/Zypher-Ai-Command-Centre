@@ -7,7 +7,7 @@ export default function NeonNav() {
 
       <div className="nav-links">
         <Link to="/about">ABOUT</Link>
-        <Link to="/architecture">ARCHITECTURE</Link>
+        <Link to="/architecture">APEX</Link>
         <Link to="/agents">AGENTS</Link>
         <Link to="/pricing">PRICING</Link>
         <Link to="/contact">CONTACT</Link>
