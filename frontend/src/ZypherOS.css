@@ -716,6 +716,24 @@ body {
 }
 
 /* RED — DEVELOPER TERMINAL */
+/* =========================================
+   DESKTOP CTA ROW RESTORE (ZypherOS only)
+   ========================================= */
+@media (min-width: 1024px) {
+  .zypher-os-hero-buttons {
+    display: flex;
+    gap: 1.6rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .zypher-os-hero-buttons a {
+    flex: 1 1 0;
+    max-width: 260px;
+    text-align: center;
+  }
+}
+
 .zypher-os .os-btn.dev {
   color: #ff3b3b;
   box-shadow:

@@ -3,6 +3,59 @@
   min-height: 100vh;
   overflow: visible;
 }
+/* =================================================
+   ZYPHER STARFIELD — CORE BACKGROUND
+   GPU-only | No layout | No overlap | Safe everywhere
+   ================================================= */
+.zypher-os::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 70% 30%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 90% 70%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(circle at 50% 50%, rgba(0,255,255,0.06), transparent 60%);
+
+  background-size:
+    400px 400px,
+    500px 500px,
+    600px 600px,
+    700px 700px,
+    800px 800px,
+    100% 100%;
+
+  animation: zypher-stars-drift 120s linear infinite;
+  opacity: 0.85;
+  will-change: background-position;
+}
+
+@keyframes zypher-stars-drift {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      0 0,
+      center;
+  }
+  to {
+    background-position:
+      -800px 1200px,
+      1200px -800px,
+      -1400px 600px,
+      900px -1200px,
+      -1000px -1000px,
+      center;
+  }
+}
+
 
 /* .os-noise {
   position: absolute;
@@ -144,6 +197,38 @@
 
 
 /* === GOTHAM NEON — HIGH SPECIFICITY (FINAL) === */
+/* =========================================
+   ZYPHER LOGO — ENERGY HALO (GPU ONLY)
+   No layout impact. Desktop + Mobile safe.
+   ========================================= */
+.zypher-os .os-logo {
+  position: relative;
+  isolation: isolate;
+}
+
+.zypher-os .os-logo::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(0,255,255,0.18),
+      transparent 60%);
+  filter: blur(22px);
+  opacity: 0.55;
+  transform: translateZ(0) scale(1);
+  animation: zypher-halo-breathe 6.5s ease-in-out infinite;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+@keyframes zypher-halo-breathe {
+  0%   { opacity: 0.45; transform: scale(0.96); }
+  50%  { opacity: 0.75; transform: scale(1.05); }
+  100% { opacity: 0.45; transform: scale(0.96); }
+}
+
 .zypher-os .os-logo/* DISABLED OLD RULE
 .zypher-title {
 
@@ -2224,13 +2309,15 @@ html, body{
 }
 
 /* === MOBILE OS CORE FINAL LOCK === */
+@media (max-width: 1023px) {
 .zypher-os .os-actions {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-
-  margin-top: -70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  
+    margin-top: -70px;
+  }
 }
 
 .zypher-os .os-logo {
@@ -2386,3 +2473,22 @@ html, body{
     background: #000 !important;
   }
 }
+
+
+/* =========================================
+   DESKTOP OS ACTIONS ROW (restore side-by-side)
+   ========================================= */
+@media (min-width: 1024px) {
+  .os-actions {
+    display: flex;
+    gap: 1.6rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .os-actions .os-btn {
+    width: 260px;
+    text-align: center;
+  }
+}
+
