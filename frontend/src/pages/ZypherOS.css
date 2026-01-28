@@ -2492,3 +2492,47 @@ html, body{
   }
 }
 
+
+/* ===============================
+   ZYPHER OS – HUM FLARES (SAFE LAYER)
+   Uses .os-vignette::before to avoid clobbering zypher-os pseudo layers
+   =============================== */
+@keyframes zypher-hum-flares {
+  0%, 88%, 100% { opacity: 0; }
+  90%           { opacity: 0.35; }
+  92%           { opacity: 0.9; }
+  94%           { opacity: 0.25; }
+}
+
+/* Hum flare stars: core + cyan halo, background only */
+
+
+.zypher-os .os-vignette::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+
+  background:
+    /* STAR A */
+    radial-gradient(3.6px 3.6px at 18% 32%, rgba(255,255,255,1), transparent 55%),
+    radial-gradient(34px 34px at 18% 32%, rgba(120,255,255,0.42), transparent 72%),
+
+    /* STAR B */
+    radial-gradient(3.2px 3.2px at 42% 76%, rgba(255,255,255,0.95), transparent 55%),
+    radial-gradient(30px 30px at 42% 76%, rgba(120,255,255,0.36), transparent 72%),
+
+    /* STAR C */
+    radial-gradient(3.8px 3.8px at 68% 44%, rgba(255,255,255,1), transparent 54%),
+    radial-gradient(36px 36px at 68% 44%, rgba(120,255,255,0.45), transparent 74%),
+
+    /* STAR D */
+    radial-gradient(3.4px 3.4px at 81% 22%, rgba(255,255,255,0.95), transparent 55%),
+    radial-gradient(32px 32px at 81% 22%, rgba(120,255,255,0.34), transparent 72%);
+
+  opacity: 0;
+  animation: zypher-hum-flares 26s ease-in-out infinite;
+}
+
+
